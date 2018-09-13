@@ -1,7 +1,7 @@
 import React from "react";
-import RestaurantName from "./restaurant_name";
-import RestaurantRating from "./restaurant_rating";
-import RestaurantAddress from "./restaurant_address";
+import RestaurantName from "./restaurantName";
+import RestaurantRating from "./restaurantRating";
+import RestaurantAddress from "./restaurantAddress";
 
 
 function RestaurantInfo(props) {

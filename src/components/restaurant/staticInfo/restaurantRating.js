@@ -1,5 +1,5 @@
 import React from "react";
-import {renderStars} from "./../../../utilities/ultilities";
+import {renderStars} from "../../../utilities/ultilities";
 
 // function renderStar take a float number as input and return a string representing rating stars of a restaurant.
 

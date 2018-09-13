@@ -1,10 +1,11 @@
 import React from "react";
-import RestaurantInfo from "./staticInfo";
+import StaticInfo from "./staticInfo";
+import DynamicInfo from "./dynamicInfo";
 
 const Restaurant = props => {
 
   return(
-    <div className="Restaurant">
+    <div className="restaurant">
       
     </div>
   );
