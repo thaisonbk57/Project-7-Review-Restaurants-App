@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import Header from "../components/header/Header";
 import { connect} from "react-redux";
-import {saveRestaurantIDs,saveRestaurant, saveUserPosition} from "./../store/actions";
+import {saveRestaurantIDs,saveRestaurant, saveUserPosition, filterRestaurants} from "./../store/actions";
 import gmaps from "@google/maps";
 import "./App.css";
 import {API_KEY} from "./../store/actions";
@@ -12,7 +12,6 @@ const googleMapsClient = gmaps.createClient({
     key: TEMP_API_KEY
 });
 
-const x = [];
 
 class App extends Component {
     componentDidMount = () => {
@@ -49,24 +48,23 @@ class App extends Component {
                             let restaurantIDs = data.map(restaurant => restaurant.place_id);
                             // console.log(restaurantIDs);
                             this.props.saveRestaurantIDs(restaurantIDs);
-
                             // So, now we have all IDs from restaurants that we want. Next thing to do is how to fetch restaurant details of each one and then update the store
                             // console.log(this.props.allRestaurantIDs);
-                            let restaurants = this.props.allRestaurantIDs.map(ID => {
+                            this.props.allRestaurantIDs.forEach(ID => {
                                 googleMapsClient.place({
                                     placeid: ID
-                                    // fields: "name,formatted_address,geometry/location,place_id,rating,review"
                                     }, (err, response) => {
                                         if (!err) {
-                                            // console.log(response)
                                             const result = response.json.result;
                                             const {formatted_address, formatted_phonenumber, geometry, name, place_id,rating,reviews} = result;
                                             const restaurant = {formatted_address, formatted_phonenumber, geometry, name, place_id,rating,reviews};
                                             this.props.saveRestaurant(restaurant);
+                                            // by default, it will take all 
+                                            this.props.filterRestaurants(this.props.filterObject);
                                     } else {
                                         console.log(err);
                                     }
-                                })
+                                });
                             })
                         } else {
                             console.log("ERROR", err)
@@ -93,7 +91,8 @@ class App extends Component {
 function mapState(state) {
     return {
         userPos: state.userPos,
-        allRestaurantIDs: state.allRestaurantIDs
+        allRestaurantIDs: state.allRestaurantIDs,
+        filterObject: state.filterObject
     };
 }
 
@@ -107,6 +106,9 @@ function mapDispatch(dispatch) {
         },
         saveRestaurantIDs: (IDs) => {
             dispatch(saveRestaurantIDs(IDs))
+        },
+        filterRestaurants: (filterObject) => {
+            dispatch(filterRestaurants(filterObject))
         }
     };
 }

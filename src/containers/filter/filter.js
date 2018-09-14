@@ -2,6 +2,8 @@ import React, {Component} from "react";
 import FilterBtn from "./filterBtn/filterBtn";
 import StarInput from "./starInput/starInput";
 import withType from "./../../HOC/withType";
+import {connect} from "react-redux";
+import {updateFilterObject,filterRestaurants} from "./../../store/actions";
 
 const StarFrom = withType(StarInput, "from");
 const StarTo = withType(StarInput, "to");
@@ -57,10 +59,27 @@ class Filter extends Component {
         <div className="py-5 text-center h-100">
           <StarFrom onChangeHandler = {this.onChangeHandler} value={this.state.star.from} />
           <StarTo onChangeHandler = {this.onChangeHandler} value={this.state.star.to} />
-          <FilterBtn>Filter</FilterBtn>
+          <FilterBtn filter={() => {
+            this.props.updateFilter(this.state.star);
+            this.props.filterRestaurants(this.state.star);
+            }}>Filter</FilterBtn>
         </div>
       </div>
     );  
   }
 }
-export default Filter;
+
+const mapState = state => {
+  return {
+
+  }
+}
+
+const mapDispatch = dispatch => {
+  return {
+    updateFilter: (filterObj) => {dispatch(updateFilterObject(filterObj))},
+    filterRestaurants: (filterObj) => {dispatch(filterRestaurants(filterObj))}
+  }
+}
+
+export default connect(mapState, mapDispatch)(Filter);
