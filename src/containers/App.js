@@ -1,76 +1,114 @@
 import React, {Component} from "react";
 import Header from "../components/header/Header";
 import { connect} from "react-redux";
-import {getUserPosition,getRestaurantIDs,getRestaurants} from "./../store/actions";
+import {saveRestaurantIDs,saveRestaurant, saveUserPosition} from "./../store/actions";
 import gmaps from "@google/maps";
 import "./App.css";
+import {API_KEY} from "./../store/actions";
+
+const TEMP_API_KEY = "AIzaSyCuMV8HTZCAxl1GN1VNKOYMUn2_DUttqcs";
 
 const googleMapsClient = gmaps.createClient({
-    key: "AIzaSyAhqGGanA-hH9UQ1O96Y95h_kx-xfwkaU4"
+    key: TEMP_API_KEY
 });
 
+const x = [];
+
 class App extends Component {
-    state = {
-        currentPos: {}
-    };
     componentDidMount = () => {
-        navigator.geolocation.getCurrentPosition(position => {
-            console.log("pos", position);
-            this.setState({
-                currentPos: {
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude
-                }
-            });
-            googleMapsClient.placesNearby({
-                    location: position.coords,
-                    radius: 5000,
-                    type: "restaurant"
+        const option = {
+            enableHighAccuracy: true,
+            maximunAge: 30000,
+            timeout: 30000
+        };
+        const err = () => {
+            window.alert("Oops. Something went wrong!");
+        };
+        if (window.navigator.geolocation) {
+            /* Geolocation is supported */
+            window.navigator.geolocation.getCurrentPosition(
+                position => {
+                    let lat = position.coords.latitude;
+                    let lng = position.coords.longitude;
+                    let pos = {
+                        lat: lat,
+                        lng: lng
+                    };
+                    this.props.saveUserPos(pos);
+                    // this.props.getRestIDs(this.props.userPos, 2000);
+
+                    // get Information from google API using @google/maps package
+                    googleMapsClient.placesNearby({
+                        location: this.props.userPos,
+                        radius: 3000,
+                        type: "restaurant"
+                    },(err, response) => {
+                        if (!err) {
+                            let data = response.json.results;
+                            // console.log(data);
+                            let restaurantIDs = data.map(restaurant => restaurant.place_id);
+                            // console.log(restaurantIDs);
+                            this.props.saveRestaurantIDs(restaurantIDs);
+
+                            // So, now we have all IDs from restaurants that we want. Next thing to do is how to fetch restaurant details of each one and then update the store
+                            // console.log(this.props.allRestaurantIDs);
+                            let restaurants = this.props.allRestaurantIDs.map(ID => {
+                                googleMapsClient.place({
+                                    placeid: ID
+                                    // fields: "name,formatted_address,geometry/location,place_id,rating,review"
+                                    }, (err, response) => {
+                                        if (!err) {
+                                            // console.log(response)
+                                            const result = response.json.result;
+                                            const {formatted_address, formatted_phonenumber, geometry, name, place_id,rating,reviews} = result;
+                                            const restaurant = {formatted_address, formatted_phonenumber, geometry, name, place_id,rating,reviews};
+                                            this.props.saveRestaurant(restaurant);
+                                    } else {
+                                        console.log(err);
+                                    }
+                                })
+                            })
+                        } else {
+                            console.log("ERROR", err)
+                        }
+                    })
                 },
-                (err, res) => {
-                    if (!err) {
-                        console.log("places", res.json.results);
-                    } else {
-                        console.log("Error", err);
-                    }
-                }
+                err,
+                option
             );
-        });
+        } else {
+            /* Geolocation not supported. */
+            window.alert("Your device is not supported.");
+        }
     };
+    
     render() {
-        console.log("currentPos", this.state.currentPos);
         return ( 
-        <div className = "App" >
+        <div className = "App">
             <Header />
-            <button onClick = {this.props.userPos}> User position </button>
-            <button onClick = {this.props.getRestIDs}> get restaurants </button>
-            <button onClick = {() => {this.props.getRes(this.props.IDs)}}>get restaurants</button>
-        </div >
-        );
+        </div>);
     }
 }
 
 function mapState(state) {
     return {
-        IDs: state.allRestaurantIDs
+        userPos: state.userPos,
+        allRestaurantIDs: state.allRestaurantIDs
     };
 }
 
 function mapDispatch(dispatch) {
     return {
-        userPos: () => {
-            dispatch(getUserPosition());
+        saveRestaurant: restaurant => {
+            dispatch(saveRestaurant(restaurant));
         },
-        getRestIDs: () => {
-            dispatch(getRestaurantIDs(this.state.currentPos, 2000));
+        saveUserPos: (pos) => {
+            dispatch(saveUserPosition(pos));
         },
-        getRes: IDs => {
-            dispatch(getRestaurants(IDs));
+        saveRestaurantIDs: (IDs) => {
+            dispatch(saveRestaurantIDs(IDs))
         }
     };
 }
 
-export default connect(
-    mapState,
-    mapDispatch
-)(App);
+export default connect(mapState,mapDispatch)(App);

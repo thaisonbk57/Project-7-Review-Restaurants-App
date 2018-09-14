@@ -1,11 +1,13 @@
 import {
     SAVE_USER_POSITION,
-    SAVE_RESTAURANTS,
+    SAVE_RESTAURANT,
     SAVE_RESTAURANT_ID
 } from "./actions";
 
 
-const initState = {};
+const initState = {
+    allRestaurants: []
+};
 
 
 export default function rootReducer(state = initState, action) {
@@ -20,12 +22,14 @@ export default function rootReducer(state = initState, action) {
                 ...state,
                 allRestaurantIDs: action.payload
             }
-        case SAVE_RESTAURANTS:
+        case SAVE_RESTAURANT:
+            
             return {
                 ...state,
-                allRestaurants: action.payload
+                allRestaurants: state.allRestaurants.concat([action.payload])
             }
         default:
             return state;
     }
 }
+
