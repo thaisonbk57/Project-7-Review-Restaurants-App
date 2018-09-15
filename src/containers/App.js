@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import Header from "../components/header/Header";
+import RestaurantList from "./restaurantList/restaurantList";
 import { connect} from "react-redux";
 import {saveRestaurantIDs,saveRestaurant, saveUserPosition, filterRestaurants} from "./../store/actions";
 import gmaps from "@google/maps";
@@ -82,8 +83,20 @@ class App extends Component {
     
     render() {
         return ( 
-        <div className = "App">
-            <Header />
+        <div className = "App container my-3 border border-success p-0">
+            <div className="row">
+                <div className="col-12">
+                    <Header />
+                </div>
+            </div>
+            <div className="row">
+                <div className="col-9">
+                    This is for the map
+                </div>
+                <div className="col-3">
+                    <RestaurantList />
+                </div>
+            </div>
         </div>);
     }
 }

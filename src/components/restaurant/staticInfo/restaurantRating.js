@@ -7,8 +7,8 @@ function restaurantRating(props){
   const rating = props.restaurantRating;
 
   return (
-    <div>
-      {rating} &nbsp {renderStars(rating)}
+    <div className="text-warning">
+      {rating} &nbsp; {renderStars(rating)}
     </div>
   );
 }

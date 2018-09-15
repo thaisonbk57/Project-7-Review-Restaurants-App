@@ -6,9 +6,9 @@ import ReviewText from "./reviewText";
 const review = props => {
   return (
     <div className="review">
-      <ReviewAuthor />
-      <ReviewRating />
-      <ReviewText />
+      <ReviewAuthor reviewAuthor={props.reviewAuthor} />
+      <ReviewRating reviewRating={props.reviewRating} />
+      <ReviewText reviewText={props.reviewText} />
     </div>
   );
 }

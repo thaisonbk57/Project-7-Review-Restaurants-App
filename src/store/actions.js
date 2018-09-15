@@ -6,12 +6,13 @@ export const SAVE_RESTAURANT = "SAVE_RESTAURANT";
 export const SAVE_RESTAURANT_IDs = "SAVE_RESTAURANT_ID";
 export const FILTER_RESTAURANTS = "FILTER_RESTAURANT";
 export const UPDATE_FILTER_OBJECT = "UPDATE_FILTER_OBJECT";
+export const OPEN_COMMENT_FORM = "OPEN_COMMENT_FORM";
 
 // SAVE user' position.
 export const saveUserPosition = position => {
     return {
         type: SAVE_USER_POSITION,
-        payload: position
+        payload: {position}
     };
 };
 
@@ -20,7 +21,7 @@ export const saveUserPosition = position => {
 export const saveRestaurantIDs = restaurantIDs => {
     return {
         type: SAVE_RESTAURANT_IDs,
-        payload: restaurantIDs
+        payload: {restaurantIDs}
     };
 };
 
@@ -28,7 +29,7 @@ export const saveRestaurantIDs = restaurantIDs => {
 export const filterRestaurants = filterObject => {
     return {
         type: FILTER_RESTAURANTS,
-        payload: filterObject
+        payload: {filterObject}
     }
 }
 
@@ -36,13 +37,21 @@ export const filterRestaurants = filterObject => {
 export const saveRestaurant = restaurant => {
     return {
         type: SAVE_RESTAURANT,
-        payload: restaurant
+        payload: {restaurant}
     };
 };
 
 export const updateFilterObject = filterObj => {
     return {
         type: UPDATE_FILTER_OBJECT,
-        payload: filterObj
+        payload: {filterObj}
+    }
+}
+
+
+export const openCommentForm = place_id => {
+    return {
+        type: OPEN_COMMENT_FORM,
+        payload: {place_id}
     }
 }

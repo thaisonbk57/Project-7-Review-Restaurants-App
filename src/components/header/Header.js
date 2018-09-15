@@ -2,7 +2,6 @@ import React from "react";
 import "./Header.css";
 import Heading from "./heading/Heading";
 import Filter from "./../../containers/filter/filter";
-import RestaurantList from "./../../containers/restaurantList/restaurantList";
 
 
 function header(props) {

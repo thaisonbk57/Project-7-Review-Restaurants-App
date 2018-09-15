@@ -7,3 +7,4 @@ const reviewText = props => {
     </p>
   );
 }
+export default reviewText;
