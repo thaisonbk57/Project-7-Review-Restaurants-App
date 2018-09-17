@@ -4,19 +4,15 @@ import {connect} from "react-redux";
 
 
 class RestaurantList extends Component {
-  renderRestaurants = () => {
-    let List = this.props.restaurantsInRange.map(restaurant => {
-      return <Restaurant 
-        key= {restaurant.place_id}
-        info={restaurant} />
-    });
-    return List;
-  }
 
   render() {
     return (
         <div>
-          {this.renderRestaurants()}
+          {this.props.restaurantsInRange.map(restaurant => {
+              return <Restaurant 
+                        key= {restaurant.place_id}
+                        info={restaurant} />
+                })}
         </div>
     );
   }

@@ -7,6 +7,7 @@ export const SAVE_RESTAURANT_IDs = "SAVE_RESTAURANT_ID";
 export const FILTER_RESTAURANTS = "FILTER_RESTAURANT";
 export const UPDATE_FILTER_OBJECT = "UPDATE_FILTER_OBJECT";
 export const OPEN_COMMENT_FORM = "OPEN_COMMENT_FORM";
+export const ADD_COMMENT = "ADD_COMMENT";
 
 // SAVE user' position.
 export const saveUserPosition = position => {
@@ -53,5 +54,16 @@ export const openCommentForm = place_id => {
     return {
         type: OPEN_COMMENT_FORM,
         payload: {place_id}
+    }
+}
+
+// Add comment action
+export const addComment = (commentObject, targetRestaurant) => {
+    return {
+        type: ADD_COMMENT,
+        payload: {
+            commentObject,
+            targetRestaurant
+        }
     }
 }

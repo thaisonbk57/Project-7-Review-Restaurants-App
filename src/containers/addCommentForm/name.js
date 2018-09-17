@@ -2,7 +2,11 @@ import React from "react";
 
 const name = props => {
   return (
-    <input type="text" className="form-control" />
+    <input 
+      name="author" 
+      type="text" 
+      className="form-control"
+      onChange={(e) => {props.onchange(e)}} />
   );
 }
 export default name;

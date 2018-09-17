@@ -4,9 +4,11 @@ import {
     SAVE_RESTAURANT_IDs,
     FILTER_RESTAURANTS,
     UPDATE_FILTER_OBJECT,
-    OPEN_COMMENT_FORM
+    OPEN_COMMENT_FORM,
+    ADD_COMMENT
 } from "./actions";
 
+import {update, $push,$unshift, $splice, $assign, $toggle, $unset, $set, $remove} from "immhelper";
 
 const initState = {
     allRestaurants: [],
@@ -31,15 +33,14 @@ export default function rootReducer(state = initState, action) {
                 userPos: action.payload.position
             }
         case SAVE_RESTAURANT_IDs:
-
             return {
                 ...state,
-                allRestaurantIDs: action.payload.restaurantIDs
+                allRestaurantIDs: [...state.allRestaurantIDs,...action.payload.restaurantIDs]
             }
         case SAVE_RESTAURANT:
             return {
                 ...state,
-                allRestaurants: state.allRestaurants.concat([action.payload.restaurant])
+                allRestaurants: [...state.allRestaurants, action.payload.restaurant]
             }
         case FILTER_RESTAURANTS:
             const [from, to] = [action.payload.filterObject.from, action.payload.filterObject.to];
@@ -60,6 +61,18 @@ export default function rootReducer(state = initState, action) {
                 ...state,
                 activeRestaurant: action.payload.place_id,
                 activeCommentForm: true
+            }
+        case ADD_COMMENT:
+            /* target the index of the restaurant */
+            let restaurantIndex = state.allRestaurantIDs.indexOf(action.payload.targetRestaurant);
+            let allRestaurants = [...state.allRestaurants];
+            /* return the new state of the whole app */
+            // also turn off the comment form by setting  activeCommentForm to false.
+            return {
+                ...state,
+                activeCommentForm: false,
+                allRestaurants: [...allRestaurants.slice(0, restaurantIndex),
+                {...allRestaurants[restaurantIndex], reviews: [...allRestaurants[restaurantIndex].reviews.slice(0), {...action.payload.commentObject}]}, ...allRestaurants.slice(restaurantIndex + 1)]
             }
         default:
             return state;

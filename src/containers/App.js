@@ -6,7 +6,7 @@ import {saveRestaurantIDs,saveRestaurant, saveUserPosition, filterRestaurants} f
 import gmaps from "@google/maps";
 import "./App.css";
 import {API_KEY} from "./../store/actions";
-import Rating from "./addCommentForm/rating";
+import AddCommentForm from "./addCommentForm/index";
 
 const TEMP_API_KEY = "AIzaSyCuMV8HTZCAxl1GN1VNKOYMUn2_DUttqcs";
 
@@ -98,7 +98,11 @@ class App extends Component {
                     <RestaurantList />
                 </div>
             </div>
-            <Rating />
+            <div className="row">
+                <div className="col-12">
+                    <AddCommentForm />
+                </div>
+            </div>
         </div>);
     }
 }
