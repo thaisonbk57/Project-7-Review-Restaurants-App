@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 import Restaurant from './../../components/restaurant';
 import {connect} from "react-redux";
-
+import "./restaurantList.css";
 
 class RestaurantList extends Component {
 
   render() {
     return (
-        <div>
+        <div className="RestaurantsList">
           {this.props.restaurantsInRange.map(restaurant => {
               return <Restaurant 
                         key= {restaurant.place_id}

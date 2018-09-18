@@ -56,7 +56,7 @@ class Filter extends Component {
   render() {
     return (
       <div className="h-100 bg-warning">
-        <div className="py-5 text-center h-100">
+        <div className="text-center h-100">
           <StarFrom onChangeHandler = {this.onChangeHandler} value={this.state.star.from} />
           <StarTo onChangeHandler = {this.onChangeHandler} value={this.state.star.to} />
           <FilterBtn filter={() => {
