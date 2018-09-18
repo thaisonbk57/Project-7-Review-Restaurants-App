@@ -1,6 +1,7 @@
 import React from "react";
 import StaticInfo from "./staticInfo";
 import DynamicInfo from "./dynamicInfo/index";
+import {API_KEY} from "../../store/actions";
 
 class Restaurant extends React.Component {
   
@@ -27,7 +28,8 @@ class Restaurant extends React.Component {
 
       dynamicInfo = <DynamicInfo 
                       reviews={this.props.reviews}
-                      place_id={this.props.info.place_id} />
+                      place_id={this.props.info.place_id}
+                      photo={`https://maps.googleapis.com/maps/api/streetview?size=400x400&location=${this.props.info.geometry.location.lat},${this.props.info.geometry.location.lng}&key=${API_KEY}&fov=90&heading=235&pitch=10`} />
     }
 
     return(
