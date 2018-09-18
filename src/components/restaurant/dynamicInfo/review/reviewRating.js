@@ -3,7 +3,7 @@ import {renderStars} from "./../../../../utilities/ultilities";
 
 const reviewRating = props => {
   return (
-    <p className="review--rating text-warning">
+    <p className="review--rating text-warning my-1">
       {renderStars(props.reviewRating)}
     </p>
   );

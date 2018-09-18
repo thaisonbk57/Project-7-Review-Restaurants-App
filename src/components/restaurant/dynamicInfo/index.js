@@ -10,7 +10,7 @@ const DynamicInfo = (props) => {
     <div>
       <RestaurantPhoto restaurantPhoto={props.photo} />
       <Reviews reviews={props.reviews} />
-      <AddCommentBtn openForm={props.openCommentForm} place_id={props.place_id} />
+      <div className="p-3"><AddCommentBtn openForm={props.openCommentForm} place_id={props.place_id} /></div>
     </div>
   );
 }

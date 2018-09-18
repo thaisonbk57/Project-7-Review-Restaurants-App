@@ -89,17 +89,17 @@ class App extends Component {
     
     render() {
         return ( 
-        <div className = "App container my-3 border border-success p-0">
+        <div className = "App container my-3 border rounded border-success">
             <div className="row">
-                <div className="col-12">
+                <div className="col-12 px-0">
                     <Header />
                 </div>
             </div>
             <div className="row">
-                <div className="col-9">
+                <div className="col-9 px-0">
                     This is for the map
                 </div>
-                <div className="col-3">
+                <div className="col-3 px-0">
                     <RestaurantList />
                 </div>
             </div>
