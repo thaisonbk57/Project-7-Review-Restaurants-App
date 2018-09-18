@@ -26,7 +26,7 @@ class Restaurant extends React.Component {
     if (this.state.showDynamicInfo) {
 
       dynamicInfo = <DynamicInfo 
-                      reviews={this.props.info.reviews}
+                      reviews={this.props.reviews}
                       place_id={this.props.info.place_id} />
     }
 

@@ -11,7 +11,9 @@ class RestaurantList extends Component {
           {this.props.restaurantsInRange.map(restaurant => {
               return <Restaurant 
                         key= {restaurant.place_id}
-                        info={restaurant} />
+                        info={restaurant}
+                        // TODO: is restaurant.place_id a string or just a non-type key ???
+                        reviews={this.props.allReviews[restaurant.place_id]} />
                 })}
         </div>
     );
@@ -20,7 +22,8 @@ class RestaurantList extends Component {
 
 const mapState = state => {
   return {
-    restaurantsInRange: state.restaurantsInRange
+    restaurantsInRange: state.restaurantsInRange,
+    allReviews: state.allReviews
   }
 }
 

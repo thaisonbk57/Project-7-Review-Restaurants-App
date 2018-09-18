@@ -44,7 +44,15 @@ export const saveRestaurant = restaurant => {
 };
 
 // SAVE review separated, because we dont want to have too much nested array / objects in our rootReducer.
-// export const saveReviews = 
+export const saveReviews = (place_id, reviews) => {
+    return {
+        type: SAVE_REVIEWS,
+        payload: {
+            place_id,
+            reviews
+        }
+    }
+}
 
 
 export const updateFilterObject = filterObj => {

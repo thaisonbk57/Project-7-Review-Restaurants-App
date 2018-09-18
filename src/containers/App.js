@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import Header from "../components/header/Header";
 import RestaurantList from "./restaurantList/restaurantList";
 import { connect} from "react-redux";
-import {saveRestaurantIDs,saveRestaurant, saveUserPosition, filterRestaurants} from "./../store/actions";
+import {saveRestaurantIDs,saveRestaurant,saveReviews, saveUserPosition, filterRestaurants} from "./../store/actions";
 import gmaps from "@google/maps";
 import "./App.css";
 import {API_KEY} from "./../store/actions";
@@ -59,9 +59,13 @@ class App extends Component {
                                         if (!err) {
                                             const result = response.json.result;
                                             const {formatted_address, formatted_phonenumber, geometry, name, place_id,rating,reviews} = result;
-                                            const restaurant = {formatted_address, formatted_phonenumber, geometry, name, place_id,rating,reviews};
+                                            const restaurant = {formatted_address, formatted_phonenumber, geometry, name, place_id,rating};
 
+                                            // save Restaurants
                                             this.props.saveRestaurant(restaurant);
+
+                                            // save Reviews in another place (flatten rootReducer)
+                                            this.props.saveReviews(place_id, reviews);
                                             // by default, it will take all 
                                             this.props.filterRestaurants(this.props.filterObject);
                                     } else {
@@ -129,6 +133,9 @@ function mapDispatch(dispatch) {
         },
         filterRestaurants: (filterObject) => {
             dispatch(filterRestaurants(filterObject))
+        },
+        saveReviews: (place_id, reviews) => {
+            dispatch(saveReviews(place_id, reviews))
         }
     };
 }

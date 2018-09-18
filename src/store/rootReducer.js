@@ -48,7 +48,7 @@ export default function rootReducer(state = initState, action) {
                 ...state,
                 allReviews: {
                     ...state.allReviews,
-                    [action.place_id]: action.reviews
+                    [action.payload.place_id]: action.payload.reviews
                 }
             }
         case FILTER_RESTAURANTS:
@@ -72,22 +72,16 @@ export default function rootReducer(state = initState, action) {
                 activeCommentForm: true
             }
         case ADD_COMMENT:
-            /* target the index of the restaurant */
-            let restaurantIndex = state.allRestaurantIDs.indexOf(action.payload.targetRestaurant);
-            let allRestaurants = [...state.allRestaurants]; 
-            /* return the new state of the whole app */
-            // also turn off the comment form by setting  activeCommentForm to false.
-
-            // we also need to update the restaurantsInRange, because the reviews on UI screen comes from this array.
-
-            // let IDsInRange = state.restaurantsInRange.map(restaurant => restaurant.place_id);
-
+            let allReviews = {...state.allReviews};
+            let id = action.payload.targetRestaurant;
 
             return {
                 ...state,
                 activeCommentForm: false,
-                allRestaurants: [...allRestaurants.slice(0, restaurantIndex),
-                {...allRestaurants[restaurantIndex], reviews: [...allRestaurants[restaurantIndex].reviews.slice(0), {...action.payload.commentObject}]}, ...allRestaurants.slice(restaurantIndex + 1)]
+                allReviews: {
+                    ...allReviews,
+                    [id]: [...allReviews[id], {...action.payload.commentObject}] 
+                }
             }
         default:
             return state;
