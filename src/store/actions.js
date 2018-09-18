@@ -3,6 +3,7 @@ export const BASE_URL = "https://maps.googleapis.com/maps/api/";
 
 export const SAVE_USER_POSITION = "SAVE_USER_POSITION";
 export const SAVE_RESTAURANT = "SAVE_RESTAURANT";
+export const SAVE_REVIEWS = "SAVE_REVIEWS";
 export const SAVE_RESTAURANT_IDs = "SAVE_RESTAURANT_ID";
 export const FILTER_RESTAURANTS = "FILTER_RESTAURANT";
 export const UPDATE_FILTER_OBJECT = "UPDATE_FILTER_OBJECT";
@@ -41,6 +42,10 @@ export const saveRestaurant = restaurant => {
         payload: {restaurant}
     };
 };
+
+// SAVE review separated, because we dont want to have too much nested array / objects in our rootReducer.
+// export const saveReviews = 
+
 
 export const updateFilterObject = filterObj => {
     return {

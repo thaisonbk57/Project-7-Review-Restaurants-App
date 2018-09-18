@@ -2,7 +2,7 @@ import React from "react";
 
 const reviewAuthor = props => {
   return (
-    <p className="review--author text-capitalize">
+    <p className="review--author text-capitalize font-weight-bold">
       {props.reviewAuthor}
     </p>
   );

@@ -60,6 +60,7 @@ class App extends Component {
                                             const result = response.json.result;
                                             const {formatted_address, formatted_phonenumber, geometry, name, place_id,rating,reviews} = result;
                                             const restaurant = {formatted_address, formatted_phonenumber, geometry, name, place_id,rating,reviews};
+
                                             this.props.saveRestaurant(restaurant);
                                             // by default, it will take all 
                                             this.props.filterRestaurants(this.props.filterObject);

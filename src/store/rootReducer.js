@@ -5,13 +5,14 @@ import {
     FILTER_RESTAURANTS,
     UPDATE_FILTER_OBJECT,
     OPEN_COMMENT_FORM,
-    ADD_COMMENT
+    ADD_COMMENT,
+    SAVE_REVIEWS
 } from "./actions";
 
-import {update, $push,$unshift, $splice, $assign, $toggle, $unset, $set, $remove} from "immhelper";
 
 const initState = {
     allRestaurants: [],
+    allReviews: {},
     restaurantsInRange: [],
     allRestaurantIDs: [],
     userPos:{},
@@ -42,6 +43,14 @@ export default function rootReducer(state = initState, action) {
                 ...state,
                 allRestaurants: [...state.allRestaurants, action.payload.restaurant]
             }
+        case SAVE_REVIEWS:
+            return {
+                ...state,
+                allReviews: {
+                    ...state.allReviews,
+                    [action.place_id]: action.reviews
+                }
+            }
         case FILTER_RESTAURANTS:
             const [from, to] = [action.payload.filterObject.from, action.payload.filterObject.to];
             let restaurantsInRange = state.allRestaurants.filter(restaurant => {
@@ -49,7 +58,7 @@ export default function rootReducer(state = initState, action) {
             });
             return {
                 ...state,
-                restaurantsInRange
+                restaurantsInRange: [...restaurantsInRange]
             }
         case UPDATE_FILTER_OBJECT:
             return {
@@ -65,9 +74,15 @@ export default function rootReducer(state = initState, action) {
         case ADD_COMMENT:
             /* target the index of the restaurant */
             let restaurantIndex = state.allRestaurantIDs.indexOf(action.payload.targetRestaurant);
-            let allRestaurants = [...state.allRestaurants];
+            let allRestaurants = [...state.allRestaurants]; 
             /* return the new state of the whole app */
             // also turn off the comment form by setting  activeCommentForm to false.
+
+            // we also need to update the restaurantsInRange, because the reviews on UI screen comes from this array.
+
+            // let IDsInRange = state.restaurantsInRange.map(restaurant => restaurant.place_id);
+
+
             return {
                 ...state,
                 activeCommentForm: false,
