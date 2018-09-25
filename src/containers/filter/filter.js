@@ -4,6 +4,7 @@ import StarInput from "./starInput/starInput";
 import withType from "./../../HOC/withType";
 import {connect} from "react-redux";
 import {updateFilterObject,filterRestaurants} from "./../../store/actions";
+import RatingStar from './../../containers/addCommentForm/ratingStar/ratingStar';
 
 const StarFrom = withType(StarInput, "from");
 const StarTo = withType(StarInput, "to");
@@ -21,48 +22,27 @@ class Filter extends Component {
 
   onChangeHandler = (e) => {
     let target = e.target;
-    let dataType = target.dataset.type;
-    let stars = parseInt(target.value, 10);
+    let stars = target.value;
+    this.setState((prevState, props) => {
+      return {
+        star: {
+          ...prevState.star,
+          from: stars
+        }
+      }
+    });
+  }
 
-    switch (dataType) {
-      case "from":
-        stars = stars > 4 ? 4 : stars < 1 ? 1 : stars >= this.state.star.to ? this.state.star.to - 1 : stars;
-        this.setState((prevState, props) => {
-          return {
-            star: {
-              ...prevState.star,
-              from: stars
-            }
-          }
-        });
-        break;
-      case "to":
-        stars = stars < 2 ? 2: stars > 5 ? 5 : stars <= this.state.star.from ? this.state.star.from + 1 : stars;
-        this.setState((prevState, props) => {
-        return {
-          star: {
-              ...prevState.star,
-              to: stars
-            }
-          }
-        });
-      break;
-
-      default:
-        return null
-    }
+  componentDidUpdate() {
+    this.props.updateFilter(this.state.star);
+    this.props.filterRestaurants(this.state.star);
   }
 
   render() {
     return (
       <div className="h-100 bg-warning">
-        <div className="text-center h-100">
-          <StarFrom onChangeHandler = {this.onChangeHandler} value={this.state.star.from} />
-          <StarTo onChangeHandler = {this.onChangeHandler} value={this.state.star.to} />
-          <FilterBtn filter={() => {
-            this.props.updateFilter(this.state.star);
-            this.props.filterRestaurants(this.state.star);
-            }}>Filter</FilterBtn>
+        <div className="text-center p-5 h-100">
+          <RatingStar onchange={this.onChangeHandler}/>
         </div>
       </div>
     );  
