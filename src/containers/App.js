@@ -7,6 +7,7 @@ import gmaps from "@google/maps";
 import "./App.css";
 import {API_KEY} from "./../store/actions";
 import AddCommentForm from "./addCommentForm/index";
+import GoogleMap from './Map/map';
 
 const TEMP_API_KEY = "AIzaSyCuMV8HTZCAxl1GN1VNKOYMUn2_DUttqcs";
 
@@ -97,7 +98,13 @@ class App extends Component {
             </div>
             <div className="row">
                 <div className="col-9 px-0">
-                    This is for the map
+                    <GoogleMap 
+                        isMarkerShown
+                        googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyCuMV8HTZCAxl1GN1VNKOYMUn2_DUttqcs&v=3.exp&libraries=geometry,drawing,places"
+                        loadingElement={<div style={{ height: `100%` }} />}
+                        containerElement={<div style={{ height: `calc(100vh - 180px)` }} />}
+                        mapElement={<div style={{ height: `100%` }} />}
+                    />
                 </div>
                 <div className="col-3 px-0">
                     <RestaurantList />
