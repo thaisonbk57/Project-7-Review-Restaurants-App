@@ -7,13 +7,21 @@ import {
 } from "react-google-maps";
 import {connect} from 'react-redux';
 
-const MyMapComponent = props => (
-  <GoogleMap defaultZoom={15} defaultCenter={props.userPos}>
-    {props.isMarkerShown && (
-      <Marker position={props.userPos} />
-    )}
-  </GoogleMap>
-);
+const MyMapComponent = props => {
+
+  const markers = props.restaurantsInRange.map(restaurant => {
+    return <Marker position={restaurant.geometry.location} />
+  });
+
+  console.log(markers);
+
+  return (
+    <GoogleMap defaultZoom={13} defaultCenter={props.userPos}>
+        <Marker position={props.userPos} />
+        {markers}
+    </GoogleMap>
+  )
+}
 
 const mapState = state => {
   return {
