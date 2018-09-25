@@ -8,7 +8,7 @@ import {
 import {connect} from 'react-redux';
 
 const MyMapComponent = props => (
-  <GoogleMap defaultZoom={8} defaultCenter={props.userPos}>
+  <GoogleMap defaultZoom={15} defaultCenter={props.userPos}>
     {props.isMarkerShown && (
       <Marker position={props.userPos} />
     )}

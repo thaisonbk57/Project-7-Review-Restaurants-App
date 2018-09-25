@@ -12,7 +12,7 @@ const rating = props => {
           <label htmlFor="star-filter-3"></label>
           <input onChange={(e) => {props.onchange(e)}} type="radio" name="star-filter" id="star-filter-4" value="2" />
           <label htmlFor="star-filter-4"></label>
-          <input onChange={(e) => {props.onchange(e)}} type="radio" name="star-filter" id="star-filter-5" value="1" checked/>
+          <input onChange={(e) => {props.onchange(e)}} type="radio" name="star-filter" id="star-filter-5" value="1" />
           <label htmlFor="star-filter-5"></label>
         </div>
   );
