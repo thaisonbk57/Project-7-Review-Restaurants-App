@@ -4,10 +4,8 @@ import StarInput from "./starInput/starInput";
 import withType from "./../../HOC/withType";
 import {connect} from "react-redux";
 import {updateFilterObject,filterRestaurants} from "./../../store/actions";
-import RatingStar from './../../containers/addCommentForm/ratingStar/ratingStar';
+import FilterStar from './starInput/starInput';
 
-const StarFrom = withType(StarInput, "from");
-const StarTo = withType(StarInput, "to");
 
 class Filter extends Component {
   constructor(props) {
@@ -42,7 +40,7 @@ class Filter extends Component {
     return (
       <div className="h-100 bg-warning">
         <div className="text-center p-5 h-100">
-          <RatingStar onchange={this.onChangeHandler}/>
+          <FilterStar onchange={this.onChangeHandler}/>
         </div>
       </div>
     );  
