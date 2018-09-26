@@ -9,8 +9,10 @@ import {
 } from "react-google-maps";
 import {connect} from 'react-redux';
 import {compose} from 'recompose';
+import {InfoBox} from 'react-google-maps/lib/components/addons/InfoBox';
 const userMarker= require("./../../img/user.png");
 const restaurantMarker = require("./../../img/restaurant.png");
+
 
 const MyMapComponent = compose(
     withScriptjs, 
@@ -18,12 +20,25 @@ const MyMapComponent = compose(
   )(props => {
 
     const markers = props.restaurantsInRange.map(restaurant => {
-      return <Marker position={restaurant.geometry.location} icon={restaurantMarker} />
+      return <Marker 
+        label={{
+          text: ''+ restaurant.rating,
+          color: "orangered",
+          fontSize: "16px"
+        }} 
+        position={restaurant.geometry.location} 
+        icon={restaurantMarker}
+        onMouseOver={() => { console.log(this) }} 
+        >
+          <InfoBox>
+            <div>{restaurant.name}</div>
+          </InfoBox>
+        </Marker>
   });
   
   return (
     <GoogleMap defaultZoom={13} defaultCenter={props.userPos}>
-        <Marker icon={userMarker} position={props.userPos} zIndex={121} animation={google.maps.Animation.BOUNCE} />
+        <Marker title={"current position..."} icon={userMarker} position={props.userPos} zIndex={121} animation={google.maps.Animation.BOUNCE} />
         {markers}
     </GoogleMap>
   )
