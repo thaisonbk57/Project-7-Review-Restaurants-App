@@ -7,7 +7,7 @@ class RestaurantList extends Component {
 
   render() {
     return (
-        <div className="RestaurantsList">
+        <div className="RestaurantsList bg-success">
           {this.props.restaurantsInRange.map(restaurant => {
               return <Restaurant 
                         key= {restaurant.place_id}
