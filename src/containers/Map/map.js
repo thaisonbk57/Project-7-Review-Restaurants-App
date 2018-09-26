@@ -8,7 +8,7 @@ import {
   Marker
 } from "react-google-maps";
 import {connect} from 'react-redux';
-import {compose} from 'recompose';
+import {compose, withProps, withStateHandlers} from 'recompose';
 import {InfoBox} from 'react-google-maps/lib/components/addons/InfoBox';
 const userMarker= require("./../../img/user.png");
 const restaurantMarker = require("./../../img/restaurant.png");
@@ -16,7 +16,14 @@ const restaurantMarker = require("./../../img/restaurant.png");
 
 const MyMapComponent = compose(
     withScriptjs, 
-    withGoogleMap
+    withGoogleMap,
+    withStateHandlers(()=> ({
+      infoBoxShown: false,
+    }), {
+      onToggleOpen: ({infoBoxShown}) => () => ({
+        infoBoxShown: !infoBoxShown,
+      })
+    })
   )(props => {
 
     const markers = props.restaurantsInRange.map(restaurant => {
@@ -28,11 +35,11 @@ const MyMapComponent = compose(
         }} 
         position={restaurant.geometry.location} 
         icon={restaurantMarker}
-        onMouseOver={() => { console.log(this) }} 
+        onClick={() => {console.log(props); props.onToggleOpen()}}
         >
-          <InfoBox>
+          {props.infoBoxShown && <InfoBox visible={false}>
             <div>{restaurant.name}</div>
-          </InfoBox>
+          </InfoBox>}
         </Marker>
   });
   
