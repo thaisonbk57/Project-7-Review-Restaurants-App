@@ -10,7 +10,7 @@ import {
 } from "react-google-maps";
 import {connect} from 'react-redux';
 import {compose, withStateHandlers} from 'recompose';
-import {InfoBox} from 'react-google-maps/lib/components/addons/InfoBox';
+import {TEMP_API_KEY} from './../App';
 const userMarker= require("./../../img/user.png");
 const restaurantMarker = require("./../../img/restaurant.png");
 
@@ -41,7 +41,7 @@ const MyMapComponent = compose(
         }} 
         position={restaurant.geometry.location} 
         icon={restaurantMarker}
-        onMouseOver={() => {props.onToggleOpen(restaurant)}}
+        onClick={() => {props.onToggleOpen(restaurant)}}
         /* onMouseOut={()=> {props.closeInfoWindow()}} */ />
   });
   
@@ -52,9 +52,11 @@ const MyMapComponent = compose(
         {markers}
         {props.infoBoxShown && <InfoWindow defaultPosition={props.userPos} position={props.currentRestaurant.geometry.location}  
         onCloseClick={() => {props.closeInfoWindow()}} >
-          <div>
+          <div style={{maxWidth: 300}}>
             <h3>{props.currentRestaurant.name}</h3>
             <p>{props.currentRestaurant.formatted_address}</p>
+            <a href={`tel:${props.currentRestaurant.formatted_phone_number}`}>{props.currentRestaurant.formatted_phone_number}</a> <br/>
+            <img className='d-block mw-100' src={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${props.currentRestaurant.photos[0].photo_reference}&key=${TEMP_API_KEY}`} alt={`${props.currentRestaurant.name}`}/>
           </div>
         </InfoWindow>}
     </GoogleMap>

@@ -9,7 +9,7 @@ import {API_KEY} from "./../store/actions";
 import AddCommentForm from "./addCommentForm/index";
 import MapContainer from './Map/mapContainer';
 
-const TEMP_API_KEY = "AIzaSyCuMV8HTZCAxl1GN1VNKOYMUn2_DUttqcs";
+export const TEMP_API_KEY = "AIzaSyCuMV8HTZCAxl1GN1VNKOYMUn2_DUttqcs";
 
 const googleMapsClient = gmaps.createClient({
     key: TEMP_API_KEY
@@ -59,8 +59,8 @@ class App extends Component {
                                     }, (err, response) => {
                                         if (!err) {
                                             const result = response.json.result;
-                                            const {formatted_address, formatted_phonenumber, geometry, name, place_id,rating,reviews} = result;
-                                            const restaurant = {formatted_address, formatted_phonenumber, geometry, name, place_id,rating};
+                                            const {formatted_address, formatted_phone_number,photos, geometry, name, place_id,rating,reviews} = result;
+                                            const restaurant = {formatted_address,photos, formatted_phone_number, geometry, name, place_id,rating};
 
                                             // save Restaurants
                                             this.props.saveRestaurant(restaurant);
