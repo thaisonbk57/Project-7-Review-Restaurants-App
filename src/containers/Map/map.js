@@ -14,17 +14,20 @@ import {TEMP_API_KEY} from './../App';
 const userMarker= require("./../../img/user.png");
 const restaurantMarker = require("./../../img/restaurant.png");
 
-
+// Using compose from 'recompose' to combine all HOC into one.
 const MyMapComponent = compose(
     withStateHandlers(()=> ({
       infoBoxShown: false,
       currentRestaurant: {}
     }), {
       onToggleOpen: (props) => (restaurant) => ({
+        // this is a method, when user click on a marker, it will change the infoBoxShown to true, so display the InfoWindow related to the restaurant.
         infoBoxShown: true,
+        // user clicks on a marker, the currentRestaurant will be set to the corresponding restaurant. And based on this currentRestaurant, we will have the infomation to display inside the InfoWindow.
         currentRestaurant: restaurant
       }),
       closeInfoWindow: (props) => () => ({
+        // InfoWindow component has a close X  button. When use clicks on that. The InfoWindow will disappear
         infoBoxShown: false
       })
     }),
@@ -41,12 +44,11 @@ const MyMapComponent = compose(
         }} 
         position={restaurant.geometry.location} 
         icon={restaurantMarker}
-        onClick={() => {props.onToggleOpen(restaurant)}}
-        /* onMouseOut={()=> {props.closeInfoWindow()}} */ />
+        onClick={() => {props.onToggleOpen(restaurant)}}/>
   });
   
   return (
-    <GoogleMap defaultZoom={14} defaultCenter={props.userPos}>
+    <GoogleMap defaultZoom={14} defaultCenter={props.userPos} center={props.mapCenter}>
         <Marker title={"current position..."} icon={userMarker} position={props.userPos} zIndex={121} animation={google.maps.Animation.BOUNCE}>
         </Marker>
         {markers}
@@ -66,7 +68,8 @@ const MyMapComponent = compose(
 const mapState = state => {
   return {
     restaurantsInRange: state.restaurantsInRange,
-    userPos: state.userPos
+    userPos: state.userPos,
+    mapCenter: state.mapCenter
   }
 };
 

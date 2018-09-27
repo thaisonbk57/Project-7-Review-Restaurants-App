@@ -2,6 +2,8 @@ import React from "react";
 import StaticInfo from "./staticInfo";
 import DynamicInfo from "./dynamicInfo/index";
 import {API_KEY} from "../../store/actions";
+import {updateMapCenter} from './../../store/actions';
+import {connect} from 'react-redux';
 
 class Restaurant extends React.Component {
   
@@ -13,6 +15,7 @@ class Restaurant extends React.Component {
   }
 
   toggleDynamicInfoHandler = (e) => {
+    this.props.updateMapCenter(this.props.info.geometry.location);
     this.setState((prevState, props)=> {
       return {
         showDynamicInfo: !prevState.showDynamicInfo
@@ -45,6 +48,14 @@ class Restaurant extends React.Component {
   }
 }
 
-export default Restaurant;
+
+
+const mapDispatch = dispatch => {
+  return {
+    updateMapCenter: (coords) => {dispatch(updateMapCenter(coords))}
+  }
+}
+
+export default connect(null, mapDispatch)(Restaurant);
 
 

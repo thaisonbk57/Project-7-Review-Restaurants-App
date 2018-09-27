@@ -11,6 +11,7 @@ import MapContainer from './Map/mapContainer';
 
 export const TEMP_API_KEY = "AIzaSyCuMV8HTZCAxl1GN1VNKOYMUn2_DUttqcs";
 
+// Create an object googleMapsClient using @google/maps library
 const googleMapsClient = gmaps.createClient({
     key: TEMP_API_KEY
 });

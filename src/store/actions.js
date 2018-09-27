@@ -9,7 +9,7 @@ export const FILTER_RESTAURANTS = "FILTER_RESTAURANT";
 export const UPDATE_FILTER_OBJECT = "UPDATE_FILTER_OBJECT";
 export const OPEN_COMMENT_FORM = "OPEN_COMMENT_FORM";
 export const ADD_COMMENT = "ADD_COMMENT";
-
+export const UPDATE_MAP_CENTER = "UPDATE_MAP_CENTER";
 // SAVE user' position.
 export const saveUserPosition = position => {
     return {
@@ -80,3 +80,11 @@ export const addComment = (commentObject, targetRestaurant) => {
         }
     }
 }
+
+// update the mapCenter
+export const updateMapCenter = (coords) => ({
+    type: UPDATE_MAP_CENTER,
+    payload: {
+        coords
+    }
+})

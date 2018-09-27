@@ -6,7 +6,8 @@ import {
     UPDATE_FILTER_OBJECT,
     OPEN_COMMENT_FORM,
     ADD_COMMENT,
-    SAVE_REVIEWS
+    SAVE_REVIEWS,
+    UPDATE_MAP_CENTER
 } from "./actions";
 
 
@@ -21,7 +22,8 @@ const initState = {
         to: 5
     },
     activeCommentForm: false, // if true, then the comment from will pop up.
-    activeRestaurant: "" // here will be the PLACE_ID of the active restaurant that is goona receive new comment
+    activeRestaurant: "", // here will be the PLACE_ID of the active restaurant that is goona receive new comment,
+    mapCenter: {},
 };
 
 
@@ -31,7 +33,8 @@ export default function rootReducer(state = initState, action) {
         // have user's position returned from the navigatior, dispatch this action to update the store.
             return {
                 ...state,
-                userPos: action.payload.position
+                userPos: action.payload.position,
+                mapCenter: action.payload.position // default mapCenter is the position of User
             }
         case SAVE_RESTAURANT_IDs:
             return {
@@ -82,6 +85,11 @@ export default function rootReducer(state = initState, action) {
                     ...allReviews,
                     [id]: [...allReviews[id], {...action.payload.commentObject}] 
                 }
+            }
+        case UPDATE_MAP_CENTER:
+            return {
+                ...state,
+                mapCenter: action.payload.coords
             }
         default:
             return state;
