@@ -5,29 +5,35 @@ import {
   withScriptjs,
   withGoogleMap,
   GoogleMap,
-  Marker
+  Marker,
+  InfoWindow
 } from "react-google-maps";
 import {connect} from 'react-redux';
-import {compose, withProps, withStateHandlers} from 'recompose';
+import {compose, withStateHandlers} from 'recompose';
 import {InfoBox} from 'react-google-maps/lib/components/addons/InfoBox';
 const userMarker= require("./../../img/user.png");
 const restaurantMarker = require("./../../img/restaurant.png");
 
 
 const MyMapComponent = compose(
-    withScriptjs, 
-    withGoogleMap,
     withStateHandlers(()=> ({
       infoBoxShown: false,
+      currentRestaurant: {}
     }), {
-      onToggleOpen: ({infoBoxShown}) => () => ({
-        infoBoxShown: !infoBoxShown,
+      onToggleOpen: (props) => (restaurant) => ({
+        infoBoxShown: true,
+        currentRestaurant: restaurant
+      }),
+      closeInfoWindow: (props) => () => ({
+        infoBoxShown: false
       })
-    })
+    }),
+    withScriptjs, 
+    withGoogleMap
   )(props => {
-
     const markers = props.restaurantsInRange.map(restaurant => {
       return <Marker 
+        key={restaurant.place_id}
         label={{
           text: ''+ restaurant.rating,
           color: "orangered",
@@ -35,18 +41,22 @@ const MyMapComponent = compose(
         }} 
         position={restaurant.geometry.location} 
         icon={restaurantMarker}
-        onClick={() => {console.log(props); props.onToggleOpen()}}
-        >
-          {props.infoBoxShown && <InfoBox visible={false}>
-            <div>{restaurant.name}</div>
-          </InfoBox>}
-        </Marker>
+        onMouseOver={() => {props.onToggleOpen(restaurant)}}
+        /* onMouseOut={()=> {props.closeInfoWindow()}} */ />
   });
   
   return (
-    <GoogleMap defaultZoom={13} defaultCenter={props.userPos}>
-        <Marker title={"current position..."} icon={userMarker} position={props.userPos} zIndex={121} animation={google.maps.Animation.BOUNCE} />
+    <GoogleMap defaultZoom={14} defaultCenter={props.userPos}>
+        <Marker title={"current position..."} icon={userMarker} position={props.userPos} zIndex={121} animation={google.maps.Animation.BOUNCE}>
+        </Marker>
         {markers}
+        {props.infoBoxShown && <InfoWindow defaultPosition={props.userPos} position={props.currentRestaurant.geometry.location}  
+        onCloseClick={() => {props.closeInfoWindow()}} >
+          <div>
+            <h3>{props.currentRestaurant.name}</h3>
+            <p>{props.currentRestaurant.formatted_address}</p>
+          </div>
+        </InfoWindow>}
     </GoogleMap>
   )
 })

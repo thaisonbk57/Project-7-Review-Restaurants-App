@@ -97,7 +97,7 @@ class App extends Component {
                 </div>
             </div>
             <div className="row">
-                <div className="col-9 px-0">
+                <div className="col-9 px-0" style={{position: 'relative'}} >
                     <MapContainer/>
                 </div>
                 <div className="col-3 px-0">

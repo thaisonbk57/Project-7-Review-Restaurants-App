@@ -1,7 +1,4 @@
 import React, {Component} from "react";
-import FilterBtn from "./filterBtn/filterBtn";
-import StarInput from "./starInput/starInput";
-import withType from "./../../HOC/withType";
 import {connect} from "react-redux";
 import {updateFilterObject,filterRestaurants} from "./../../store/actions";
 import FilterStar from './starInput/starInput';
