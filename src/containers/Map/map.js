@@ -35,20 +35,24 @@ const MyMapComponent = compose(
     withGoogleMap
   )(props => {
     const markers = props.restaurantsInRange.map(restaurant => {
+      const animation = restaurant.place_id == props.mapCenter.place_id ? google.maps.Animation.BOUNCE : null;
+      // const color = restaurant.place_id == props.mapCenter.place_id ? 'green' : null;
       return <Marker 
         key={restaurant.place_id}
         label={{
           text: ''+ restaurant.rating,
-          color: "orangered",
+          color: "black",
           fontSize: "16px"
         }} 
         position={restaurant.geometry.location} 
-        icon={restaurantMarker}
-        onClick={() => {props.onToggleOpen(restaurant)}}/>
+        /* icon={restaurantMarker} */
+        onClick={() => {props.onToggleOpen(restaurant)}}
+        animation={animation} 
+        />
   });
   
   return (
-    <GoogleMap defaultZoom={14} defaultCenter={props.userPos} center={props.mapCenter}>
+    <GoogleMap defaultZoom={14} defaultCenter={props.userPos} center={props.mapCenter.coords}>
         <Marker title={"current position..."} icon={userMarker} position={props.userPos} zIndex={121} animation={google.maps.Animation.BOUNCE}>
         </Marker>
         {markers}

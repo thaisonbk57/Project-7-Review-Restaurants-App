@@ -15,7 +15,7 @@ class Restaurant extends React.Component {
   }
 
   toggleDynamicInfoHandler = (e) => {
-    this.props.updateMapCenter(this.props.info.geometry.location);
+    this.props.updateMapCenter(this.props.info.geometry.location, this.props.info.place_id);
     this.setState((prevState, props)=> {
       return {
         showDynamicInfo: !prevState.showDynamicInfo
@@ -52,7 +52,7 @@ class Restaurant extends React.Component {
 
 const mapDispatch = dispatch => {
   return {
-    updateMapCenter: (coords) => {dispatch(updateMapCenter(coords))}
+    updateMapCenter: (coords, place_id) => {dispatch(updateMapCenter(coords, place_id))}
   }
 }
 

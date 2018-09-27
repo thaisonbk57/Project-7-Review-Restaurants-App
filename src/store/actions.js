@@ -82,9 +82,10 @@ export const addComment = (commentObject, targetRestaurant) => {
 }
 
 // update the mapCenter
-export const updateMapCenter = (coords) => ({
+export const updateMapCenter = (coords, place_id) => ({
     type: UPDATE_MAP_CENTER,
     payload: {
-        coords
+        coords,
+        place_id
     }
 })

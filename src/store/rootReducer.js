@@ -23,7 +23,10 @@ const initState = {
     },
     activeCommentForm: false, // if true, then the comment from will pop up.
     activeRestaurant: "", // here will be the PLACE_ID of the active restaurant that is goona receive new comment,
-    mapCenter: {},
+    mapCenter: {
+        coords: {},
+        place_id: '' // if user clicked on a restaurant, we compare the the clicked restaurant and the place_id to add BOUNCE anumation effect to the markers.
+    },
 };
 
 
@@ -34,7 +37,7 @@ export default function rootReducer(state = initState, action) {
             return {
                 ...state,
                 userPos: action.payload.position,
-                mapCenter: action.payload.position // default mapCenter is the position of User
+                mapCenter: {...state.mapCenter, coords: action.payload.position} // default mapCenter is the position of User
             }
         case SAVE_RESTAURANT_IDs:
             return {
@@ -89,7 +92,7 @@ export default function rootReducer(state = initState, action) {
         case UPDATE_MAP_CENTER:
             return {
                 ...state,
-                mapCenter: action.payload.coords
+                mapCenter: {...state.mapCenter,coords: {...state.mapCenter.coords, lat: action.payload.coords.lat, lng: action.payload.coords.lng}, place_id: action.payload.place_id}
             }
         default:
             return state;
