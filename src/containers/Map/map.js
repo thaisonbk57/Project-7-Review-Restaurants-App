@@ -10,9 +10,9 @@ import {
 } from "react-google-maps";
 import {connect} from 'react-redux';
 import {compose, withStateHandlers} from 'recompose';
-import {TEMP_API_KEY} from './../App';
+import Carousel from './Carousel/Carousel';
 const userMarker= require("./../../img/user.png");
-const restaurantMarker = require("./../../img/restaurant.png");
+// const restaurantMarker = require("./../../img/restaurant.png");
 
 // Using compose from 'recompose' to combine all HOC into one.
 const MyMapComponent = compose(
@@ -35,7 +35,7 @@ const MyMapComponent = compose(
     withGoogleMap
   )(props => {
     const markers = props.restaurantsInRange.map(restaurant => {
-      const animation = restaurant.place_id == props.mapCenter.place_id ? google.maps.Animation.BOUNCE : null;
+      const animation = restaurant.place_id === props.mapCenter.place_id ? google.maps.Animation.BOUNCE : null;
       // const color = restaurant.place_id == props.mapCenter.place_id ? 'green' : null;
       return <Marker 
         key={restaurant.place_id}
@@ -62,7 +62,8 @@ const MyMapComponent = compose(
             <h3>{props.currentRestaurant.name}</h3>
             <p>{props.currentRestaurant.formatted_address}</p>
             <a href={`tel:${props.currentRestaurant.formatted_phone_number}`}>{props.currentRestaurant.formatted_phone_number}</a> <br/>
-            <img className='d-block mw-100' src={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${props.currentRestaurant.photos[0].photo_reference}&key=${TEMP_API_KEY}`} alt={`${props.currentRestaurant.name}`}/>
+
+            <Carousel restaurantName={props.currentRestaurant.name} allPhotos={props.currentRestaurant.photos} />
           </div>
         </InfoWindow>}
     </GoogleMap>
