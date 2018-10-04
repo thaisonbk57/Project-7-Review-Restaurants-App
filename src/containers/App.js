@@ -10,7 +10,6 @@ import {
   filterRestaurants
 } from './../store/actions';
 import gmaps from '@google/maps';
-import './App.css';
 import { API_KEY } from './../store/actions';
 import AddCommentForm from './addCommentForm/index';
 import MapContainer from './Map/mapContainer';
@@ -120,7 +119,7 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App container my-3 border rounded border-success">
+      <div className="App container my-3 border rounded border-primary">
         <div className="row">
           <div className="col-12 px-0">
             <Header />

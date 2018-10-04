@@ -1,3 +1,9 @@
 .Header {
   height: 150px;
+  background-color: #130f40;
+}
+.heading-primary {
+  font-family: 'Abril Fatface', cursive;
+  font-size: 70px;
+  letter-spacing: 4px;
 }

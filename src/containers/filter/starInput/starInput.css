@@ -5,9 +5,9 @@
   display: inline-block;
 }
 
-.Filter-stars input[type="radio"] {
+.Filter-stars input[type='radio'] {
   display: none;
-} 
+}
 
 .Filter-stars label {
   display: inline-block;
@@ -16,8 +16,8 @@
   cursor: pointer;
 }
 .Filter-stars label:hover::after,
-.Filter-stars label:hover~label::after {
-  color: orangered;
+.Filter-stars label:hover ~ label::after {
+  color: #999999;
 }
 
 .Filter-stars label::after {
@@ -32,10 +32,10 @@
   font-size: 20px;
   line-height: 25px;
   text-align: center;
-  -webkit-transition: all .25s;
-  transition: all .25s
+  -webkit-transition: all 0.25s;
+  transition: all 0.25s;
 }
 
-.Filter-stars input[type="radio"]:checked~label::after {
-  color: orangered;
+.Filter-stars input[type='radio']:checked ~ label::after {
+  color: #fff;
 }

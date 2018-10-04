@@ -3,3 +3,8 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+
+.restaurant {
+  background-color: #2c2c54;
+  color: #ddd;
+}

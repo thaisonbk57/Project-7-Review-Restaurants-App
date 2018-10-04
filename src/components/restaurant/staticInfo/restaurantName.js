@@ -1,11 +1,7 @@
-import React from "react";
+import React from 'react';
 
 function restaurantName(props) {
-  return (
-    <h5 className="display-5 text-uppercase">
-      {props.restaurantName}
-    </h5>
-  )
+  return <h5 className="display-5 font-weight-bold">{props.restaurantName}</h5>;
 }
 
 export default restaurantName;

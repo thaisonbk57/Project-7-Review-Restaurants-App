@@ -6,7 +6,7 @@ import './restaurantList.css';
 class RestaurantList extends Component {
   render() {
     return (
-      <div className="RestaurantsList bg-success">
+      <div className="RestaurantsList bg-secondary">
         {this.props.restaurantsInRange
           .sort((a, b) => {
             return b.rating - a.rating;

@@ -1,21 +1,20 @@
-import React, {Component} from "react";
-import {connect} from "react-redux";
-import {updateFilterObject,filterRestaurants} from "./../../store/actions";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { updateFilterObject, filterRestaurants } from './../../store/actions';
 import FilterStar from './starInput/starInput';
-
 
 class Filter extends Component {
   constructor(props) {
     super(props);
-    this.state ={
+    this.state = {
       star: {
         from: 1,
         to: 5
       }
-    }
+    };
   }
 
-  onChangeHandler = (e) => {
+  onChangeHandler = e => {
     let target = e.target;
     let stars = target.value;
     this.setState((prevState, props) => {
@@ -24,9 +23,9 @@ class Filter extends Component {
           ...prevState.star,
           from: stars
         }
-      }
+      };
     });
-  }
+  };
 
   componentDidUpdate() {
     this.props.updateFilter(this.state.star);
@@ -35,26 +34,31 @@ class Filter extends Component {
 
   render() {
     return (
-      <div className="h-100 bg-warning">
+      <div className="h-100">
         <div className="text-center p-5 h-100">
-          <FilterStar onchange={this.onChangeHandler}/>
+          <FilterStar onchange={this.onChangeHandler} />
         </div>
       </div>
-    );  
+    );
   }
 }
 
 const mapState = state => {
-  return {
-
-  }
-}
+  return {};
+};
 
 const mapDispatch = dispatch => {
   return {
-    updateFilter: (filterObj) => {dispatch(updateFilterObject(filterObj))},
-    filterRestaurants: (filterObj) => {dispatch(filterRestaurants(filterObj))}
-  }
-}
+    updateFilter: filterObj => {
+      dispatch(updateFilterObject(filterObj));
+    },
+    filterRestaurants: filterObj => {
+      dispatch(filterRestaurants(filterObj));
+    }
+  };
+};
 
-export default connect(mapState, mapDispatch)(Filter);
+export default connect(
+  mapState,
+  mapDispatch
+)(Filter);
