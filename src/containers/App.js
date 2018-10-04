@@ -1,3 +1,5 @@
+/*global google*/
+
 import React, { Component } from 'react';
 import Header from '../components/header/Header';
 import RestaurantList from './restaurantList/restaurantList';
@@ -48,7 +50,7 @@ class App extends Component {
           googleMapsClient.placesNearby(
             {
               location: this.props.userPos,
-              radius: 3000,
+              radius: 2000,
               type: 'restaurant'
             },
             (err, response) => {
@@ -79,6 +81,7 @@ class App extends Component {
                           rating,
                           reviews
                         } = result;
+
                         const restaurant = {
                           formatted_address,
                           photos,
