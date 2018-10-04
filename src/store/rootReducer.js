@@ -7,14 +7,17 @@ import {
     OPEN_COMMENT_FORM,
     ADD_COMMENT,
     SAVE_REVIEWS,
-    UPDATE_MAP_CENTER
+    UPDATE_MAP_CENTER,
+    UPDATE_MAP_BOUNDS
 } from "./actions";
 
 
 const initState = {
     allRestaurants: [],
     allReviews: {},
+    mapBounds: {},
     restaurantsInRange: [],
+    restaurantsInBounds: [],
     allRestaurantIDs: [],
     userPos:{},
     filterObject: { // use to filter the  restaurant in range from X stars to Y stars
@@ -94,6 +97,11 @@ export default function rootReducer(state = initState, action) {
                 ...state,
                 mapCenter: {...state.mapCenter,coords: {...state.mapCenter.coords, lat: action.payload.coords.lat, lng: action.payload.coords.lng}, place_id: action.payload.place_id}
             }
+        case UPDATE_MAP_BOUNDS:
+        return {
+            ...state,
+            mapBounds: action.payload.bounds
+        }
         default:
             return state;
     }

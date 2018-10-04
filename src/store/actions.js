@@ -10,6 +10,8 @@ export const UPDATE_FILTER_OBJECT = "UPDATE_FILTER_OBJECT";
 export const OPEN_COMMENT_FORM = "OPEN_COMMENT_FORM";
 export const ADD_COMMENT = "ADD_COMMENT";
 export const UPDATE_MAP_CENTER = "UPDATE_MAP_CENTER";
+export const UPDATE_MAP_BOUNDS = "UPDATE_MAP_BOUNDS";
+export const UPDATE_RESTAURANTS_IN_BOUNDS = "UPDATE_RESTAURANTS_IN_BOUNDS";
 // SAVE user' position.
 export const saveUserPosition = position => {
     return {
@@ -89,3 +91,19 @@ export const updateMapCenter = (coords, place_id) => ({
         place_id
     }
 })
+
+export const updateMapBounds = (bounds) => ({
+    type: UPDATE_MAP_BOUNDS,
+    payload: {
+        bounds
+    }
+})
+
+export const updateRestaurantsInBounds = (bounds) => {
+    return {
+        type: UPDATE_RESTAURANTS_IN_BOUNDS,
+        payload: {
+
+        }
+    }
+}

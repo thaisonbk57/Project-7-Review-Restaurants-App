@@ -1,87 +1,142 @@
 /*global google*/
 
-import React from "react";
+import React from 'react';
 import {
   withScriptjs,
   withGoogleMap,
   GoogleMap,
   Marker,
   InfoWindow
-} from "react-google-maps";
-import {connect} from 'react-redux';
-import {compose, withStateHandlers} from 'recompose';
+} from 'react-google-maps';
+import { connect } from 'react-redux';
+import { compose, withStateHandlers } from 'recompose';
+import { updateMapBounds } from './../../store/actions';
 import Carousel from './Carousel/Carousel';
-const userMarker= require("./../../img/user.png");
+const userMarker = require('./../../img/user.png');
 // const restaurantMarker = require("./../../img/restaurant.png");
 
 // Using compose from 'recompose' to combine all HOC into one.
 const MyMapComponent = compose(
-    withStateHandlers(()=> ({
-      infoBoxShown: false,
-      currentRestaurant: {}
-    }), {
-      onToggleOpen: (props) => (restaurant) => ({
+  withStateHandlers(
+    () => ({
+      infoBoxShown: false, // if true, a InfoWindow will be shown, displaying informations of the current restaurant.
+      currentRestaurant: {},
+      map: undefined, // boundaries of the map. Used to filter the restaurant in bounds.
+      restaurantsInBounds: []
+    }),
+    {
+      onToggleOpen: props => restaurant => ({
         // this is a method, when user click on a marker, it will change the infoBoxShown to true, so display the InfoWindow related to the restaurant.
         infoBoxShown: true,
         // user clicks on a marker, the currentRestaurant will be set to the corresponding restaurant. And based on this currentRestaurant, we will have the infomation to display inside the InfoWindow.
         currentRestaurant: restaurant
       }),
-      closeInfoWindow: (props) => () => ({
+      closeInfoWindow: props => () => ({
         // InfoWindow component has a close X  button. When use clicks on that. The InfoWindow will disappear
         infoBoxShown: false
-      })
-    }),
-    withScriptjs, 
-    withGoogleMap
-  )(props => {
-    const markers = props.restaurantsInRange.map(restaurant => {
-      const animation = restaurant.place_id === props.mapCenter.place_id ? google.maps.Animation.BOUNCE : null;
-      // const color = restaurant.place_id == props.mapCenter.place_id ? 'green' : null;
-      return <Marker 
+      }),
+      onMapMounted: props => ref => {
+        return {
+          map: ref
+        };
+      }
+    }
+  ),
+  withScriptjs,
+  withGoogleMap
+)(props => {
+  const markers = props.restaurantsInRange.map(restaurant => {
+    const animation =
+      restaurant.place_id === props.mapCenter.place_id
+        ? google.maps.Animation.BOUNCE
+        : null;
+    return (
+      <Marker
         key={restaurant.place_id}
         label={{
-          text: ''+ restaurant.rating,
-          color: "black",
-          fontSize: "16px"
-        }} 
-        position={restaurant.geometry.location} 
-        /* icon={restaurantMarker} */
-        onClick={() => {props.onToggleOpen(restaurant)}}
-        animation={animation} 
-        />
+          text: '' + restaurant.rating,
+          color: 'black',
+          fontSize: '16px'
+        }}
+        position={restaurant.geometry.location}
+        onClick={() => {
+          props.onToggleOpen(restaurant);
+        }}
+        animation={animation}
+      />
+    );
   });
-  
+
   return (
-    <GoogleMap defaultZoom={14} defaultCenter={props.userPos} center={props.mapCenter.coords}>
-        <Marker title={"current position..."} icon={userMarker} position={props.userPos} zIndex={121} animation={google.maps.Animation.BOUNCE}>
-        </Marker>
-        {markers}
-        {props.infoBoxShown && <InfoWindow defaultPosition={props.userPos} position={props.currentRestaurant.geometry.location}  
-        onCloseClick={() => {props.closeInfoWindow()}} >
-          <div style={{maxWidth: 300}}>
+    <GoogleMap
+      defaultZoom={14}
+      defaultCenter={props.userPos}
+      center={props.mapCenter.coords}
+      ref={ref => {
+        props.onMapMounted(ref);
+      }}
+      onCenterChanged={() => {
+        let bounds = props.map.getBounds();
+        props.updateMapBounds(bounds);
+      }}
+      onZoomChanged={() => {
+        let bounds = props.map.getBounds();
+        props.updateMapBounds(bounds);
+      }}
+    >
+      <Marker
+        title={'current position...'}
+        icon={userMarker}
+        position={props.userPos}
+        zIndex={121}
+        animation={google.maps.Animation.BOUNCE}
+      />
+
+      {markers}
+
+      {props.infoBoxShown && (
+        <InfoWindow
+          defaultPosition={props.userPos}
+          position={props.currentRestaurant.geometry.location}
+          onCloseClick={() => {
+            props.closeInfoWindow();
+          }}
+        >
+          <div style={{ maxWidth: 300 }}>
             <h3>{props.currentRestaurant.name}</h3>
             <p>{props.currentRestaurant.formatted_address}</p>
-            <a href={`tel:${props.currentRestaurant.formatted_phone_number}`}>{props.currentRestaurant.formatted_phone_number}</a> <br/>
-
-            <Carousel restaurantName={props.currentRestaurant.name} allPhotos={props.currentRestaurant.photos} />
+            <a href={`tel:${props.currentRestaurant.formatted_phone_number}`}>
+              {props.currentRestaurant.formatted_phone_number}
+            </a>{' '}
+            <br />
+            <Carousel
+              restaurantName={props.currentRestaurant.name}
+              allPhotos={props.currentRestaurant.photos}
+            />
           </div>
-        </InfoWindow>}
+        </InfoWindow>
+      )}
     </GoogleMap>
-  )
-})
+  );
+});
 
 const mapState = state => {
   return {
     restaurantsInRange: state.restaurantsInRange,
     userPos: state.userPos,
     mapCenter: state.mapCenter
-  }
+  };
 };
 
 const mapDispatch = dispatch => {
   return {
-
-  }
+    updateMapBounds: bounds => {
+      dispatch(updateMapBounds(bounds));
+    }
+  };
 };
 
-export default connect(mapState, mapDispatch)(MyMapComponent);
+export default connect(
+  mapState,
+  mapDispatch
+)(MyMapComponent);
