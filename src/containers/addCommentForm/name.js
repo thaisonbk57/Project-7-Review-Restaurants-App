@@ -1,12 +1,16 @@
-import React from "react";
+import React from 'react';
 
 const name = props => {
   return (
-    <input 
-      name="author" 
-      type="text" 
+    <input
+      name="author"
+      type="text"
       className="form-control"
-      onChange={(e) => {props.onchange(e)}} />
+      onChange={e => {
+        props.onchange(e);
+      }}
+      required
+    />
   );
-}
+};
 export default name;

@@ -58,34 +58,31 @@ class addCommentForm extends Component {
           <div onClick={this.props.closeCommentForm} className="close-btn">
             <i class="far fa-window-close" />
           </div>
-          <div
+          <form
             autoComplete="off"
             className="AddCommentForm border border-success px-5 py-2 rounded"
             onSubmit={e => {
               this.onSubmitHandler(e);
+              this.props.addComment(
+                { ...this.state, time: getTimeStamp() },
+                this.props.targetRestaurant
+              );
             }}
           >
             <label className="text-light" htmlFor="">
-              Name:{' '}
+              Name: <span className="text-danger">*</span>
             </label>
             <Name onchange={this.onChangeHander} />
             <br />
             <RatingStar onchange={this.onChangeHander} />
             <br />
             <label className="text-light" htmlFor="">
-              Comment:{' '}
+              Comment:
             </label>
             <Comment onchange={this.onChangeHander} />
             <br />
-            <SubmitBtn
-              submit={() => {
-                this.props.addComment(
-                  { ...this.state, time: getTimeStamp() },
-                  this.props.targetRestaurant
-                );
-              }}
-            />
-          </div>
+            <SubmitBtn />
+          </form>
         </div>
       );
     }

@@ -1,11 +1,9 @@
-import React from "react";
+import React from 'react';
 
 const submitBtn = props => {
   return (
-    <button onClick={props.submit} className="btn btn-success btn-sm">
-      Submit
-    </button>
+    <input type="submit" className="btn btn-success btn-sm" value="Submit" />
   );
-}
+};
 
 export default submitBtn;
