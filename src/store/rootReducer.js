@@ -100,7 +100,7 @@ export default function rootReducer(state = initState, action) {
         activeCommentForm: false,
         allReviews: {
           ...allReviews,
-          [id]: [...allReviews[id], { ...action.payload.commentObject }]
+          [id]: [{ ...action.payload.commentObject }, ...allReviews[id]]
         }
       };
     case UPDATE_MAP_CENTER:
