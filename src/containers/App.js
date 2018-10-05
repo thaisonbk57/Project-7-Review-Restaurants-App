@@ -84,6 +84,7 @@ class App extends Component {
 
                         // if true, then user can add new review to this restaurant.
                         let reviewAddable = true;
+
                         const restaurant = {
                           formatted_address,
                           photos,

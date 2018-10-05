@@ -44,12 +44,14 @@ export default function rootReducer(state = initState, action) {
         mapCenter: { ...state.mapCenter, coords: action.payload.position } // default mapCenter is the position of User
       };
     case SAVE_RESTAURANT_IDs:
+      // the map loads new places, but we will keep only the new restaurant IDs to add to the database.
+      let newRestaurantIDs = action.payload.restaurantIDs.filter(
+        ID => state.allRestaurantIDs.indexOf(ID) === -1
+      );
+
       return {
         ...state,
-        allRestaurantIDs: [
-          ...state.allRestaurantIDs,
-          ...action.payload.restaurantIDs
-        ]
+        allRestaurantIDs: [...state.allRestaurantIDs, ...newRestaurantIDs]
       };
     case SAVE_RESTAURANT:
       return {
@@ -128,6 +130,7 @@ export default function rootReducer(state = initState, action) {
       let Index1 = state.allRestaurants.findIndex(restaurant => {
         return restaurant.place_id === ID;
       });
+      // we alse need to update the restaurants in range. Otherwise, we need to dispatch the filterRestaurants action.
       let Index2 = state.restaurantsInRange.findIndex(restaurant => {
         return restaurant.place_id === ID;
       });
