@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import Name from './name';
-import Comment from './comment';
-import SubmitBtn from './submmitBtn';
 import RatingStar from './ratingStar/ratingStar';
 import { connect } from 'react-redux';
 import './commentForm.css';
-import { addComment, closeCommentForm } from '../../store/actions';
+import {
+  addComment,
+  closeCommentForm,
+  turnOffAddCommentButton
+} from '../../store/actions';
 
 const getTimeStamp = () => {
   // this function generate unique key for each review of users
@@ -56,7 +57,7 @@ class addCommentForm extends Component {
       form = (
         <div className="form-backdrop">
           <div onClick={this.props.closeCommentForm} className="close-btn">
-            <i class="far fa-window-close" />
+            <i className="far fa-window-close" />
           </div>
           <form
             autoComplete="off"
@@ -67,21 +68,40 @@ class addCommentForm extends Component {
                 { ...this.state, time: getTimeStamp() },
                 this.props.targetRestaurant
               );
+              this.props.turnOffAddCommentButton(this.props.targetRestaurant);
             }}
           >
             <label className="text-light" htmlFor="">
               Name: <span className="text-danger">*</span>
             </label>
-            <Name onchange={this.onChangeHander} />
+            <input
+              name="author"
+              type="text"
+              className="form-control"
+              onChange={e => {
+                this.onChangeHander(e);
+              }}
+              required
+            />
             <br />
             <RatingStar onchange={this.onChangeHander} />
             <br />
             <label className="text-light" htmlFor="">
               Comment:
             </label>
-            <Comment onchange={this.onChangeHander} />
+            <textarea
+              className="form-control"
+              name="comment_text"
+              onChange={e => {
+                this.onChangeHander(e);
+              }}
+            />
             <br />
-            <SubmitBtn />
+            <input
+              type="submit"
+              className="btn btn-success btn-sm"
+              value="Submit"
+            />
           </form>
         </div>
       );
@@ -104,6 +124,9 @@ const mapDispatch = dispatch => {
     },
     closeCommentForm: () => {
       dispatch(closeCommentForm());
+    },
+    turnOffAddCommentButton: activeRestaurant => {
+      dispatch(turnOffAddCommentButton(activeRestaurant));
     }
   };
 };

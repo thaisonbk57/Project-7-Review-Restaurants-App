@@ -13,6 +13,8 @@ export const UPDATE_MAP_CENTER = 'UPDATE_MAP_CENTER';
 export const UPDATE_MAP_BOUNDS = 'UPDATE_MAP_BOUNDS';
 export const UPDATE_RESTAURANTS_IN_BOUNDS = 'UPDATE_RESTAURANTS_IN_BOUNDS';
 export const CLOSE_COMMENT_FORM = 'CLOSE_COMMENT_FORM';
+export const TURN_OFF_ADD_COMMENT_BUTTON = 'TURN_OFF_ADD_COMMENT_BUTTON';
+
 // SAVE user' position.
 export const saveUserPosition = position => {
   return {
@@ -107,5 +109,14 @@ export const updateRestaurantsInBounds = bounds => {
   return {
     type: UPDATE_RESTAURANTS_IN_BOUNDS,
     payload: {}
+  };
+};
+
+export const turnOffAddCommentButton = targetRestaurant => {
+  return {
+    type: TURN_OFF_ADD_COMMENT_BUTTON,
+    payload: {
+      targetRestaurant
+    }
   };
 };

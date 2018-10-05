@@ -33,6 +33,7 @@ class Restaurant extends React.Component {
         <DynamicInfo
           reviews={this.props.reviews}
           place_id={this.props.info.place_id}
+          reviewAddable={this.props.info.reviewAddable}
           photo={`https://maps.googleapis.com/maps/api/streetview?size=400x400&location=${
             this.props.info.geometry.location.lat
           },${

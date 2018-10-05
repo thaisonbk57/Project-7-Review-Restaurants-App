@@ -9,7 +9,8 @@ import {
   SAVE_REVIEWS,
   UPDATE_MAP_CENTER,
   UPDATE_MAP_BOUNDS,
-  CLOSE_COMMENT_FORM
+  CLOSE_COMMENT_FORM,
+  TURN_OFF_ADD_COMMENT_BUTTON
 } from './actions';
 
 const initState = {
@@ -120,6 +121,24 @@ export default function rootReducer(state = initState, action) {
       return {
         ...state,
         mapBounds: action.payload.bounds
+      };
+    case TURN_OFF_ADD_COMMENT_BUTTON:
+      let ID = action.payload.targetRestaurant;
+      // find the index of the targetRestaurant, inorder to update the atrribute reviewAddable of it.
+      let Index = state.allRestaurants.findIndex(restaurant => {
+        return restaurant.place_id === ID;
+      });
+      let allRestaurants = [...state.allRestaurants];
+      return {
+        ...state,
+        allRestaurants: [
+          ...allRestaurants.slice(0, Index),
+          {
+            ...allRestaurants[Index],
+            reviewAddable: false
+          },
+          allRestaurants.slice(Index)
+        ]
       };
     default:
       return state;

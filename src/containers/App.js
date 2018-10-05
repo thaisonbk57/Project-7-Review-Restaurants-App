@@ -82,6 +82,8 @@ class App extends Component {
                           reviews
                         } = result;
 
+                        // if true, then user can add new review to this restaurant.
+                        let reviewAddable = true;
                         const restaurant = {
                           formatted_address,
                           photos,
@@ -89,7 +91,8 @@ class App extends Component {
                           geometry,
                           name,
                           place_id,
-                          rating
+                          rating,
+                          reviewAddable
                         };
 
                         // save Restaurants
