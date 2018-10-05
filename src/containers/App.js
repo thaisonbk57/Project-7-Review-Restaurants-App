@@ -14,7 +14,7 @@ import {
 import gmaps from '@google/maps';
 import { API_KEY } from './../store/actions';
 import AddCommentForm from './addCommentForm/index';
-import MapContainer from './Map/mapContainer';
+import Map from './Map/map';
 
 export const TEMP_API_KEY = 'AIzaSyCuMV8HTZCAxl1GN1VNKOYMUn2_DUttqcs';
 
@@ -134,7 +134,7 @@ class App extends Component {
         </div>
         <div className="row">
           <div className="col-9 px-0" style={{ position: 'relative' }}>
-            <MapContainer />
+            <Map />
           </div>
           <div className="col-3 px-0">
             <RestaurantList />

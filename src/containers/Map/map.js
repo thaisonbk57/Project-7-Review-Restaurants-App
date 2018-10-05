@@ -9,7 +9,7 @@ import {
   InfoWindow
 } from 'react-google-maps';
 import { connect } from 'react-redux';
-import { compose, withStateHandlers } from 'recompose';
+import { compose, withStateHandlers, withProps } from 'recompose';
 import { updateMapBounds } from './../../store/actions';
 import Carousel from './Carousel/Carousel';
 const userMarker = require('./../../img/user.png');
@@ -17,6 +17,13 @@ const userMarker = require('./../../img/user.png');
 
 // Using compose from 'recompose' to combine all HOC into one.
 const MyMapComponent = compose(
+  withProps({
+    googleMapURL:
+      'https://maps.googleapis.com/maps/api/js?key=AIzaSyCuMV8HTZCAxl1GN1VNKOYMUn2_DUttqcs&v=3.exp&libraries=geometry,drawing,places',
+    loadingElement: <div style={{ height: `100%` }} />,
+    containerElement: <div style={{ height: `calc(100vh - 180px)` }} />,
+    mapElement: <div style={{ height: `100%` }} />
+  }),
   withStateHandlers(
     () => ({
       infoBoxShown: false, // if true, a InfoWindow will be shown, displaying informations of the current restaurant.
