@@ -5,7 +5,7 @@ import SubmitBtn from './submmitBtn';
 import RatingStar from './ratingStar/ratingStar';
 import { connect } from 'react-redux';
 import './commentForm.css';
-import { addComment } from '../../store/actions';
+import { addComment, closeCommentForm } from '../../store/actions';
 
 const getTimeStamp = () => {
   // this function generate unique key for each review of users
@@ -55,7 +55,7 @@ class addCommentForm extends Component {
     if (this.props.active) {
       form = (
         <div className="form-backdrop">
-          <div className="close-btn">
+          <div onClick={this.props.closeCommentForm} className="close-btn">
             <i class="far fa-window-close" />
           </div>
           <div
@@ -104,6 +104,9 @@ const mapDispatch = dispatch => {
   return {
     addComment: (commentObject, targetRestaurant) => {
       dispatch(addComment(commentObject, targetRestaurant));
+    },
+    closeCommentForm: () => {
+      dispatch(closeCommentForm());
     }
   };
 };
