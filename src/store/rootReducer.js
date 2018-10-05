@@ -125,19 +125,30 @@ export default function rootReducer(state = initState, action) {
     case TURN_OFF_ADD_COMMENT_BUTTON:
       let ID = action.payload.targetRestaurant;
       // find the index of the targetRestaurant, inorder to update the atrribute reviewAddable of it.
-      let Index = state.allRestaurants.findIndex(restaurant => {
+      let Index1 = state.allRestaurants.findIndex(restaurant => {
         return restaurant.place_id === ID;
       });
-      let allRestaurants = [...state.allRestaurants];
+      let Index2 = state.restaurantsInRange.findIndex(restaurant => {
+        return restaurant.place_id === ID;
+      });
+
       return {
         ...state,
         allRestaurants: [
-          ...allRestaurants.slice(0, Index),
+          ...state.allRestaurants.slice(0, Index1),
           {
-            ...allRestaurants[Index],
+            ...state.allRestaurants[Index1],
             reviewAddable: false
           },
-          allRestaurants.slice(Index)
+          ...state.allRestaurants.slice(Index1 + 1)
+        ],
+        restaurantsInRange: [
+          ...state.restaurantsInRange.slice(0, Index2),
+          {
+            ...state.restaurantsInRange[Index2],
+            reviewAddable: false
+          },
+          ...state.restaurantsInRange.slice(Index2 + 1)
         ]
       };
     default:

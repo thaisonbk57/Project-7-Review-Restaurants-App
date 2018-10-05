@@ -126,6 +126,7 @@ const mapDispatch = dispatch => {
       dispatch(closeCommentForm());
     },
     turnOffAddCommentButton: activeRestaurant => {
+      console.log(activeRestaurant);
       dispatch(turnOffAddCommentButton(activeRestaurant));
     }
   };
