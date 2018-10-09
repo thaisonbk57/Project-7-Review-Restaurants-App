@@ -1,22 +1,22 @@
 /*global google*/
 
-import React, { Component } from 'react';
-import Header from '../components/header/Header';
-import RestaurantList from './restaurantList/restaurantList';
-import { connect } from 'react-redux';
+import React, { Component } from "react";
+import Header from "../components/header/Header";
+import RestaurantList from "./restaurantList/restaurantList";
+import { connect } from "react-redux";
 import {
   saveRestaurantIDs,
   saveRestaurant,
   saveReviews,
   saveUserPosition,
   filterRestaurants
-} from './../store/actions';
-import gmaps from '@google/maps';
-import { API_KEY } from './../store/actions';
-import AddCommentForm from './addCommentForm/index';
-import Map from './Map/map';
+} from "./../store/actions";
+import gmaps from "@google/maps";
+import { API_KEY } from "./../store/actions";
+import AddCommentForm from "./addCommentForm/index";
+import Map from "./Map/map";
 
-export const TEMP_API_KEY = 'AIzaSyCuMV8HTZCAxl1GN1VNKOYMUn2_DUttqcs';
+export const TEMP_API_KEY = "AIzaSyCuMV8HTZCAxl1GN1VNKOYMUn2_DUttqcs";
 
 // Create an object googleMapsClient using @google/maps library
 const googleMapsClient = gmaps.createClient({
@@ -31,7 +31,7 @@ class App extends Component {
       timeout: 30000
     };
     const err = () => {
-      window.alert('Oops. Something went wrong!');
+      window.alert("Oops. Something went wrong!");
     };
     if (window.navigator.geolocation) {
       /* Geolocation is supported */
@@ -51,7 +51,7 @@ class App extends Component {
             {
               location: this.props.userPos,
               radius: 2000,
-              type: 'restaurant'
+              type: "restaurant"
             },
             (err, response) => {
               if (!err) {
@@ -110,7 +110,7 @@ class App extends Component {
                   );
                 });
               } else {
-                console.log('ERROR', err);
+                console.log("ERROR", err);
               }
             }
           );
@@ -120,7 +120,7 @@ class App extends Component {
       );
     } else {
       /* Geolocation not supported. */
-      window.alert('Your device is not supported.');
+      window.alert("Your device is not supported.");
     }
   };
 
@@ -133,7 +133,7 @@ class App extends Component {
           </div>
         </div>
         <div className="row">
-          <div className="col-9 px-0" style={{ position: 'relative' }}>
+          <div className="col-9 px-0" style={{ position: "relative" }}>
             <Map />
           </div>
           <div className="col-3 px-0">
