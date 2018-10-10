@@ -144,7 +144,7 @@ class App extends Component {
         <div className="row">
           <div className="col-12">
             <AddCommentForm />
-            <AddRestaurantForm />
+            {this.props.active && <AddRestaurantForm />}
           </div>
         </div>
       </div>
@@ -156,7 +156,8 @@ function mapState(state) {
   return {
     userPos: state.userPos,
     allRestaurantIDs: state.allRestaurantIDs,
-    filterObject: state.filterObject
+    filterObject: state.filterObject,
+    active: state.activeAddRestaurantForm
   };
 }
 

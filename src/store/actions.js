@@ -18,9 +18,12 @@ export const TURN_OFF_ADD_COMMENT_BUTTON = 'TURN_OFF_ADD_COMMENT_BUTTON';
 export const UPDATE_MAP_CENTER_FOR_FETCHING_RESTAURANTS =
   'UPDATE_MAP_CENTER_FOR_FETCHING_RESTAURANTS';
 export const GET_NEW_RESTAURANT_LOCATION = 'GET_NEW_RESTAURANT_LOCATION';
+export const INITIALIZE_REVIEWS_FOR_NEW_RESTAURANT =
+  'INITIALIZE_REVIEWS_FOR_NEW_RESTAURANT';
 
 // SAVE user' position.
 export const saveUserPosition = position => {
+  // @position : Object
   return {
     type: SAVE_USER_POSITION,
     payload: { position }
@@ -29,6 +32,7 @@ export const saveUserPosition = position => {
 
 // SAVE restaurant IDs (place_id)
 export const saveRestaurantIDs = restaurantIDs => {
+  // @restaurantIDs : Array
   return {
     type: SAVE_RESTAURANT_IDs,
     payload: { restaurantIDs }
@@ -37,6 +41,7 @@ export const saveRestaurantIDs = restaurantIDs => {
 
 // FILTER out restaurants that are not in range (from X stars to Y stars)
 export const filterRestaurants = filterObject => {
+  // @ filterObject : Object
   return {
     type: FILTER_RESTAURANTS,
     payload: { filterObject }
@@ -45,6 +50,7 @@ export const filterRestaurants = filterObject => {
 
 // SAVE restaurant details returned from google place detail API and update the store
 export const saveRestaurant = restaurant => {
+  // @ restaurant : Object
   return {
     type: SAVE_RESTAURANT,
     payload: { restaurant }
@@ -53,6 +59,8 @@ export const saveRestaurant = restaurant => {
 
 // SAVE review separated, because we dont want to have too much nested array / objects in our rootReducer.
 export const saveReviews = (place_id, reviews) => {
+  // @place_id : string
+  // @reviews : array
   return {
     type: SAVE_REVIEWS,
     payload: {
@@ -145,6 +153,15 @@ export const getNewRestaurantLocation = location => {
     type: GET_NEW_RESTAURANT_LOCATION,
     payload: {
       location
+    }
+  };
+};
+
+export const initializeReviewsForNewRestaurant = place_id => {
+  return {
+    type: INITIALIZE_REVIEWS_FOR_NEW_RESTAURANT,
+    payload: {
+      place_id
     }
   };
 };

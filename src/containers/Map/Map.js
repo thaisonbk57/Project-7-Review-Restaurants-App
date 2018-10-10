@@ -105,11 +105,11 @@ const MyMapComponent = compose(
       onCenterChanged={() => {
         let bounds = map.getBounds();
         props.updateMapBounds(bounds);
-        // @TODO: check the geocode function
-        const geocoder = new google.maps.Geocoder();
-        geocoder.geocode({ location: userPos }, (result, status) => {
-          console.log(result, status);
-        });
+        // // @TODO: check the geocode function
+        // const geocoder = new google.maps.Geocoder();
+        // geocoder.geocode({ location: userPos }, (result, status) => {
+        //   console.log(result, status);
+        // });
 
         if (map) {
           props.updateMapCenterForFetchingRestaurants(map.getCenter());

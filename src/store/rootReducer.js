@@ -13,7 +13,8 @@ import {
   TURN_OFF_ADD_COMMENT_BUTTON,
   UPDATE_MAP_CENTER_FOR_FETCHING_RESTAURANTS,
   TOGGLE_ADD_RESTAURANT_FORM,
-  GET_NEW_RESTAURANT_LOCATION
+  GET_NEW_RESTAURANT_LOCATION,
+  INITIALIZE_REVIEWS_FOR_NEW_RESTAURANT
 } from './actions';
 
 const initState = {
@@ -37,7 +38,7 @@ const initState = {
     place_id: '' // if user clicked on a restaurant, we compare the the clicked restaurant and the place_id to add BOUNCE animation effect to the markers.
   },
   mapCenterForFetchingRestaurants: {},
-  newRestaurantLocation: { lat: null, lng: null }
+  newRestaurantLocation: null
 };
 
 export default function rootReducer(state = initState, action) {
@@ -176,6 +177,14 @@ export default function rootReducer(state = initState, action) {
       return {
         ...state,
         newRestaurantLocation: action.payload.location
+      };
+    case INITIALIZE_REVIEWS_FOR_NEW_RESTAURANT:
+      return {
+        ...state,
+        allReviews: {
+          ...state.allReviews,
+          [action.payload.place_id]: []
+        }
       };
     default:
       return state;
