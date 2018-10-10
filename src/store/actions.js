@@ -7,12 +7,13 @@ export const SAVE_REVIEWS = 'SAVE_REVIEWS';
 export const SAVE_RESTAURANT_IDs = 'SAVE_RESTAURANT_ID';
 export const FILTER_RESTAURANTS = 'FILTER_RESTAURANT';
 export const UPDATE_FILTER_OBJECT = 'UPDATE_FILTER_OBJECT';
+export const CLOSE_COMMENT_FORM = 'CLOSE_COMMENT_FORM';
 export const OPEN_COMMENT_FORM = 'OPEN_COMMENT_FORM';
+export const TOGGLE_ADD_RESTAURANT_FORM = 'TOGGLE_ADD_RESTAURANT_FORM';
 export const ADD_COMMENT = 'ADD_COMMENT';
 export const UPDATE_MAP_CENTER = 'UPDATE_MAP_CENTER';
 export const UPDATE_MAP_BOUNDS = 'UPDATE_MAP_BOUNDS';
 export const UPDATE_RESTAURANTS_IN_BOUNDS = 'UPDATE_RESTAURANTS_IN_BOUNDS';
-export const CLOSE_COMMENT_FORM = 'CLOSE_COMMENT_FORM';
 export const TURN_OFF_ADD_COMMENT_BUTTON = 'TURN_OFF_ADD_COMMENT_BUTTON';
 export const UPDATE_MAP_CENTER_FOR_FETCHING_RESTAURANTS =
   'UPDATE_MAP_CENTER_FOR_FETCHING_RESTAURANTS';
@@ -77,6 +78,12 @@ export const openCommentForm = place_id => {
 export const closeCommentForm = () => {
   return {
     type: CLOSE_COMMENT_FORM
+  };
+};
+
+export const toggleAddRestaurantForm = () => {
+  return {
+    type: TOGGLE_ADD_RESTAURANT_FORM
   };
 };
 

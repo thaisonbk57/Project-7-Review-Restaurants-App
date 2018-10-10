@@ -11,7 +11,8 @@ import {
   UPDATE_MAP_BOUNDS,
   CLOSE_COMMENT_FORM,
   TURN_OFF_ADD_COMMENT_BUTTON,
-  UPDATE_MAP_CENTER_FOR_FETCHING_RESTAURANTS
+  UPDATE_MAP_CENTER_FOR_FETCHING_RESTAURANTS,
+  TOGGLE_ADD_RESTAURANT_FORM
 } from './actions';
 
 const initState = {
@@ -28,12 +29,14 @@ const initState = {
     to: 5
   },
   activeCommentForm: false, // if true, then the comment from will pop up.
+  activeAddRestaurantForm: false,
   activeRestaurant: '', // here will be the PLACE_ID of the active restaurant that is goona receive new comment,
   mapCenter: {
     coords: {},
     place_id: '' // if user clicked on a restaurant, we compare the the clicked restaurant and the place_id to add BOUNCE animation effect to the markers.
   },
-  mapCenterForFetchingRestaurants: {}
+  mapCenterForFetchingRestaurants: {},
+  newRestaurantLocation: { lat: null, lng: null }
 };
 
 export default function rootReducer(state = initState, action) {
@@ -95,6 +98,12 @@ export default function rootReducer(state = initState, action) {
       return {
         ...state,
         activeCommentForm: false
+      };
+
+    case TOGGLE_ADD_RESTAURANT_FORM:
+      return {
+        ...state,
+        activeAddRestaurantForm: !state.activeAddRestaurantForm
       };
     case ADD_COMMENT:
       let allReviews = { ...state.allReviews };

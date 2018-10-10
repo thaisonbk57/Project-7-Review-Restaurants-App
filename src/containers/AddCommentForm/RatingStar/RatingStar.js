@@ -5,7 +5,7 @@ const rating = props => {
   const { onchange } = props;
 
   return (
-    <div className="Rating-stars form-group">
+    <div className="Rating-stars">
       <input
         onChange={e => {
           onchange(e);
