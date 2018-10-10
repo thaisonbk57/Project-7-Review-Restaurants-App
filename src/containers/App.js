@@ -1,5 +1,3 @@
-/*global google*/
-
 import React, { Component } from "react";
 import Header from "../components/header/Header";
 import RestaurantList from "./restaurantList/restaurantList";
@@ -81,7 +79,7 @@ class App extends Component {
                           rating,
                           reviews
                         } = result;
-
+                        console.log(reviews);
                         // if true, then user can add new review to this restaurant.
                         let reviewAddable = true;
 
@@ -126,7 +124,7 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App container my-3 border rounded border-primary">
+      <div className="App container-fluid mx-auto my-3 border rounded border-primary">
         <div className="row">
           <div className="col-12 px-0">
             <Header />

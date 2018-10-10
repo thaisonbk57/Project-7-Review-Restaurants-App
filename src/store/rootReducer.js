@@ -11,7 +11,7 @@ import {
   UPDATE_MAP_BOUNDS,
   CLOSE_COMMENT_FORM,
   TURN_OFF_ADD_COMMENT_BUTTON
-} from './actions';
+} from "./actions";
 
 const initState = {
   allRestaurants: [],
@@ -27,10 +27,10 @@ const initState = {
     to: 5
   },
   activeCommentForm: false, // if true, then the comment from will pop up.
-  activeRestaurant: '', // here will be the PLACE_ID of the active restaurant that is goona receive new comment,
+  activeRestaurant: "", // here will be the PLACE_ID of the active restaurant that is goona receive new comment,
   mapCenter: {
     coords: {},
-    place_id: '' // if user clicked on a restaurant, we compare the the clicked restaurant and the place_id to add BOUNCE anumation effect to the markers.
+    place_id: "" // if user clicked on a restaurant, we compare the the clicked restaurant and the place_id to add BOUNCE animation effect to the markers.
   }
 };
 
