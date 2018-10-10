@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react';
 
 const reviewText = props => {
-  const style = { fontSize: "16px" };
+  const style = { fontSize: '15px' };
   return (
     <p style={style} className="review--text text-justify">
       {props.reviewText}

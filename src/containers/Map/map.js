@@ -49,6 +49,14 @@ const MyMapComponent = compose(
         return {
           map: ref
         };
+      },
+      onRightClick: props => e => {
+        const lat = e.latLng.lat();
+        const lng = e.latLng.lng();
+        console.log({
+          lat,
+          lng
+        });
       }
     }
   ),
@@ -84,7 +92,6 @@ const MyMapComponent = compose(
       center={props.mapCenter.coords}
       ref={ref => {
         props.onMapMounted(ref);
-        console.log('Map mounted...');
       }}
       onCenterChanged={() => {
         let bounds = props.map.getBounds();
@@ -108,6 +115,9 @@ const MyMapComponent = compose(
           props.updateMapBounds(bounds);
           props.updateMapCenterForFetchingRestaurants(props.map.getCenter());
         }
+      }}
+      onRightClick={e => {
+        props.onRightClick(e);
       }}
     >
       <Marker

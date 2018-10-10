@@ -16,6 +16,7 @@ export const CLOSE_COMMENT_FORM = 'CLOSE_COMMENT_FORM';
 export const TURN_OFF_ADD_COMMENT_BUTTON = 'TURN_OFF_ADD_COMMENT_BUTTON';
 export const UPDATE_MAP_CENTER_FOR_FETCHING_RESTAURANTS =
   'UPDATE_MAP_CENTER_FOR_FETCHING_RESTAURANTS';
+export const LOAD_NEW_RESTAURANTS = 'LOAD_NEW_RESTAURANTS';
 
 // SAVE user' position.
 export const saveUserPosition = position => {
@@ -129,5 +130,11 @@ export const updateMapCenterForFetchingRestaurants = center => {
     payload: {
       center
     }
+  };
+};
+
+export const loadNewRestaurants = () => {
+  return {
+    type: LOAD_NEW_RESTAURANTS
   };
 };
