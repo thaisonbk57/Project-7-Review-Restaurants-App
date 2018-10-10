@@ -76,7 +76,7 @@ const MyMapComponent = compose(
 
   return (
     <GoogleMap
-      defaultZoom={14}
+      defaultZoom={15}
       defaultCenter={props.userPos}
       center={props.mapCenter.coords}
       ref={ref => {
