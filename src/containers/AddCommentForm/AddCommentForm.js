@@ -82,32 +82,33 @@ class addCommentForm extends Component {
               turnOffAddCommentButton(targetRestaurant);
             }}
           >
-            <label className="text-light" htmlFor="">
-              Name: <span className="text-danger">*</span>
-            </label>
-            <input
-              name="author"
-              type="text"
-              className="form-control"
-              onChange={e => {
-                this.onChangeHander(e);
-              }}
-              required
-            />
-            <br />
+            <div className="form-group">
+              <label className="text-light" htmlFor="">
+                Name: <span className="text-danger">*</span>
+              </label>
+              <input
+                name="author"
+                type="text"
+                className="form-control"
+                onChange={e => {
+                  this.onChangeHander(e);
+                }}
+                required
+              />
+            </div>
             <RatingStar onchange={this.onChangeHander} />
-            <br />
-            <label className="text-light" htmlFor="">
-              Comment:
-            </label>
-            <textarea
-              className="form-control"
-              name="comment_text"
-              onChange={e => {
-                this.onChangeHander(e);
-              }}
-            />
-            <br />
+            <div className="form-group">
+              <label className="text-light" htmlFor="">
+                Comment:
+              </label>
+              <textarea
+                className="form-control"
+                name="comment_text"
+                onChange={e => {
+                  this.onChangeHander(e);
+                }}
+              />
+            </div>
             <input
               type="submit"
               className="btn btn-success btn-sm"

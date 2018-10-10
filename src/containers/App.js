@@ -15,6 +15,7 @@ import { API_KEY } from './../store/actions';
 import Header from '../components/Header/Header';
 import RestaurantList from './RestaurantList/RestaurantList';
 import AddCommentForm from './AddCommentForm/AddCommentForm';
+import AddRestaurantForm from './AddRestaurantForm/AddRestaurantForm';
 import Map from './Map/Map';
 
 export const TEMP_API_KEY = 'AIzaSyCuMV8HTZCAxl1GN1VNKOYMUn2_DUttqcs';
@@ -143,6 +144,7 @@ class App extends Component {
         <div className="row">
           <div className="col-12">
             <AddCommentForm />
+            <AddRestaurantForm />
           </div>
         </div>
       </div>
