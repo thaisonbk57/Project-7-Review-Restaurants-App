@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import Header from '../components/header/Header';
-import RestaurantList from './restaurantList/restaurantList';
+import Header from '../components/Header/Header';
+import RestaurantList from './RestaurantList/RestaurantList';
 import { connect } from 'react-redux';
 import {
   saveRestaurantIDs,
@@ -11,8 +11,8 @@ import {
 } from './../store/actions';
 import gmaps from '@google/maps';
 import { API_KEY } from './../store/actions';
-import AddCommentForm from './addCommentForm/index';
-import Map from './Map/map';
+import AddCommentForm from './AddCommentForm/AddCommentForm';
+import Map from './Map/Map';
 
 export const TEMP_API_KEY = 'AIzaSyCuMV8HTZCAxl1GN1VNKOYMUn2_DUttqcs';
 
