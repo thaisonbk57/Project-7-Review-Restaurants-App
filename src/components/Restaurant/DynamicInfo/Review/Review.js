@@ -3,6 +3,7 @@ import { renderStars } from '../../../../utilities/renderStars';
 
 const Review = props => {
   const { reviewAuthor, reviewRating, reviewText } = props;
+
   const style = { fontSize: '15px' };
 
   return (

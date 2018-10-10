@@ -68,15 +68,19 @@ const MyMapComponent = compose(
       restaurant.place_id === props.mapCenter.place_id
         ? google.maps.Animation.BOUNCE
         : null;
+
+    const { place_id, rating } = restaurant;
+    const { location } = restaurant.geometry;
+
     return (
       <Marker
-        key={restaurant.place_id}
+        key={place_id}
         label={{
-          text: '' + restaurant.rating,
+          text: '' + rating,
           color: 'black',
           fontSize: '16px'
         }}
-        position={restaurant.geometry.location}
+        position={location}
         onClick={() => {
           props.onToggleOpen(restaurant);
         }}
@@ -85,35 +89,37 @@ const MyMapComponent = compose(
     );
   });
 
+  const { userPos, map, currentRestaurant } = props;
+
   return (
     <GoogleMap
       defaultZoom={15}
-      defaultCenter={props.userPos}
+      defaultCenter={userPos}
       center={props.mapCenter.coords}
       ref={ref => {
         props.onMapMounted(ref);
       }}
       onCenterChanged={() => {
-        let bounds = props.map.getBounds();
+        let bounds = map.getBounds();
         props.updateMapBounds(bounds);
 
-        if (props.map) {
-          props.updateMapCenterForFetchingRestaurants(props.map.getCenter());
+        if (map) {
+          props.updateMapCenterForFetchingRestaurants(map.getCenter());
         }
       }}
       onZoomChanged={() => {
-        let bounds = props.map.getBounds();
+        let bounds = map.getBounds();
         props.updateMapBounds(bounds);
-        if (props.map) {
-          props.updateMapCenterForFetchingRestaurants(props.map.getCenter());
+        if (map) {
+          props.updateMapCenterForFetchingRestaurants(map.getCenter());
         }
       }}
       onTilesLoaded={() => {
         // When map get mounted successfully, we get the map bounds.
-        if (props.map) {
-          let bounds = props.map.getBounds();
+        if (map) {
+          let bounds = map.getBounds();
           props.updateMapBounds(bounds);
-          props.updateMapCenterForFetchingRestaurants(props.map.getCenter());
+          props.updateMapCenterForFetchingRestaurants(map.getCenter());
         }
       }}
       onRightClick={e => {
@@ -123,7 +129,7 @@ const MyMapComponent = compose(
       <Marker
         title={'current position...'}
         icon={userMarker}
-        position={props.userPos}
+        position={userPos}
         zIndex={121}
         animation={google.maps.Animation.BOUNCE}
       />
@@ -132,22 +138,22 @@ const MyMapComponent = compose(
 
       {props.infoBoxShown && (
         <InfoWindow
-          defaultPosition={props.userPos}
-          position={props.currentRestaurant.geometry.location}
+          defaultPosition={userPos}
+          position={currentRestaurant.geometry.location}
           onCloseClick={() => {
             props.closeInfoWindow();
           }}
         >
           <div style={{ maxWidth: 300 }}>
-            <h3>{props.currentRestaurant.name}</h3>
-            <p>{props.currentRestaurant.formatted_address}</p>
-            <a href={`tel:${props.currentRestaurant.formatted_phone_number}`}>
-              {props.currentRestaurant.formatted_phone_number}
+            <h3>{currentRestaurant.name}</h3>
+            <p>{currentRestaurant.formatted_address}</p>
+            <a href={`tel:${currentRestaurant.formatted_phone_number}`}>
+              {currentRestaurant.formatted_phone_number}
             </a>{' '}
             <br />
             <Carousel
-              restaurantName={props.currentRestaurant.name}
-              allPhotos={props.currentRestaurant.photos}
+              restaurantName={currentRestaurant.name}
+              allPhotos={currentRestaurant.photos}
             />
           </div>
         </InfoWindow>

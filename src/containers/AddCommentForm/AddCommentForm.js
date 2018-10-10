@@ -8,8 +8,8 @@ import {
   turnOffAddCommentButton
 } from '../../store/actions';
 
+// this function generate unique key for each review of users
 const getTimeStamp = () => {
-  // this function generate unique key for each review of users
   let now = new Date();
   return now.getTime();
 };
@@ -53,10 +53,21 @@ class addCommentForm extends Component {
 
   render() {
     let form = null;
-    if (this.props.active) {
+
+    // properties
+    const { active, targetRestaurant } = this.props;
+
+    // Methods
+    const {
+      closeCommentForm,
+      addComment,
+      turnOffAddCommentButton
+    } = this.props;
+
+    if (active) {
       form = (
         <div className="form-backdrop">
-          <div onClick={this.props.closeCommentForm} className="close-btn">
+          <div onClick={closeCommentForm} className="close-btn">
             <i className="far fa-window-close" />
           </div>
           <form
@@ -64,11 +75,11 @@ class addCommentForm extends Component {
             className="AddCommentForm border border-success px-5 py-2 rounded"
             onSubmit={e => {
               this.onSubmitHandler(e);
-              this.props.addComment(
+              addComment(
                 { ...this.state, time: getTimeStamp() },
-                this.props.targetRestaurant
+                targetRestaurant
               );
-              this.props.turnOffAddCommentButton(this.props.targetRestaurant);
+              turnOffAddCommentButton(targetRestaurant);
             }}
           >
             <label className="text-light" htmlFor="">

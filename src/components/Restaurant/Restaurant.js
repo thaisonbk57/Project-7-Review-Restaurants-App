@@ -28,17 +28,25 @@ class Restaurant extends React.Component {
   render() {
     let dynamicInfo = null;
 
+    const { reviews } = this.props;
+
+    const {
+      place_id,
+      reviewAddable,
+      formatted_address,
+      name,
+      rating
+    } = this.props.info;
+
+    const { lat, lng } = this.props.info.geometry.location;
+
     if (this.state.showDynamicInfo) {
       dynamicInfo = (
         <DynamicInfo
-          reviews={this.props.reviews}
-          place_id={this.props.info.place_id}
-          reviewAddable={this.props.info.reviewAddable}
-          photo={`https://maps.googleapis.com/maps/api/streetview?size=400x400&location=${
-            this.props.info.geometry.location.lat
-          },${
-            this.props.info.geometry.location.lng
-          }&key=${API_KEY}&fov=90&heading=235&pitch=10`}
+          reviews={reviews}
+          place_id={place_id}
+          reviewAddable={reviewAddable}
+          photo={`https://maps.googleapis.com/maps/api/streetview?size=400x400&location=${lat},${lng}&key=${API_KEY}&fov=90&heading=235&pitch=10`}
         />
       );
     }
@@ -46,9 +54,9 @@ class Restaurant extends React.Component {
     return (
       <div className="restaurant">
         <StaticInfo
-          restaurantAddress={this.props.info.formatted_address}
-          restaurantName={this.props.info.name}
-          restaurantRating={this.props.info.rating}
+          restaurantAddress={formatted_address}
+          restaurantName={name}
+          restaurantRating={rating}
           toggleDynamicInfo={this.toggleDynamicInfoHandler}
         />
         {dynamicInfo}

@@ -2,6 +2,7 @@ import React from 'react';
 
 const AddCommentBtn = props => {
   const { place_id, openForm } = props;
+
   return (
     <button
       id={place_id}

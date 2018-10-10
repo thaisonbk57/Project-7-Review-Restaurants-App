@@ -7,6 +7,8 @@ class RestaurantList extends Component {
   render() {
     let restaurantsInRange = [...this.props.restaurantsInRange];
 
+    const { allReviews } = this.props;
+
     return (
       <div className="RestaurantsList bg-secondary">
         {restaurantsInRange
@@ -19,7 +21,7 @@ class RestaurantList extends Component {
                 key={restaurant.place_id}
                 info={restaurant}
                 // TODO: is restaurant.place_id a string or just a non-type key ???
-                reviews={this.props.allReviews[restaurant.place_id]}
+                reviews={allReviews[restaurant.place_id]}
               />
             );
           })}

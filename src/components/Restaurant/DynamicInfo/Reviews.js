@@ -2,11 +2,11 @@ import React from 'react';
 import Review from './Review/Review';
 
 const Reviews = props => {
-  // TODO: return a list of reviews using map function.
+  const { reviews } = props;
 
   return (
     <div>
-      {props.reviews.map(review => {
+      {reviews.map(review => {
         const { time, author_name, rating, text } = review;
 
         return (
