@@ -17,6 +17,7 @@ export const UPDATE_RESTAURANTS_IN_BOUNDS = 'UPDATE_RESTAURANTS_IN_BOUNDS';
 export const TURN_OFF_ADD_COMMENT_BUTTON = 'TURN_OFF_ADD_COMMENT_BUTTON';
 export const UPDATE_MAP_CENTER_FOR_FETCHING_RESTAURANTS =
   'UPDATE_MAP_CENTER_FOR_FETCHING_RESTAURANTS';
+export const GET_NEW_RESTAURANT_LOCATION = 'GET_NEW_RESTAURANT_LOCATION';
 
 // SAVE user' position.
 export const saveUserPosition = position => {
@@ -135,6 +136,15 @@ export const updateMapCenterForFetchingRestaurants = center => {
     type: UPDATE_MAP_CENTER_FOR_FETCHING_RESTAURANTS,
     payload: {
       center
+    }
+  };
+};
+
+export const getNewRestaurantLocation = location => {
+  return {
+    type: GET_NEW_RESTAURANT_LOCATION,
+    payload: {
+      location
     }
   };
 };

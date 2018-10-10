@@ -15,7 +15,10 @@ import {
   updateMapCenterForFetchingRestaurants
 } from '../../store/actions';
 import Carousel from './Carousel/Carousel';
-import { toggleAddRestaurantForm } from './../../store/actions';
+import {
+  toggleAddRestaurantForm,
+  getNewRestaurantLocation
+} from './../../store/actions';
 const userMarker = require('./../../img/user.png');
 
 // Using compose from 'recompose' to combine all HOC into one.
@@ -129,6 +132,12 @@ const MyMapComponent = compose(
       }}
       onRightClick={e => {
         props.toggleAddRestaurantForm();
+
+        let location = {
+          lat: e.latLng.lat(),
+          lng: e.latLng.lng()
+        };
+        props.getNewRestaurantLocation(location);
       }}
     >
       <Marker
@@ -186,6 +195,9 @@ const mapDispatch = dispatch => {
     },
     toggleAddRestaurantForm: () => {
       dispatch(toggleAddRestaurantForm());
+    },
+    getNewRestaurantLocation: location => {
+      dispatch(getNewRestaurantLocation(location));
     }
   };
 };

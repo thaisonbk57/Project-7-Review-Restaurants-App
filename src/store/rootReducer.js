@@ -12,7 +12,8 @@ import {
   CLOSE_COMMENT_FORM,
   TURN_OFF_ADD_COMMENT_BUTTON,
   UPDATE_MAP_CENTER_FOR_FETCHING_RESTAURANTS,
-  TOGGLE_ADD_RESTAURANT_FORM
+  TOGGLE_ADD_RESTAURANT_FORM,
+  GET_NEW_RESTAURANT_LOCATION
 } from './actions';
 
 const initState = {
@@ -170,6 +171,11 @@ export default function rootReducer(state = initState, action) {
           },
           ...state.restaurantsInRange.slice(Index2 + 1)
         ]
+      };
+    case GET_NEW_RESTAURANT_LOCATION:
+      return {
+        ...state,
+        newRestaurantLocation: action.payload.location
       };
     default:
       return state;
