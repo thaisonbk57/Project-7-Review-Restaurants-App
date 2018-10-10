@@ -1,25 +1,25 @@
 /*global google*/
 
-import React from "react";
+import React from 'react';
 import {
   withScriptjs,
   withGoogleMap,
   GoogleMap,
   Marker,
   InfoWindow
-} from "react-google-maps";
-import { connect } from "react-redux";
-import { compose, withStateHandlers, withProps } from "recompose";
-import { updateMapBounds } from "./../../store/actions";
-import Carousel from "./Carousel/Carousel";
-const userMarker = require("./../../img/user.png");
+} from 'react-google-maps';
+import { connect } from 'react-redux';
+import { compose, withStateHandlers, withProps } from 'recompose';
+import { updateMapBounds } from './../../store/actions';
+import Carousel from './Carousel/Carousel';
+const userMarker = require('./../../img/user.png');
 // const restaurantMarker = require("./../../img/restaurant.png");
 
 // Using compose from 'recompose' to combine all HOC into one.
 const MyMapComponent = compose(
   withProps({
     googleMapURL:
-      "https://maps.googleapis.com/maps/api/js?key=AIzaSyCuMV8HTZCAxl1GN1VNKOYMUn2_DUttqcs&v=3.exp&libraries=geometry,drawing,places",
+      'https://maps.googleapis.com/maps/api/js?key=AIzaSyCuMV8HTZCAxl1GN1VNKOYMUn2_DUttqcs&v=3.exp&libraries=geometry,drawing,places',
     loadingElement: <div style={{ height: `100%` }} />,
     containerElement: <div style={{ height: `calc(100vh - 180px)` }} />,
     mapElement: <div style={{ height: `100%` }} />
@@ -61,9 +61,9 @@ const MyMapComponent = compose(
       <Marker
         key={restaurant.place_id}
         label={{
-          text: "" + restaurant.rating,
-          color: "black",
-          fontSize: "16px"
+          text: '' + restaurant.rating,
+          color: 'black',
+          fontSize: '16px'
         }}
         position={restaurant.geometry.location}
         onClick={() => {
@@ -81,11 +81,7 @@ const MyMapComponent = compose(
       center={props.mapCenter.coords}
       ref={ref => {
         props.onMapMounted(ref);
-
-        if (props.map) {
-          let bounds = props.map.getBounds();
-          props.updateMapBounds(bounds);
-        }
+        console.log('Map mounted...');
       }}
       onCenterChanged={() => {
         let bounds = props.map.getBounds();
@@ -95,9 +91,16 @@ const MyMapComponent = compose(
         let bounds = props.map.getBounds();
         props.updateMapBounds(bounds);
       }}
+      onTilesLoaded={() => {
+        // When map get mounted successfully, we get the map bounds.
+        if (props.map) {
+          let bounds = props.map.getBounds();
+          props.updateMapBounds(bounds);
+        }
+      }}
     >
       <Marker
-        title={"current position..."}
+        title={'current position...'}
         icon={userMarker}
         position={props.userPos}
         zIndex={121}
@@ -119,7 +122,7 @@ const MyMapComponent = compose(
             <p>{props.currentRestaurant.formatted_address}</p>
             <a href={`tel:${props.currentRestaurant.formatted_phone_number}`}>
               {props.currentRestaurant.formatted_phone_number}
-            </a>{" "}
+            </a>{' '}
             <br />
             <Carousel
               restaurantName={props.currentRestaurant.name}
