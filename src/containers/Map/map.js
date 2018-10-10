@@ -10,7 +10,10 @@ import {
 } from 'react-google-maps';
 import { connect } from 'react-redux';
 import { compose, withStateHandlers, withProps } from 'recompose';
-import { updateMapBounds } from './../../store/actions';
+import {
+  updateMapBounds,
+  updateMapCenterForFetchingRestaurants
+} from './../../store/actions';
 import Carousel from './Carousel/Carousel';
 const userMarker = require('./../../img/user.png');
 // const restaurantMarker = require("./../../img/restaurant.png");
@@ -86,16 +89,24 @@ const MyMapComponent = compose(
       onCenterChanged={() => {
         let bounds = props.map.getBounds();
         props.updateMapBounds(bounds);
+
+        if (props.map) {
+          props.updateMapCenterForFetchingRestaurants(props.map.getCenter());
+        }
       }}
       onZoomChanged={() => {
         let bounds = props.map.getBounds();
         props.updateMapBounds(bounds);
+        if (props.map) {
+          props.updateMapCenterForFetchingRestaurants(props.map.getCenter());
+        }
       }}
       onTilesLoaded={() => {
         // When map get mounted successfully, we get the map bounds.
         if (props.map) {
           let bounds = props.map.getBounds();
           props.updateMapBounds(bounds);
+          props.updateMapCenterForFetchingRestaurants(props.map.getCenter());
         }
       }}
     >
@@ -139,7 +150,8 @@ const mapState = state => {
   return {
     restaurantsInRange: state.restaurantsInRange,
     userPos: state.userPos,
-    mapCenter: state.mapCenter
+    mapCenter: state.mapCenter,
+    mapCenterForFetchingRestaurants: state.mapCenterForFetchingRestaurants
   };
 };
 
@@ -147,6 +159,9 @@ const mapDispatch = dispatch => {
   return {
     updateMapBounds: bounds => {
       dispatch(updateMapBounds(bounds));
+    },
+    updateMapCenterForFetchingRestaurants: center => {
+      dispatch(updateMapCenterForFetchingRestaurants(center));
     }
   };
 };
