@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import Header from '../components/Header/Header';
-import RestaurantList from './RestaurantList/RestaurantList';
 import { connect } from 'react-redux';
 import {
   saveRestaurantIDs,
@@ -9,8 +7,13 @@ import {
   saveUserPosition,
   filterRestaurants
 } from './../store/actions';
+
 import gmaps from '@google/maps';
+
 import { API_KEY } from './../store/actions';
+
+import Header from '../components/Header/Header';
+import RestaurantList from './RestaurantList/RestaurantList';
 import AddCommentForm from './AddCommentForm/AddCommentForm';
 import Map from './Map/Map';
 

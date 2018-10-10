@@ -16,7 +16,6 @@ import {
 } from '../../store/actions';
 import Carousel from './Carousel/Carousel';
 const userMarker = require('./../../img/user.png');
-// const restaurantMarker = require("./../../img/restaurant.png");
 
 // Using compose from 'recompose' to combine all HOC into one.
 const MyMapComponent = compose(
@@ -102,6 +101,11 @@ const MyMapComponent = compose(
       onCenterChanged={() => {
         let bounds = map.getBounds();
         props.updateMapBounds(bounds);
+        // @TODO: check the geocode function
+        const geocoder = new google.maps.Geocoder();
+        geocoder.geocode({ location: userPos }, (result, status) => {
+          console.log(result, status);
+        });
 
         if (map) {
           props.updateMapCenterForFetchingRestaurants(map.getCenter());

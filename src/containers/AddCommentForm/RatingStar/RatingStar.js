@@ -5,7 +5,7 @@ const rating = props => {
   const { onchange } = props;
 
   return (
-    <div className="Rating-stars">
+    <form className="Rating-stars">
       <input
         onChange={e => {
           onchange(e);
@@ -14,7 +14,7 @@ const rating = props => {
         name="star"
         id="star1"
         value="5"
-        checked
+        defaultChecked
       />
       <label htmlFor="star1" />
       <input
@@ -57,7 +57,7 @@ const rating = props => {
         value="1"
       />
       <label htmlFor="star5" />
-    </div>
+    </form>
   );
 };
 

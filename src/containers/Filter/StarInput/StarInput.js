@@ -52,6 +52,7 @@ const rating = props => {
         name="star-filter"
         id="star-filter-5"
         value="1"
+        defaultChecked
       />
       <label htmlFor="star-filter-5" />
     </div>
