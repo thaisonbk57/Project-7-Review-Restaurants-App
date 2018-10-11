@@ -96,7 +96,7 @@ const MyMapComponent = compose(
 
   return (
     <GoogleMap
-      defaultZoom={15}
+      defaultZoom={16}
       defaultCenter={userPos}
       center={props.mapCenter.coords}
       ref={ref => {
@@ -105,11 +105,7 @@ const MyMapComponent = compose(
       onCenterChanged={() => {
         let bounds = map.getBounds();
         props.updateMapBounds(bounds);
-        // // @TODO: check the geocode function
-        // const geocoder = new google.maps.Geocoder();
-        // geocoder.geocode({ location: userPos }, (result, status) => {
-        //   console.log(result, status);
-        // });
+        // @TODO: we can use google places library here to fetch data
 
         if (map) {
           props.updateMapCenterForFetchingRestaurants(map.getCenter());
@@ -181,7 +177,8 @@ const mapState = state => {
     restaurantsInRange: state.restaurantsInRange,
     userPos: state.userPos,
     mapCenter: state.mapCenter,
-    mapCenterForFetchingRestaurants: state.mapCenterForFetchingRestaurants
+    mapCenterForFetchingRestaurants: state.mapCenterForFetchingRestaurants,
+    mapBounds: state.mapBounds
   };
 };
 

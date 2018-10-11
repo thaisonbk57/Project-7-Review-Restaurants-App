@@ -52,7 +52,7 @@ class App extends Component {
           googleMapsClient.placesNearby(
             {
               location: this.props.userPos,
-              radius: 1000,
+              radius: 300,
               type: 'restaurant'
             },
             (err, response) => {

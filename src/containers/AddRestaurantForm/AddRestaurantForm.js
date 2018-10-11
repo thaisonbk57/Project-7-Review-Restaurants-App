@@ -43,11 +43,15 @@ class AddRestaurantForm extends Component {
         const { formatted_address, place_id } = result[0];
         this.props.saveRestaurantIDs([place_id]);
         this.props.initializeReviewsForNewRestaurant(place_id);
-        this.setState({
+
+        const newRestaurant = {
+          ...this.state,
           formatted_address,
           place_id,
           geometry: { location: newRestaurantLocation }
-        });
+        };
+        this.props.saveRestaurant(newRestaurant);
+        this.props.filterRestaurants(this.props.filterObject);
       }
     });
 
@@ -56,11 +60,6 @@ class AddRestaurantForm extends Component {
       this.props.toggleAddRestaurantForm();
     }, 1000);
   };
-
-  componentWillUnmount() {
-    this.props.saveRestaurant(this.state);
-    this.props.filterRestaurants(this.props.filterObject);
-  }
 
   render() {
     return (
