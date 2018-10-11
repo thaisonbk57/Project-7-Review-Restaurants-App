@@ -3,10 +3,10 @@ import Reviews from './Reviews';
 import RestaurantPhoto from './RestaurantPhoto';
 import AddCommentBtn from './AddCommentBtn';
 import { connect } from 'react-redux';
-import { openCommentForm } from '../../../store/actions';
+import { toggleCommentForm } from '../../../store/actions';
 
 const DynamicInfo = props => {
-  const { photo, reviews, reviewAddable, openCommentForm, place_id } = props;
+  const { photo, reviews, reviewAddable, toggleCommentForm, place_id } = props;
 
   return (
     <div>
@@ -15,7 +15,7 @@ const DynamicInfo = props => {
 
       {/* only when the reviewAddable  attribute is true, user can add new comment to the restaurant. This value can be changed after user submit the addCommentForm */}
       {reviewAddable && (
-        <AddCommentBtn openForm={openCommentForm} place_id={place_id} />
+        <AddCommentBtn openForm={toggleCommentForm} place_id={place_id} />
       )}
     </div>
   );
@@ -23,8 +23,8 @@ const DynamicInfo = props => {
 
 const mapDispatch = dispatch => {
   return {
-    openCommentForm: place_id => {
-      dispatch(openCommentForm(place_id));
+    toggleCommentForm: place_id => {
+      dispatch(toggleCommentForm(place_id));
     }
   };
 };

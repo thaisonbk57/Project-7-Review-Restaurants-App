@@ -4,8 +4,9 @@ import { connect } from 'react-redux';
 import './AddCommentForm.css';
 import {
   addComment,
-  closeCommentForm,
-  turnOffAddCommentButton
+  toggleCommentForm,
+  turnOffAddCommentButton,
+  filterRestaurants
 } from '../../store/actions';
 
 // this function generate unique key for each review of users
@@ -55,19 +56,20 @@ class addCommentForm extends Component {
     let form = null;
 
     // properties
-    const { active, targetRestaurant } = this.props;
+    const { active, targetRestaurant, filterObject } = this.props;
 
     // Methods
     const {
-      closeCommentForm,
+      toggleCommentForm,
       addComment,
-      turnOffAddCommentButton
+      turnOffAddCommentButton,
+      filterRestaurants
     } = this.props;
 
     if (active) {
       form = (
         <div className="form-backdrop">
-          <div onClick={closeCommentForm} className="close-btn">
+          <div onClick={toggleCommentForm} className="close-btn">
             <i className="far fa-window-close" />
           </div>
           <form
@@ -80,6 +82,7 @@ class addCommentForm extends Component {
                 targetRestaurant
               );
               turnOffAddCommentButton(targetRestaurant);
+              filterRestaurants(filterObject);
             }}
           >
             <div className="form-group">
@@ -125,7 +128,8 @@ class addCommentForm extends Component {
 const mapState = state => {
   return {
     active: state.activeCommentForm,
-    targetRestaurant: state.activeRestaurant
+    targetRestaurant: state.activeRestaurant,
+    filterObject: state.filterObject
   };
 };
 
@@ -134,12 +138,14 @@ const mapDispatch = dispatch => {
     addComment: (commentObject, targetRestaurant) => {
       dispatch(addComment(commentObject, targetRestaurant));
     },
-    closeCommentForm: () => {
-      dispatch(closeCommentForm());
+    toggleCommentForm: () => {
+      dispatch(toggleCommentForm());
     },
     turnOffAddCommentButton: activeRestaurant => {
-      console.log(activeRestaurant);
       dispatch(turnOffAddCommentButton(activeRestaurant));
+    },
+    filterRestaurants: filterObj => {
+      dispatch(filterRestaurants(filterObj));
     }
   };
 };

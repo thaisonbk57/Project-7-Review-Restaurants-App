@@ -79,7 +79,7 @@ const MyMapComponent = compose(
       <Marker
         key={place_id}
         label={{
-          text: '' + rating,
+          text: parseFloat(rating).toFixed(1),
           color: 'black',
           fontSize: '16px'
         }}

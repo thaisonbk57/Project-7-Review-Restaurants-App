@@ -4,12 +4,11 @@ import {
   SAVE_RESTAURANT_IDs,
   FILTER_RESTAURANTS,
   UPDATE_FILTER_OBJECT,
-  OPEN_COMMENT_FORM,
+  TOGGLE_COMMENT_FORM,
   ADD_COMMENT,
   SAVE_REVIEWS,
   UPDATE_MAP_CENTER,
   UPDATE_MAP_BOUNDS,
-  CLOSE_COMMENT_FORM,
   TURN_OFF_ADD_COMMENT_BUTTON,
   UPDATE_MAP_CENTER_FOR_FETCHING_RESTAURANTS,
   TOGGLE_ADD_RESTAURANT_FORM,
@@ -90,16 +89,11 @@ export default function rootReducer(state = initState, action) {
         ...state,
         filterObject: { ...state.filterObject, ...action.payload.filterObj }
       };
-    case OPEN_COMMENT_FORM:
+    case TOGGLE_COMMENT_FORM:
       return {
         ...state,
         activeRestaurant: action.payload.place_id,
-        activeCommentForm: true
-      };
-    case CLOSE_COMMENT_FORM:
-      return {
-        ...state,
-        activeCommentForm: false
+        activeCommentForm: !state.activeCommentForm
       };
 
     case TOGGLE_ADD_RESTAURANT_FORM:
@@ -110,9 +104,22 @@ export default function rootReducer(state = initState, action) {
     case ADD_COMMENT:
       let allReviews = { ...state.allReviews };
       let id = action.payload.targetRestaurant;
+      let allRestaurants = state.allRestaurants.map(restaurant => {
+        if (restaurant.place_id === id) {
+          return {
+            ...restaurant,
+            rating:
+              (restaurant.rating * 99 + action.payload.commentObject.rating) /
+              100
+          };
+        } else {
+          return restaurant;
+        }
+      });
 
       return {
         ...state,
+        allRestaurants: allRestaurants,
         activeCommentForm: false,
         allReviews: {
           ...allReviews,
@@ -150,9 +157,9 @@ export default function rootReducer(state = initState, action) {
         return restaurant.place_id === ID;
       });
       // we alse need to update the restaurants in range. Otherwise, we need to dispatch the filterRestaurants action.
-      let Index2 = state.restaurantsInRange.findIndex(restaurant => {
-        return restaurant.place_id === ID;
-      });
+      // let Index2 = state.restaurantsInRange.findIndex(restaurant => {
+      //   return restaurant.place_id === ID;
+      // });
 
       return {
         ...state,
@@ -163,15 +170,15 @@ export default function rootReducer(state = initState, action) {
             reviewAddable: false
           },
           ...state.allRestaurants.slice(Index1 + 1)
-        ],
-        restaurantsInRange: [
-          ...state.restaurantsInRange.slice(0, Index2),
-          {
-            ...state.restaurantsInRange[Index2],
-            reviewAddable: false
-          },
-          ...state.restaurantsInRange.slice(Index2 + 1)
         ]
+        // restaurantsInRange: [
+        //   ...state.restaurantsInRange.slice(0, Index2),
+        //   {
+        //     ...state.restaurantsInRange[Index2],
+        //     reviewAddable: false
+        //   },
+        //   ...state.restaurantsInRange.slice(Index2 + 1)
+        // ]
       };
     case GET_NEW_RESTAURANT_LOCATION:
       return {

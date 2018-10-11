@@ -13,7 +13,8 @@ function RestaurantInfo(props) {
     <div onClick={toggleDynamicInfo} className="staticInfo p-2 border">
       <h5 className="display-5 font-weight-bold">{restaurantName}</h5>
       <div className="text-warning">
-        {restaurantRating} &nbsp; {renderStars(restaurantRating)}
+        {parseFloat(restaurantRating).toFixed(1)} &nbsp;{' '}
+        {renderStars(restaurantRating)}
       </div>
       <p className="restaurantAddress my-0">{restaurantAddress}</p>
     </div>

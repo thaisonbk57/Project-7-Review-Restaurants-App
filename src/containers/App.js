@@ -46,7 +46,6 @@ class App extends Component {
             lng: lng
           };
           this.props.saveUserPos(pos);
-          // this.props.getRestIDs(this.props.userPos, 2000);
 
           // get Information from google API using @google/maps package
           googleMapsClient.placesNearby(
@@ -63,7 +62,6 @@ class App extends Component {
                 // console.log(restaurantIDs);
                 this.props.saveRestaurantIDs(restaurantIDs);
                 // So, now we have all IDs from restaurants that we want. Next thing to do is how to fetch restaurant details of each one and then update the store
-                // console.log(this.props.allRestaurantIDs);
                 this.props.allRestaurantIDs.forEach(ID => {
                   googleMapsClient.place(
                     {

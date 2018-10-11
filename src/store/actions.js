@@ -7,8 +7,7 @@ export const SAVE_REVIEWS = 'SAVE_REVIEWS';
 export const SAVE_RESTAURANT_IDs = 'SAVE_RESTAURANT_ID';
 export const FILTER_RESTAURANTS = 'FILTER_RESTAURANT';
 export const UPDATE_FILTER_OBJECT = 'UPDATE_FILTER_OBJECT';
-export const CLOSE_COMMENT_FORM = 'CLOSE_COMMENT_FORM';
-export const OPEN_COMMENT_FORM = 'OPEN_COMMENT_FORM';
+export const TOGGLE_COMMENT_FORM = 'TOGGLE_COMMENT_FORM';
 export const TOGGLE_ADD_RESTAURANT_FORM = 'TOGGLE_ADD_RESTAURANT_FORM';
 export const ADD_COMMENT = 'ADD_COMMENT';
 export const UPDATE_MAP_CENTER = 'UPDATE_MAP_CENTER';
@@ -71,22 +70,18 @@ export const saveReviews = (place_id, reviews) => {
 };
 
 export const updateFilterObject = filterObj => {
+  // @filterObj : Object
   return {
     type: UPDATE_FILTER_OBJECT,
     payload: { filterObj }
   };
 };
 
-export const openCommentForm = place_id => {
+export const toggleCommentForm = place_id => {
+  // @place_id : String
   return {
-    type: OPEN_COMMENT_FORM,
+    type: TOGGLE_COMMENT_FORM,
     payload: { place_id }
-  };
-};
-
-export const closeCommentForm = () => {
-  return {
-    type: CLOSE_COMMENT_FORM
   };
 };
 
@@ -98,6 +93,8 @@ export const toggleAddRestaurantForm = () => {
 
 // Add comment action
 export const addComment = (commentObject, targetRestaurant) => {
+  // @commentObject : Object
+  // @targetRestaurant : String : place_id
   return {
     type: ADD_COMMENT,
     payload: {
@@ -109,6 +106,8 @@ export const addComment = (commentObject, targetRestaurant) => {
 
 // update the mapCenter
 export const updateMapCenter = (coords, place_id) => ({
+  // @coords : Object : lat, lng : Number
+  // @place_id : String
   type: UPDATE_MAP_CENTER,
   payload: {
     coords,
@@ -117,6 +116,7 @@ export const updateMapCenter = (coords, place_id) => ({
 });
 
 export const updateMapBounds = bounds => ({
+  // @bounds : Object
   type: UPDATE_MAP_BOUNDS,
   payload: {
     bounds
@@ -131,6 +131,7 @@ export const updateRestaurantsInBounds = bounds => {
 };
 
 export const turnOffAddCommentButton = targetRestaurant => {
+  // @targetRestaurant : String
   return {
     type: TURN_OFF_ADD_COMMENT_BUTTON,
     payload: {
@@ -140,6 +141,7 @@ export const turnOffAddCommentButton = targetRestaurant => {
 };
 
 export const updateMapCenterForFetchingRestaurants = center => {
+  // @center : Object : lat, lng: String
   return {
     type: UPDATE_MAP_CENTER_FOR_FETCHING_RESTAURANTS,
     payload: {
@@ -149,6 +151,7 @@ export const updateMapCenterForFetchingRestaurants = center => {
 };
 
 export const getNewRestaurantLocation = location => {
+  // @location : Object : lat,lng: String
   return {
     type: GET_NEW_RESTAURANT_LOCATION,
     payload: {
@@ -158,6 +161,7 @@ export const getNewRestaurantLocation = location => {
 };
 
 export const initializeReviewsForNewRestaurant = place_id => {
+  // @place_id: String
   return {
     type: INITIALIZE_REVIEWS_FOR_NEW_RESTAURANT,
     payload: {
