@@ -19,7 +19,11 @@ import {
   toggleAddRestaurantForm,
   getNewRestaurantLocation
 } from './../../store/actions';
+// import { searchNearby } from '../../utils/googleApiHelper';
+
+import {searchNearby} from '../../utils/googleApiHelper'
 const userMarker = require('./../../img/user.png');
+
 
 // Using compose from 'recompose' to combine all HOC into one.
 const MyMapComponent = compose(
@@ -94,6 +98,32 @@ const MyMapComponent = compose(
 
   const { userPos, map, currentRestaurant } = props;
 
+    //const service = new google.maps.places.PlacesService(map.getDiv());
+    //const service = new google.maps.places.PlacesService(map1);
+
+    // searchNearby(google, map, {
+    //   center: {lat: 52.527103999999994,lng: 13.402111999999999},
+    //   zoom: 15
+    // }).then((results, paginatino) => {
+    //   console.log('results',results)
+    // }).catch(err => console.log('Érr:',err))
+
+// console.log(service(map, {
+//   location: {lat: 52.527103999999994,lng: 13.402111999999999},
+//   radius: 300,
+//   type: ['restaurant']
+// }));
+
+//  service.nearbySearch({
+//     location: {lat: 52.527103999999994,lng: 13.402111999999999},
+//     radius: 300,
+//     type: ['restaurant']
+//   },(result, status) => {
+// //     console.log(result, status)
+// //   })
+
+  
+
   return (
     <GoogleMap
       defaultZoom={16}
@@ -119,6 +149,12 @@ const MyMapComponent = compose(
         }
       }}
       onTilesLoaded={() => {
+        setTimeout(() => searchNearby(google, map, {
+          center: {lat: 52.527103999999994,lng: 13.402111999999999},
+          zoom: 15
+        }).then((results, paginatino) => {
+          console.log('results',results)
+        }).catch(err => console.log('Érr:',err)), 2000)
         // When map get mounted successfully, we get the map bounds.
         if (map) {
           let bounds = map.getBounds();
