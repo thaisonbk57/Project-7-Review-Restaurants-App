@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import MyMap from './Map';
+import React, { Component } from "react";
+import MyMap from "./Map";
 class Map extends Component {
   render() {
     return (
@@ -16,7 +16,7 @@ class Map extends Component {
           containerElement={
             <div
               style={{
-                height: `calc(100vh - 180px)`
+                height: `calc(100vh - 150px)`
               }}
             />
           }
