@@ -51,7 +51,10 @@ class AddRestaurantForm extends Component {
           geometry: { location: newRestaurantLocation }
         };
         this.props.saveRestaurant(newRestaurant);
-        this.props.filterRestaurants(this.props.filterObject);
+        this.props.filterRestaurants(
+          this.props.filterObject,
+          this.props.mapBounds
+        );
       }
     });
 
@@ -122,7 +125,8 @@ const mapState = state => {
   return {
     newRestaurantLocation: state.newRestaurantLocation,
     active: state.activeAddRestaurantForm,
-    filterObject: state.filterObject
+    filterObject: state.filterObject,
+    mapBounds: state.mapBounds
   };
 };
 
@@ -137,8 +141,8 @@ const mapDispatch = dispatch => {
     saveRestaurantIDs: IDs => {
       dispatch(saveRestaurantIDs(IDs));
     },
-    filterRestaurants: filterObj => {
-      dispatch(filterRestaurants(filterObj));
+    filterRestaurants: (filterObj, bounds) => {
+      dispatch(filterRestaurants(filterObj, bounds));
     },
     initializeReviewsForNewRestaurant: place_id => {
       dispatch(initializeReviewsForNewRestaurant(place_id));

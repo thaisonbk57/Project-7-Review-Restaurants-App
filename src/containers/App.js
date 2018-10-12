@@ -12,7 +12,7 @@ import Header from '../components/Header/Header';
 import RestaurantList from './RestaurantList/RestaurantList';
 import AddCommentForm from './AddCommentForm/AddCommentForm';
 import AddRestaurantForm from './AddRestaurantForm/AddRestaurantForm';
-import Map from './Map/Map';
+import Map from './Map/MapContainer';
 
 export const TEMP_API_KEY = 'AIzaSyCuMV8HTZCAxl1GN1VNKOYMUn2_DUttqcs';
 

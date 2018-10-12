@@ -9,7 +9,6 @@ import {
   InfoWindow
 } from 'react-google-maps';
 import { connect } from 'react-redux';
-import { compose, withStateHandlers, withProps } from 'recompose';
 import {
   updateMapBounds,
   updateMapCenterForFetchingRestaurants
@@ -22,222 +21,204 @@ import {
   filterRestaurants,
   saveRestaurant,
   saveReviews
-} from './../../store/actions';
+} from '../../store/actions';
 
 import { searchNearby } from '../../utils/googleApiHelper';
 const userMarker = require('./../../img/user.png');
 
-// Using compose from 'recompose' to combine all HOC into one.
-const MyMapComponent = compose(
-  withProps({
-    googleMapURL:
-      'https://maps.googleapis.com/maps/api/js?key=AIzaSyCuMV8HTZCAxl1GN1VNKOYMUn2_DUttqcs&v=3.exp&libraries=geometry,drawing,places',
-    loadingElement: (
-      <div
-        style={{
-          height: `100%`
-        }}
-      />
-    ),
-    containerElement: (
-      <div
-        style={{
-          height: `calc(100vh - 180px)`
-        }}
-      />
-    ),
-    mapElement: (
-      <div
-        style={{
-          height: `100%`
-        }}
-      />
-    )
-  }),
-  withStateHandlers(
-    () => ({
+class MyMapComponent extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
       infoBoxShown: false,
-      currentRestaurant: {},
-      map: undefined
-    }),
-    {
-      onToggleOpen: props => restaurant => ({
-        // this is a method, when user click on a marker, it will change the infoBoxShown to true, so display the InfoWindow related to the restaurant.
-        infoBoxShown: true,
-        // user clicks on a marker, the currentRestaurant will be set to the corresponding restaurant. And based on this currentRestaurant, we will have the infomation to display inside the InfoWindow.
-        currentRestaurant: restaurant
-      }),
-      closeInfoWindow: props => () => ({
-        // InfoWindow component has a close X  button. When use clicks on that. The InfoWindow will disappear
-        infoBoxShown: false
-      }),
-      onMapMounted: () => ref => {
-        return {
-          map: ref
-        };
-      }
-    }
-  ),
-  withScriptjs,
-  withGoogleMap
-)(props => {
-  const markers = props.restaurantsInRange.map(restaurant => {
-    const animation =
-      restaurant.place_id === props.mapCenter.place_id
-        ? google.maps.Animation.BOUNCE
-        : null;
+      currentRestaurant: {}
+    };
+    this.map = undefined;
+  }
 
-    const { place_id, rating } = restaurant;
-    const { location } = restaurant.geometry;
+  onMapMounted = ref => {
+    this.map = ref;
+  };
+
+  onToggleOpen = restaurant => {
+    this.setState({
+      infoBoxShown: true,
+      currentRestaurant: restaurant
+    });
+  };
+
+  closeInfoWindow = () => {
+    this.setState({
+      infoBoxShown: false
+    });
+  };
+
+  loadData() {
+    const map = this.map;
+    if (map) {
+      let bounds = map.getBounds();
+      this.props.updateMapBounds(bounds);
+      let center = map.getCenter();
+      const mapObj = map.context.__SECRET_MAP_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+
+      searchNearby(google, mapObj, {
+        location: center,
+        type: ['restaurant'],
+        bounds: bounds,
+        radius: 1000
+      }).then((results, pagination) => {
+        let restaurantIDs = results.map(restaurant => restaurant.place_id);
+        this.props.saveRestaurantIDs(restaurantIDs);
+
+        restaurantIDs.forEach(ID => {
+          fetch(
+            `https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/details/json?placeid=${ID}&fields=name,rating,formatted_phone_number,formatted_address,photos,geometry,place_id,reviews&key=AIzaSyCuMV8HTZCAxl1GN1VNKOYMUn2_DUttqcs`
+          )
+            .then(response => response.json())
+            .then(data => data.result)
+            .then(result => {
+              const {
+                formatted_address,
+                formatted_phone_number,
+                photos,
+                geometry,
+                name,
+                place_id,
+                rating,
+                reviews
+              } = result;
+
+              // if true, then user can add new review to this restaurant.
+              let reviewAddable = true;
+
+              const restaurant = {
+                formatted_address,
+                photos,
+                formatted_phone_number,
+                geometry,
+                name,
+                place_id,
+                rating,
+                reviewAddable
+              };
+
+              // save Restaurants
+              this.props.saveRestaurant(restaurant);
+
+              // save Reviews in another place (flatten rootReducer)
+              this.props.saveReviews(place_id, reviews);
+              // by default, it will take all
+              this.props.filterRestaurants(
+                this.props.filterObject,
+                map.getBounds()
+              );
+            });
+        });
+      });
+    }
+  }
+
+  componentDidMount() {
+    this.loadData();
+  }
+
+  render() {
+    const markers = this.props.restaurantsInRange.map(restaurant => {
+      const animation =
+        restaurant.place_id === this.props.mapCenter.place_id
+          ? google.maps.Animation.BOUNCE
+          : null;
+
+      const { place_id, rating } = restaurant;
+      const { location } = restaurant.geometry;
+
+      return (
+        <Marker
+          key={place_id}
+          label={{
+            text: parseFloat(rating).toFixed(1),
+            color: 'black',
+            fontSize: '16px'
+          }}
+          position={location}
+          onClick={() => {
+            // console.log(1);
+            console.log(location);
+            this.onToggleOpen(restaurant);
+          }}
+          animation={animation}
+        />
+      );
+    });
+
+    const { currentRestaurant } = this.state;
+    const { userPos } = this.props;
+    const map = this.map;
 
     return (
-      <Marker
-        key={place_id}
-        label={{
-          text: parseFloat(rating).toFixed(1),
-          color: 'black',
-          fontSize: '16px'
-        }}
-        position={location}
-        onClick={() => {
-          props.onToggleOpen(restaurant);
-        }}
-        animation={animation}
-      />
-    );
-  });
-
-  const { userPos, map, currentRestaurant } = props;
-  return (
-    <GoogleMap
-      defaultZoom={16}
-      defaultCenter={userPos}
-      center={props.mapCenter.coords}
-      ref={props.onMapMounted}
-      onCenterChanged={() => {
-        let bounds = map.getBounds();
-        props.updateMapBounds(bounds);
-        // @TODO: we can use google places library here to fetch data
-
-        if (map) {
-          props.updateMapCenterForFetchingRestaurants(map.getCenter());
-        }
-      }}
-      onZoomChanged={() => {
-        let bounds = map.getBounds();
-        props.updateMapBounds(bounds);
-        if (map) {
-          props.updateMapCenterForFetchingRestaurants(map.getCenter());
-        }
-      }}
-      onTilesLoaded={() => {
-        if (map) {
+      <GoogleMap
+        defaultZoom={16}
+        defaultCenter={userPos}
+        center={this.props.mapCenter.coords}
+        ref={this.onMapMounted}
+        onCenterChanged={() => {
           let bounds = map.getBounds();
-          props.updateMapBounds(bounds);
-          let center = map.getCenter();
-          const mapObj =
-            map.context.__SECRET_MAP_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
-
-          searchNearby(google, mapObj, {
-            location: center,
-            type: ['restaurant'],
-            bounds: bounds
-          }).then((results, pagination) => {
-            let restaurantIDs = results.map(restaurant => restaurant.place_id);
-            props.saveRestaurantIDs(restaurantIDs);
-
-            restaurantIDs.forEach(ID => {
-              fetch(
-                `https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/details/json?placeid=${ID}&fields=name,rating,formatted_phone_number,formatted_address,photos,geometry,place_id,reviews&key=AIzaSyCuMV8HTZCAxl1GN1VNKOYMUn2_DUttqcs`
-              )
-                .then(response => response.json())
-                .then(data => data.result)
-                .then(result => {
-                  const {
-                    formatted_address,
-                    formatted_phone_number,
-                    photos,
-                    geometry,
-                    name,
-                    place_id,
-                    rating,
-                    reviews
-                  } = result;
-
-                  // if true, then user can add new review to this restaurant.
-                  let reviewAddable = true;
-
-                  const restaurant = {
-                    formatted_address,
-                    photos,
-                    formatted_phone_number,
-                    geometry,
-                    name,
-                    place_id,
-                    rating,
-                    reviewAddable
-                  };
-
-                  // save Restaurants
-                  props.saveRestaurant(restaurant);
-
-                  // save Reviews in another place (flatten rootReducer)
-                  props.saveReviews(place_id, reviews);
-                  // by default, it will take all
-                  props.filterRestaurants(props.filterObject, map.getBounds());
-                });
-            });
-          });
-        }
-      }}
-      onRightClick={e => {
-        props.toggleAddRestaurantForm();
-
-        let location = {
-          lat: e.latLng.lat(),
-          lng: e.latLng.lng()
-        };
-        props.getNewRestaurantLocation(location);
-      }}
-    >
-      <Marker
-        title={'current position...'}
-        icon={userMarker}
-        position={userPos}
-        zIndex={121}
-        animation={google.maps.Animation.BOUNCE}
-      />
-      {markers}
-      {props.infoBoxShown && (
-        <InfoWindow
-          defaultPosition={userPos}
-          position={currentRestaurant.geometry.location}
-          onCloseClick={() => {
-            props.closeInfoWindow();
-          }}
-        >
-          <div
-            style={{
-              maxWidth: 300
+          this.props.updateMapBounds(bounds);
+        }}
+        onZoomChanged={() => {
+          let bounds = map.getBounds();
+          this.props.updateMapBounds(bounds);
+        }}
+        onRightClick={e => {
+          this.props.toggleAddRestaurantForm();
+          let location = {
+            lat: e.latLng.lat(),
+            lng: e.latLng.lng()
+          };
+          this.props.getNewRestaurantLocation(location);
+        }}
+        onTilesLoaded={() => {
+          console.log('map loaded!!!');
+        }}
+      >
+        <Marker
+          title={'current position...'}
+          icon={userMarker}
+          position={userPos}
+          zIndex={121}
+          animation={google.maps.Animation.BOUNCE}
+        />
+        {markers}
+        {this.state.infoBoxShown && (
+          <InfoWindow
+            defaultPosition={userPos}
+            position={currentRestaurant.geometry.location}
+            onCloseClick={() => {
+              this.closeInfoWindow();
             }}
           >
-            <h3> {currentRestaurant.name} </h3>{' '}
-            <p> {currentRestaurant.formatted_address} </p>{' '}
-            <a href={`tel:${currentRestaurant.formatted_phone_number}`}>
-              {' '}
-              {currentRestaurant.formatted_phone_number}{' '}
-            </a>{' '}
-            <br />
-            <Carousel
-              restaurantName={currentRestaurant.name}
-              allPhotos={currentRestaurant.photos}
-            />{' '}
-          </div>{' '}
-        </InfoWindow>
-      )}{' '}
-    </GoogleMap>
-  );
-});
+            <div
+              style={{
+                maxWidth: 300
+              }}
+            >
+              <h3> {currentRestaurant.name} </h3>{' '}
+              <p> {currentRestaurant.formatted_address} </p>{' '}
+              <a href={`tel:${currentRestaurant.formatted_phone_number}`}>
+                {currentRestaurant.formatted_phone_number}
+              </a>
+              <br />
+              <Carousel
+                restaurantName={currentRestaurant.name}
+                allPhotos={currentRestaurant.photos}
+              />
+            </div>
+          </InfoWindow>
+        )}
+      </GoogleMap>
+    );
+  }
+}
 
 const mapState = state => {
   return {
@@ -281,4 +262,4 @@ const mapDispatch = dispatch => {
 export default connect(
   mapState,
   mapDispatch
-)(MyMapComponent);
+)(withScriptjs(withGoogleMap(MyMapComponent)));
