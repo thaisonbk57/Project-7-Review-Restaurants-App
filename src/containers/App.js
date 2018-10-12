@@ -18,6 +18,7 @@ export const TEMP_API_KEY = 'AIzaSyCuMV8HTZCAxl1GN1VNKOYMUn2_DUttqcs';
 
 class App extends Component {
   componentDidMount = () => {
+    console.log("APP LOADING USER'S POSITION");
     const option = {
       enableHighAccuracy: true,
       maximunAge: 30000,

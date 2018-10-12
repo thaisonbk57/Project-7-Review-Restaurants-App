@@ -54,7 +54,7 @@ class MyMapComponent extends React.Component {
   loadData() {
     const map = this.map;
     if (map) {
-      let center = map.getCenter();
+      let center = map.getCenter() ? map.getCenter() : this.props.userPos;
       const mapObj = map.context.__SECRET_MAP_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
 
       let zoom = map.getZoom();
@@ -134,6 +134,7 @@ class MyMapComponent extends React.Component {
   }
 
   componentDidMount() {
+    console.log('MAP LOADING...');
     setTimeout(() => {
       this.loadData();
     }, 1000);
