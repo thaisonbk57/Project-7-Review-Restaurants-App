@@ -1,6 +1,6 @@
-import React from 'react';
-import './Header.css';
-import Filter from './../../containers/Filter/Filter';
+import React from "react";
+import "./Header.css";
+import Filter from "./../../containers/Filter/Filter";
 
 function Header(props) {
   return (
@@ -9,8 +9,8 @@ function Header(props) {
         <h1 className="heading heading-primary display-3 text-center text-light">
           Restaurant Review
         </h1>
-        <p className="text-light text-center">
-          <b className="text-danger">DRAG</b> to load new restaurants OR{' '}
+        <p className="text-light text-center my-0">
+          <b className="text-danger">DRAG</b> to load new restaurants OR{" "}
           <b className="text-danger">RIGHT CLICK</b> to add a new one.
         </p>
       </div>
