@@ -202,7 +202,8 @@ class MyMapComponent extends React.Component {
           mapTypeControl: false,
           maxZoom: 18,
           minZoom: 16,
-          styles: mapStyles
+          styles: mapStyles,
+          zoomControl: false
         }}
         center={this.props.mapCenter.coords}
         ref={this.onMapMounted}

@@ -16,6 +16,7 @@ class carousel extends React.Component {
   };
 
   componentDidMount() {
+    // styling the carousel
     setTimeout(() => {
       document.getElementById(
         'carousel'
