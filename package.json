@@ -3,10 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-<<<<<<< HEAD
-    "gh-pages": "^2.0.1",
-=======
->>>>>>> 0be1fa1754b67122d8c1b3380f4c880aee4e25bf
     "react": "^16.5.0",
     "react-dom": "^16.5.0",
     "react-google-maps": "^9.4.5",
@@ -18,13 +14,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-<<<<<<< HEAD
-    "eject": "react-scripts eject",
-    "deploy": "gh-pages -b master -d build"
+    "eject": "react-scripts eject"
   },
   "homepage": "https://thaisonbk57.github.io/review-restaurants"
-=======
-    "eject": "react-scripts eject"
-  }
->>>>>>> 0be1fa1754b67122d8c1b3380f4c880aee4e25bf
 }
