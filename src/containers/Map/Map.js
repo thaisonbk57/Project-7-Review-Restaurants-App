@@ -175,7 +175,7 @@ class MyMapComponent extends React.Component {
 
     return (
       <GoogleMap
-        defaultZoom={17}
+        defaultZoom={18}
         defaultCenter={userPos}
         center={this.props.mapCenter.coords}
         ref={this.onMapMounted}
@@ -200,6 +200,9 @@ class MyMapComponent extends React.Component {
             let bounds = map.getBounds();
             this.props.updateMapBounds(bounds);
           }
+        }}
+        onDragEnd={() => {
+          this.loadData();
         }}
       >
         <Marker

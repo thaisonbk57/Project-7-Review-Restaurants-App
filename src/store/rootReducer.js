@@ -60,10 +60,18 @@ export default function rootReducer(state = initState, action) {
         allRestaurantIDs: [...state.allRestaurantIDs, ...newRestaurantIDs]
       };
     case SAVE_RESTAURANT:
-      return {
-        ...state,
-        allRestaurants: [...state.allRestaurants, action.payload.restaurant]
-      };
+      const newRestaurant = { ...action.payload.restaurant };
+      const existingRestaurants = state.allRestaurants.map(
+        restaurant => restaurant.place_id
+      );
+      if (existingRestaurants.indexOf(newRestaurant.place_id) === -1) {
+        return {
+          ...state,
+          allRestaurants: [...state.allRestaurants, action.payload.restaurant]
+        };
+      } else {
+        return state;
+      }
     case SAVE_REVIEWS:
       return {
         ...state,
