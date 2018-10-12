@@ -62,9 +62,6 @@ class MyMapComponent extends React.Component {
       // variate the radius based on the zoom of the map
       let radius = 1000;
       switch (zoom) {
-        case 15:
-          radius = 1000;
-          break;
         case 16:
           radius = 500;
           break;
@@ -204,7 +201,7 @@ class MyMapComponent extends React.Component {
           fullscreenControl: false,
           mapTypeControl: false,
           maxZoom: 18,
-          minZoom: 15,
+          minZoom: 16,
           styles: mapStyles
         }}
         center={this.props.mapCenter.coords}

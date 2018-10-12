@@ -46,7 +46,7 @@ class Restaurant extends React.Component {
           reviews={reviews}
           place_id={place_id}
           reviewAddable={reviewAddable}
-          photo={`https://maps.googleapis.com/maps/api/streetview?size=400x400&location=${lat},${lng}&key=${API_KEY}&fov=90&heading=235&pitch=10`}
+          photo={`https://maps.googleapis.com/maps/api/streetview?size=600x600&location=${lat},${lng}&key=${API_KEY}&fov=90&heading=235&pitch=10`}
         />
       );
     }
