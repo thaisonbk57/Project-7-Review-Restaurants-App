@@ -22,7 +22,7 @@ class carousel extends React.Component {
         'carousel'
       ).parentElement.parentElement.parentElement.parentElement.style.textAlign =
         'center';
-    }, 0);
+    }, 100);
   }
 
   render() {
