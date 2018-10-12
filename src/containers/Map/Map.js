@@ -9,10 +9,7 @@ import {
   InfoWindow
 } from 'react-google-maps';
 import { connect } from 'react-redux';
-import {
-  updateMapBounds,
-  updateMapCenterForFetchingRestaurants
-} from '../../store/actions';
+import { updateMapBounds } from '../../store/actions';
 import Carousel from './Carousel/Carousel';
 import {
   toggleAddRestaurantForm,
@@ -258,9 +255,6 @@ const mapDispatch = dispatch => {
   return {
     updateMapBounds: bounds => {
       dispatch(updateMapBounds(bounds));
-    },
-    updateMapCenterForFetchingRestaurants: center => {
-      dispatch(updateMapCenterForFetchingRestaurants(center));
     },
     toggleAddRestaurantForm: () => {
       dispatch(toggleAddRestaurantForm());

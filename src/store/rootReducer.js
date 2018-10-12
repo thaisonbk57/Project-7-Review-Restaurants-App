@@ -10,7 +10,6 @@ import {
   UPDATE_MAP_CENTER,
   UPDATE_MAP_BOUNDS,
   TURN_OFF_ADD_COMMENT_BUTTON,
-  UPDATE_MAP_CENTER_FOR_FETCHING_RESTAURANTS,
   TOGGLE_ADD_RESTAURANT_FORM,
   GET_NEW_RESTAURANT_LOCATION,
   INITIALIZE_REVIEWS_FOR_NEW_RESTAURANT
@@ -149,11 +148,6 @@ export default function rootReducer(state = initState, action) {
         }
       };
 
-    case UPDATE_MAP_CENTER_FOR_FETCHING_RESTAURANTS:
-      return {
-        ...state,
-        mapCenterForFetchingRestaurants: action.payload.center
-      };
     case UPDATE_MAP_BOUNDS:
       return {
         ...state,
@@ -165,10 +159,6 @@ export default function rootReducer(state = initState, action) {
       let Index1 = state.allRestaurants.findIndex(restaurant => {
         return restaurant.place_id === ID;
       });
-      // we alse need to update the restaurants in range. Otherwise, we need to dispatch the filterRestaurants action.
-      // let Index2 = state.restaurantsInRange.findIndex(restaurant => {
-      //   return restaurant.place_id === ID;
-      // });
 
       return {
         ...state,
@@ -180,14 +170,6 @@ export default function rootReducer(state = initState, action) {
           },
           ...state.allRestaurants.slice(Index1 + 1)
         ]
-        // restaurantsInRange: [
-        //   ...state.restaurantsInRange.slice(0, Index2),
-        //   {
-        //     ...state.restaurantsInRange[Index2],
-        //     reviewAddable: false
-        //   },
-        //   ...state.restaurantsInRange.slice(Index2 + 1)
-        // ]
       };
     case GET_NEW_RESTAURANT_LOCATION:
       return {

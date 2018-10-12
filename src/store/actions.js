@@ -14,8 +14,6 @@ export const UPDATE_MAP_CENTER = 'UPDATE_MAP_CENTER';
 export const UPDATE_MAP_BOUNDS = 'UPDATE_MAP_BOUNDS';
 export const UPDATE_RESTAURANTS_IN_BOUNDS = 'UPDATE_RESTAURANTS_IN_BOUNDS';
 export const TURN_OFF_ADD_COMMENT_BUTTON = 'TURN_OFF_ADD_COMMENT_BUTTON';
-export const UPDATE_MAP_CENTER_FOR_FETCHING_RESTAURANTS =
-  'UPDATE_MAP_CENTER_FOR_FETCHING_RESTAURANTS';
 export const GET_NEW_RESTAURANT_LOCATION = 'GET_NEW_RESTAURANT_LOCATION';
 export const INITIALIZE_REVIEWS_FOR_NEW_RESTAURANT =
   'INITIALIZE_REVIEWS_FOR_NEW_RESTAURANT';
@@ -136,16 +134,6 @@ export const turnOffAddCommentButton = targetRestaurant => {
     type: TURN_OFF_ADD_COMMENT_BUTTON,
     payload: {
       targetRestaurant
-    }
-  };
-};
-
-export const updateMapCenterForFetchingRestaurants = center => {
-  // @center : Object : lat, lng: String
-  return {
-    type: UPDATE_MAP_CENTER_FOR_FETCHING_RESTAURANTS,
-    payload: {
-      center
     }
   };
 };
