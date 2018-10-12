@@ -1,0 +1,30 @@
+.form-backdrop {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.9);
+}
+.form-backdrop .close-btn {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+}
+.close-btn .fa-window-close {
+  font-size: 30px;
+  color: #aaa;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.close-btn .fa-window-close:hover {
+  color: #fff;
+}
+.AddCommentForm {
+  position: absolute;
+  width: 400px;
+  height: auto;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

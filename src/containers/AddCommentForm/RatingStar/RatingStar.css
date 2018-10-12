@@ -1,0 +1,41 @@
+.Rating-stars {
+  position: relative;
+  -webkit-transform: rotateY(180deg);
+  transform: rotateY(180deg);
+  display: inline-block;
+}
+
+.Rating-stars input[type="radio"] {
+  display: none;
+}
+
+.Rating-stars label {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+}
+.Rating-stars label:hover::after,
+.Rating-stars label:hover~label::after {
+  color: orangered;
+}
+
+.Rating-stars label::after {
+  display: block;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  content: '\f005';
+  font-family: fontAwesome;
+  color: #555;
+  font-size: 20px;
+  line-height: 25px;
+  text-align: center;
+  -webkit-transition: all .25s;
+  transition: all .25s
+}
+
+.Rating-stars input[type="radio"]:checked~label::after {
+  color: orangered;
+}
