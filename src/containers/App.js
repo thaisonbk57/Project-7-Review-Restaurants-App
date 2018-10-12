@@ -4,7 +4,6 @@ import {
   saveRestaurantIDs,
   saveRestaurant,
   saveReviews,
-  saveUserPosition,
   filterRestaurants
 } from './../store/actions';
 
@@ -27,6 +26,8 @@ class App extends Component {
         </div>
         <div className="row">
           <div className="col-9 px-0" style={{ position: 'relative' }}>
+            <b className="text-danger">DRAG</b> to load new restaurants OR{' '}
+            <b className="text-danger">RIGHT CLICK</b> to add a new one.
             <Map />
           </div>
           <div className="col-3 px-0">
@@ -57,9 +58,6 @@ function mapDispatch(dispatch) {
   return {
     saveRestaurant: restaurant => {
       dispatch(saveRestaurant(restaurant));
-    },
-    saveUserPos: pos => {
-      dispatch(saveUserPosition(pos));
     },
     saveRestaurantIDs: IDs => {
       dispatch(saveRestaurantIDs(IDs));
