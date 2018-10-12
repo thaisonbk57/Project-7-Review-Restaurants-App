@@ -17,7 +17,8 @@ import {
   saveRestaurantIDs,
   filterRestaurants,
   saveRestaurant,
-  saveReviews
+  saveReviews,
+  saveUserPosition
 } from '../../store/actions';
 
 import { searchNearby } from '../../utils/googleApiHelper';
@@ -134,10 +135,34 @@ class MyMapComponent extends React.Component {
   }
 
   componentDidMount() {
-    console.log('MAP LOADING...');
-    setTimeout(() => {
-      this.loadData();
-    }, 1000);
+    const option = {
+      enableHighAccuracy: true,
+      maximunAge: 30000,
+      timeout: 30000
+    };
+    const err = () => {
+      window.alert('Oops. Something went wrong!');
+    };
+    if (window.navigator.geolocation) {
+      /* Geolocation is supported */
+      window.navigator.geolocation.getCurrentPosition(
+        position => {
+          let lat = position.coords.latitude;
+          let lng = position.coords.longitude;
+          let pos = {
+            lat: lat,
+            lng: lng
+          };
+          this.props.saveUserPos(pos);
+          this.loadData();
+        },
+        err,
+        option
+      );
+    } else {
+      /* Geolocation not supported. */
+      window.alert('Your device is not supported.');
+    }
   }
 
   render() {
@@ -281,6 +306,9 @@ const mapDispatch = dispatch => {
     },
     saveRestaurantIDs: IDs => {
       dispatch(saveRestaurantIDs(IDs));
+    },
+    saveUserPos: pos => {
+      dispatch(saveUserPosition(pos));
     }
   };
 };

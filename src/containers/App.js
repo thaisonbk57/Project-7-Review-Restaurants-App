@@ -17,37 +17,6 @@ import Map from './Map/MapContainer';
 export const TEMP_API_KEY = 'AIzaSyCuMV8HTZCAxl1GN1VNKOYMUn2_DUttqcs';
 
 class App extends Component {
-  componentDidMount = () => {
-    console.log("APP LOADING USER'S POSITION");
-    const option = {
-      enableHighAccuracy: true,
-      maximunAge: 30000,
-      timeout: 30000
-    };
-    const err = () => {
-      window.alert('Oops. Something went wrong!');
-    };
-    if (window.navigator.geolocation) {
-      /* Geolocation is supported */
-      window.navigator.geolocation.getCurrentPosition(
-        position => {
-          let lat = position.coords.latitude;
-          let lng = position.coords.longitude;
-          let pos = {
-            lat: lat,
-            lng: lng
-          };
-          this.props.saveUserPos(pos);
-        },
-        err,
-        option
-      );
-    } else {
-      /* Geolocation not supported. */
-      window.alert('Your device is not supported.');
-    }
-  };
-
   render() {
     return (
       <div className="App container-fluid mx-auto my-3 border rounded border-primary">
