@@ -19,7 +19,7 @@ import {
 const initState = {
   allRestaurants: [],
   allReviews: {},
-  mapBounds: {},
+  mapBounds: null,
   restaurantsInRange: [],
   restaurantsInBounds: [],
   allRestaurantIDs: [],

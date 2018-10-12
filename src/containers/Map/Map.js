@@ -56,16 +56,36 @@ class MyMapComponent extends React.Component {
   loadData() {
     const map = this.map;
     if (map) {
-      let bounds = map.getBounds();
-      this.props.updateMapBounds(bounds);
       let center = map.getCenter();
       const mapObj = map.context.__SECRET_MAP_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+
+      let zoom = map.getZoom();
+      // variate the radius based on the zoom of the map
+      let radius = 1000;
+      switch (zoom) {
+        case 15:
+          radius = 1000;
+          break;
+        case 16:
+          radius = 500;
+          break;
+        case 17:
+          radius = 300;
+          break;
+        case 18:
+          radius = 200;
+          break;
+        case 19:
+          radius = 100;
+          break;
+        default:
+          radius = 500;
+      }
 
       searchNearby(google, mapObj, {
         location: center,
         type: ['restaurant'],
-        bounds: bounds,
-        radius: 1000
+        radius
       }).then((results, pagination) => {
         let restaurantIDs = results.map(restaurant => restaurant.place_id);
         this.props.saveRestaurantIDs(restaurantIDs);
@@ -142,8 +162,6 @@ class MyMapComponent extends React.Component {
           }}
           position={location}
           onClick={() => {
-            // console.log(1);
-            console.log(location);
             this.onToggleOpen(restaurant);
           }}
           animation={animation}
@@ -157,7 +175,7 @@ class MyMapComponent extends React.Component {
 
     return (
       <GoogleMap
-        defaultZoom={16}
+        defaultZoom={17}
         defaultCenter={userPos}
         center={this.props.mapCenter.coords}
         ref={this.onMapMounted}
@@ -178,7 +196,10 @@ class MyMapComponent extends React.Component {
           this.props.getNewRestaurantLocation(location);
         }}
         onTilesLoaded={() => {
-          console.log('map loaded!!!');
+          if (map) {
+            let bounds = map.getBounds();
+            this.props.updateMapBounds(bounds);
+          }
         }}
       >
         <Marker
