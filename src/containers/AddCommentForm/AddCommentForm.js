@@ -63,7 +63,8 @@ class addCommentForm extends Component {
       toggleCommentForm,
       addComment,
       turnOffAddCommentButton,
-      filterRestaurants
+      filterRestaurants,
+      mapBounds
     } = this.props;
 
     if (active) {
@@ -82,7 +83,7 @@ class addCommentForm extends Component {
                 targetRestaurant
               );
               turnOffAddCommentButton(targetRestaurant);
-              filterRestaurants(filterObject);
+              filterRestaurants(filterObject, mapBounds);
             }}
           >
             <div className="form-group">
@@ -129,7 +130,8 @@ const mapState = state => {
   return {
     active: state.activeCommentForm,
     targetRestaurant: state.activeRestaurant,
-    filterObject: state.filterObject
+    filterObject: state.filterObject,
+    mapBounds: state.mapBounds
   };
 };
 
@@ -144,8 +146,8 @@ const mapDispatch = dispatch => {
     turnOffAddCommentButton: activeRestaurant => {
       dispatch(turnOffAddCommentButton(activeRestaurant));
     },
-    filterRestaurants: filterObj => {
-      dispatch(filterRestaurants(filterObj));
+    filterRestaurants: (filterObj, bounds) => {
+      dispatch(filterRestaurants(filterObj, bounds));
     }
   };
 };

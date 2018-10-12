@@ -1,5 +1,5 @@
 import React from 'react';
-import { renderStars } from '../../../utilities/renderStars';
+import { renderStars } from '../../../utils/renderStars';
 
 function RestaurantInfo(props) {
   const {

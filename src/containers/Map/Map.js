@@ -17,29 +17,48 @@ import {
 import Carousel from './Carousel/Carousel';
 import {
   toggleAddRestaurantForm,
-  getNewRestaurantLocation
+  getNewRestaurantLocation,
+  saveRestaurantIDs,
+  filterRestaurants,
+  saveRestaurant,
+  saveReviews
 } from './../../store/actions';
-// import { searchNearby } from '../../utils/googleApiHelper';
 
-import {searchNearby} from '../../utils/googleApiHelper'
+import { searchNearby } from '../../utils/googleApiHelper';
 const userMarker = require('./../../img/user.png');
-
 
 // Using compose from 'recompose' to combine all HOC into one.
 const MyMapComponent = compose(
   withProps({
     googleMapURL:
       'https://maps.googleapis.com/maps/api/js?key=AIzaSyCuMV8HTZCAxl1GN1VNKOYMUn2_DUttqcs&v=3.exp&libraries=geometry,drawing,places',
-    loadingElement: <div style={{ height: `100%` }} />,
-    containerElement: <div style={{ height: `calc(100vh - 180px)` }} />,
-    mapElement: <div style={{ height: `100%` }} />
+    loadingElement: (
+      <div
+        style={{
+          height: `100%`
+        }}
+      />
+    ),
+    containerElement: (
+      <div
+        style={{
+          height: `calc(100vh - 180px)`
+        }}
+      />
+    ),
+    mapElement: (
+      <div
+        style={{
+          height: `100%`
+        }}
+      />
+    )
   }),
   withStateHandlers(
     () => ({
-      infoBoxShown: false, // if true, a InfoWindow will be shown, displaying informations of the current restaurant.
+      infoBoxShown: false,
       currentRestaurant: {},
-      map: undefined, // boundaries of the map. Used to filter the restaurant in bounds.
-      restaurantsInBounds: []
+      map: undefined
     }),
     {
       onToggleOpen: props => restaurant => ({
@@ -52,18 +71,10 @@ const MyMapComponent = compose(
         // InfoWindow component has a close X  button. When use clicks on that. The InfoWindow will disappear
         infoBoxShown: false
       }),
-      onMapMounted: props => ref => {
+      onMapMounted: () => ref => {
         return {
           map: ref
         };
-      },
-      onRightClick: props => e => {
-        const lat = e.latLng.lat();
-        const lng = e.latLng.lng();
-        console.log({
-          lat,
-          lng
-        });
       }
     }
   ),
@@ -97,41 +108,12 @@ const MyMapComponent = compose(
   });
 
   const { userPos, map, currentRestaurant } = props;
-
-    //const service = new google.maps.places.PlacesService(map.getDiv());
-    //const service = new google.maps.places.PlacesService(map1);
-
-    // searchNearby(google, map, {
-    //   center: {lat: 52.527103999999994,lng: 13.402111999999999},
-    //   zoom: 15
-    // }).then((results, paginatino) => {
-    //   console.log('results',results)
-    // }).catch(err => console.log('Érr:',err))
-
-// console.log(service(map, {
-//   location: {lat: 52.527103999999994,lng: 13.402111999999999},
-//   radius: 300,
-//   type: ['restaurant']
-// }));
-
-//  service.nearbySearch({
-//     location: {lat: 52.527103999999994,lng: 13.402111999999999},
-//     radius: 300,
-//     type: ['restaurant']
-//   },(result, status) => {
-// //     console.log(result, status)
-// //   })
-
-  
-
   return (
     <GoogleMap
       defaultZoom={16}
       defaultCenter={userPos}
       center={props.mapCenter.coords}
-      ref={ref => {
-        props.onMapMounted(ref);
-      }}
+      ref={props.onMapMounted}
       onCenterChanged={() => {
         let bounds = map.getBounds();
         props.updateMapBounds(bounds);
@@ -149,17 +131,63 @@ const MyMapComponent = compose(
         }
       }}
       onTilesLoaded={() => {
-        setTimeout(() => searchNearby(google, map, {
-          center: {lat: 52.527103999999994,lng: 13.402111999999999},
-          zoom: 15
-        }).then((results, paginatino) => {
-          console.log('results',results)
-        }).catch(err => console.log('Érr:',err)), 2000)
-        // When map get mounted successfully, we get the map bounds.
         if (map) {
           let bounds = map.getBounds();
           props.updateMapBounds(bounds);
-          props.updateMapCenterForFetchingRestaurants(map.getCenter());
+          let center = map.getCenter();
+          const mapObj =
+            map.context.__SECRET_MAP_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+
+          searchNearby(google, mapObj, {
+            location: center,
+            type: ['restaurant'],
+            bounds: bounds
+          }).then((results, pagination) => {
+            let restaurantIDs = results.map(restaurant => restaurant.place_id);
+            props.saveRestaurantIDs(restaurantIDs);
+
+            restaurantIDs.forEach(ID => {
+              fetch(
+                `https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/details/json?placeid=${ID}&fields=name,rating,formatted_phone_number,formatted_address,photos,geometry,place_id,reviews&key=AIzaSyCuMV8HTZCAxl1GN1VNKOYMUn2_DUttqcs`
+              )
+                .then(response => response.json())
+                .then(data => data.result)
+                .then(result => {
+                  const {
+                    formatted_address,
+                    formatted_phone_number,
+                    photos,
+                    geometry,
+                    name,
+                    place_id,
+                    rating,
+                    reviews
+                  } = result;
+
+                  // if true, then user can add new review to this restaurant.
+                  let reviewAddable = true;
+
+                  const restaurant = {
+                    formatted_address,
+                    photos,
+                    formatted_phone_number,
+                    geometry,
+                    name,
+                    place_id,
+                    rating,
+                    reviewAddable
+                  };
+
+                  // save Restaurants
+                  props.saveRestaurant(restaurant);
+
+                  // save Reviews in another place (flatten rootReducer)
+                  props.saveReviews(place_id, reviews);
+                  // by default, it will take all
+                  props.filterRestaurants(props.filterObject, map.getBounds());
+                });
+            });
+          });
         }
       }}
       onRightClick={e => {
@@ -179,9 +207,7 @@ const MyMapComponent = compose(
         zIndex={121}
         animation={google.maps.Animation.BOUNCE}
       />
-
       {markers}
-
       {props.infoBoxShown && (
         <InfoWindow
           defaultPosition={userPos}
@@ -190,20 +216,25 @@ const MyMapComponent = compose(
             props.closeInfoWindow();
           }}
         >
-          <div style={{ maxWidth: 300 }}>
-            <h3>{currentRestaurant.name}</h3>
-            <p>{currentRestaurant.formatted_address}</p>
+          <div
+            style={{
+              maxWidth: 300
+            }}
+          >
+            <h3> {currentRestaurant.name} </h3>{' '}
+            <p> {currentRestaurant.formatted_address} </p>{' '}
             <a href={`tel:${currentRestaurant.formatted_phone_number}`}>
-              {currentRestaurant.formatted_phone_number}
+              {' '}
+              {currentRestaurant.formatted_phone_number}{' '}
             </a>{' '}
             <br />
             <Carousel
               restaurantName={currentRestaurant.name}
               allPhotos={currentRestaurant.photos}
-            />
-          </div>
+            />{' '}
+          </div>{' '}
         </InfoWindow>
-      )}
+      )}{' '}
     </GoogleMap>
   );
 });
@@ -213,8 +244,8 @@ const mapState = state => {
     restaurantsInRange: state.restaurantsInRange,
     userPos: state.userPos,
     mapCenter: state.mapCenter,
-    mapCenterForFetchingRestaurants: state.mapCenterForFetchingRestaurants,
-    mapBounds: state.mapBounds
+    mapBounds: state.mapBounds,
+    filterObject: state.filterObject
   };
 };
 
@@ -231,6 +262,18 @@ const mapDispatch = dispatch => {
     },
     getNewRestaurantLocation: location => {
       dispatch(getNewRestaurantLocation(location));
+    },
+    saveReviews: (place_id, reviews) => {
+      dispatch(saveReviews(place_id, reviews));
+    },
+    saveRestaurant: restaurant => {
+      dispatch(saveRestaurant(restaurant));
+    },
+    filterRestaurants: (filterObj, bounds) => {
+      dispatch(filterRestaurants(filterObj, bounds));
+    },
+    saveRestaurantIDs: IDs => {
+      dispatch(saveRestaurantIDs(IDs));
     }
   };
 };

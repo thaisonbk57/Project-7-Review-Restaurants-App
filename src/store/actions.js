@@ -39,11 +39,11 @@ export const saveRestaurantIDs = restaurantIDs => {
 };
 
 // FILTER out restaurants that are not in range (from X stars to Y stars)
-export const filterRestaurants = filterObject => {
+export const filterRestaurants = (filterObject, bounds) => {
   // @ filterObject : Object
   return {
     type: FILTER_RESTAURANTS,
-    payload: { filterObject }
+    payload: { filterObject, bounds }
   };
 };
 

@@ -73,12 +73,13 @@ export default function rootReducer(state = initState, action) {
         }
       };
     case FILTER_RESTAURANTS:
-      const [from, to] = [
-        action.payload.filterObject.from,
-        action.payload.filterObject.to
-      ];
+      const from = action.payload.filterObject.from;
+      const bounds = action.payload.bounds;
       let restaurantsInRange = state.allRestaurants.filter(restaurant => {
-        return restaurant.rating >= from && restaurant.rating <= to;
+        return (
+          restaurant.rating >= from &&
+          bounds.contains(restaurant.geometry.location)
+        );
       });
       return {
         ...state,

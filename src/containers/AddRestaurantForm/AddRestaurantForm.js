@@ -1,5 +1,5 @@
 /* global google */
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import './AddRestaurantForm.css';
 import { connect } from 'react-redux';
 import {

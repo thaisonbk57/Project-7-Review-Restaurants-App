@@ -29,7 +29,7 @@ class Filter extends Component {
 
   componentDidUpdate() {
     this.props.updateFilter(this.state.star);
-    this.props.filterRestaurants(this.state.star);
+    this.props.filterRestaurants(this.state.star, this.props.mapBounds);
   }
 
   render() {
@@ -44,7 +44,9 @@ class Filter extends Component {
 }
 
 const mapState = state => {
-  return {};
+  return {
+    mapBounds: state.mapBounds
+  };
 };
 
 const mapDispatch = dispatch => {
@@ -52,8 +54,8 @@ const mapDispatch = dispatch => {
     updateFilter: filterObj => {
       dispatch(updateFilterObject(filterObj));
     },
-    filterRestaurants: filterObj => {
-      dispatch(filterRestaurants(filterObj));
+    filterRestaurants: (filterObj, bounds) => {
+      dispatch(filterRestaurants(filterObj, bounds));
     }
   };
 };

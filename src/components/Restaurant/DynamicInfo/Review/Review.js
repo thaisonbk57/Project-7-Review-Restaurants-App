@@ -1,5 +1,5 @@
 import React from 'react';
-import { renderStars } from '../../../../utilities/renderStars';
+import { renderStars } from '../../../../utils/renderStars';
 
 const Review = props => {
   const { reviewAuthor, reviewRating, reviewText } = props;

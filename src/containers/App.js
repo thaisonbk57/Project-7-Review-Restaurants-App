@@ -8,10 +8,6 @@ import {
   filterRestaurants
 } from './../store/actions';
 
-import gmaps from '@google/maps';
-
-import { API_KEY } from './../store/actions';
-
 import Header from '../components/Header/Header';
 import RestaurantList from './RestaurantList/RestaurantList';
 import AddCommentForm from './AddCommentForm/AddCommentForm';
@@ -19,11 +15,6 @@ import AddRestaurantForm from './AddRestaurantForm/AddRestaurantForm';
 import Map from './Map/Map';
 
 export const TEMP_API_KEY = 'AIzaSyCuMV8HTZCAxl1GN1VNKOYMUn2_DUttqcs';
-
-// Create an object googleMapsClient using @google/maps library
-const googleMapsClient = gmaps.createClient({
-  key: TEMP_API_KEY
-});
 
 class App extends Component {
   componentDidMount = () => {
@@ -46,73 +37,6 @@ class App extends Component {
             lng: lng
           };
           this.props.saveUserPos(pos);
-
-          // get Information from google API using @google/maps package
-          googleMapsClient.placesNearby(
-            {
-              location: this.props.userPos,
-              radius: 300,
-              type: 'restaurant'
-            },
-            (err, response) => {
-              if (!err) {
-                let data = response.json.results;
-                // console.log(data);
-                let restaurantIDs = data.map(restaurant => restaurant.place_id);
-                // console.log(restaurantIDs);
-                this.props.saveRestaurantIDs(restaurantIDs);
-                // So, now we have all IDs from restaurants that we want. Next thing to do is how to fetch restaurant details of each one and then update the store
-                this.props.allRestaurantIDs.forEach(ID => {
-                  googleMapsClient.place(
-                    {
-                      placeid: ID
-                    },
-                    (err, response) => {
-                      if (!err) {
-                        const result = response.json.result;
-                        // console.log(result);
-                        const {
-                          formatted_address,
-                          formatted_phone_number,
-                          photos,
-                          geometry,
-                          name,
-                          place_id,
-                          rating,
-                          reviews
-                        } = result;
-                        // if true, then user can add new review to this restaurant.
-                        let reviewAddable = true;
-
-                        const restaurant = {
-                          formatted_address,
-                          photos,
-                          formatted_phone_number,
-                          geometry,
-                          name,
-                          place_id,
-                          rating,
-                          reviewAddable
-                        };
-
-                        // save Restaurants
-                        this.props.saveRestaurant(restaurant);
-
-                        // save Reviews in another place (flatten rootReducer)
-                        this.props.saveReviews(place_id, reviews);
-                        // by default, it will take all
-                        this.props.filterRestaurants(this.props.filterObject);
-                      } else {
-                        console.log(err);
-                      }
-                    }
-                  );
-                });
-              } else {
-                console.log('ERROR', err);
-              }
-            }
-          );
         },
         err,
         option
