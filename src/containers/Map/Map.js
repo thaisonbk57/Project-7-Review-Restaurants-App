@@ -250,12 +250,16 @@ class MyMapComponent extends React.Component {
           >
             <div
               style={{
-                maxWidth: 300
+                maxWidth: 300,
+                margin: 'auto'
               }}
             >
-              <h3> {currentRestaurant.name} </h3>{' '}
-              <p> {currentRestaurant.formatted_address} </p>{' '}
-              <a href={`tel:${currentRestaurant.formatted_phone_number}`}>
+              <h3> {currentRestaurant.name} </h3>
+              <p> {currentRestaurant.formatted_address} </p>
+              <a
+                className="d-block my-1"
+                href={`tel:${currentRestaurant.formatted_phone_number}`}
+              >
                 {currentRestaurant.formatted_phone_number}
               </a>
               <br />
