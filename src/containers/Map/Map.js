@@ -134,7 +134,9 @@ class MyMapComponent extends React.Component {
   }
 
   componentDidMount() {
-    this.loadData();
+    setTimeout(() => {
+      this.loadData();
+    }, 1000);
   }
 
   render() {
