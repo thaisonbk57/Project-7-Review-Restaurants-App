@@ -1,6 +1,0 @@
-1. at the root folder run npm install
-2. npm start to start the app
-
-OR
-
-if you have live-server installed on your local machine, you can move to folder build and run    live-server
