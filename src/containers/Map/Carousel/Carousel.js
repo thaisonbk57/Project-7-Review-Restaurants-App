@@ -1,5 +1,5 @@
-import React from 'react';
-import { TEMP_API_KEY } from './../../App';
+import React from "react";
+import { TEMP_API_KEY } from "./../../App";
 
 // This component receive allPhotos, and name of a restaurant (from Map)
 // then display all photos in form of a carousel
@@ -17,12 +17,16 @@ class carousel extends React.Component {
 
   componentDidMount() {
     // styling the carousel
-    setTimeout(() => {
-      document.getElementById(
-        'carousel'
-      ).parentElement.parentElement.parentElement.parentElement.style.textAlign =
-        'center';
-    }, 100);
+    try {
+      setTimeout(() => {
+        document.getElementById(
+          "carousel"
+        ).parentElement.parentElement.parentElement.parentElement.style.textAlign =
+          "center";
+      }, 100);
+    } catch (err) {
+      console.log("Error: ", err);
+    }
   }
 
   render() {
@@ -37,7 +41,7 @@ class carousel extends React.Component {
             <div key={photo.photo_reference} className="carousel-item active">
               <img
                 className="d-block"
-                style={{ width: '100%', height: 250 }}
+                style={{ width: "100%", height: 250 }}
                 src={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=500&photoreference=${
                   photo.photo_reference
                 }&key=${TEMP_API_KEY}`}
@@ -51,7 +55,7 @@ class carousel extends React.Component {
           <div key={photo.photo_reference} className="carousel-item">
             <img
               className="d-block"
-              style={{ width: '100%', height: 250 }}
+              style={{ width: "100%", height: 250 }}
               src={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=500&photoreference=${
                 photo.photo_reference
               }&key=${TEMP_API_KEY}`}
