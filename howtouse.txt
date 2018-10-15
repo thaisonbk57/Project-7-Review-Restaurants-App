@@ -4,4 +4,4 @@
 
 OR
 
-go to   https://warm-cove-47959.herokuapp.com/     to use the app.
+go to   https://review-res.herokuapp.com/    to use the app.
