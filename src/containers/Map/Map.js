@@ -1,16 +1,16 @@
 /*global google*/
 
-import React from 'react';
+import React from "react";
 import {
   withScriptjs,
   withGoogleMap,
   GoogleMap,
   Marker,
   InfoWindow
-} from 'react-google-maps';
-import { connect } from 'react-redux';
-import { updateMapBounds } from '../../store/actions';
-import Carousel from './Carousel/Carousel';
+} from "react-google-maps";
+import { connect } from "react-redux";
+import { updateMapBounds } from "../../store/actions";
+import Carousel from "./Carousel/Carousel";
 import {
   toggleAddRestaurantForm,
   getNewRestaurantLocation,
@@ -19,11 +19,11 @@ import {
   saveRestaurant,
   saveReviews,
   saveUserPosition
-} from '../../store/actions';
+} from "../../store/actions";
 
-import { searchNearby } from '../../utils/googleApiHelper';
-import { mapStyles } from './MapStyles';
-const userMarker = require('./../../img/user.png');
+import { searchNearby } from "../../utils/googleApiHelper";
+import { mapStyles } from "./MapStyles";
+const userMarker = require("./../../img/user.png");
 
 class MyMapComponent extends React.Component {
   constructor(props) {
@@ -77,7 +77,7 @@ class MyMapComponent extends React.Component {
 
       searchNearby(google, mapObj, {
         location: center,
-        type: ['restaurant'],
+        type: ["restaurant"],
         radius
       }).then((results, pagination) => {
         let restaurantIDs = results.map(restaurant => restaurant.place_id);
@@ -85,7 +85,7 @@ class MyMapComponent extends React.Component {
 
         restaurantIDs.forEach(ID => {
           fetch(
-            `https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/details/json?placeid=${ID}&fields=name,rating,formatted_phone_number,formatted_address,photos,geometry,place_id,reviews&key=AIzaSyCuMV8HTZCAxl1GN1VNKOYMUn2_DUttqcs`
+            `https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/details/json?placeid=${ID}&fields=name,rating,formatted_phone_number,formatted_address,photos,geometry,place_id,reviews,opening_hours,website&key=AIzaSyCuMV8HTZCAxl1GN1VNKOYMUn2_DUttqcs`
           )
             .then(response => response.json())
             .then(data => data.result)
@@ -98,9 +98,10 @@ class MyMapComponent extends React.Component {
                 name,
                 place_id,
                 rating,
-                reviews
+                reviews,
+                opening_hours,
+                website
               } = result;
-
               // if true, then user can add new review to this restaurant.
               let reviewAddable = true;
 
@@ -112,7 +113,9 @@ class MyMapComponent extends React.Component {
                 name,
                 place_id,
                 rating,
-                reviewAddable
+                reviewAddable,
+                website,
+                opening_hours
               };
 
               // save Restaurants
@@ -138,7 +141,7 @@ class MyMapComponent extends React.Component {
       timeout: 30000
     };
     const err = () => {
-      window.alert('Oops. Something went wrong!');
+      window.alert("Oops. Something went wrong!");
     };
     if (window.navigator.geolocation) {
       /* Geolocation is supported */
@@ -158,7 +161,7 @@ class MyMapComponent extends React.Component {
       );
     } else {
       /* Geolocation not supported. */
-      window.alert('Your device is not supported.');
+      window.alert("Your device is not supported.");
     }
   }
 
@@ -177,8 +180,8 @@ class MyMapComponent extends React.Component {
           key={place_id}
           label={{
             text: parseFloat(rating).toFixed(1),
-            color: 'black',
-            fontSize: '16px'
+            color: "black",
+            fontSize: "16px"
           }}
           position={location}
           onClick={() => {
@@ -234,7 +237,7 @@ class MyMapComponent extends React.Component {
         }}
       >
         <Marker
-          title={'current position...'}
+          title={"current position..."}
           icon={userMarker}
           position={userPos}
           zIndex={121}
@@ -252,7 +255,7 @@ class MyMapComponent extends React.Component {
             <div
               style={{
                 maxWidth: 300,
-                margin: 'auto'
+                margin: "auto"
               }}
             >
               <h3> {currentRestaurant.name} </h3>
@@ -263,7 +266,13 @@ class MyMapComponent extends React.Component {
               >
                 {currentRestaurant.formatted_phone_number}
               </a>
-              <br />
+              <a
+                className="d-block my-1"
+                href={`${currentRestaurant.website}`}
+                target="_blank"
+              >
+                {currentRestaurant.website}
+              </a>
               <Carousel
                 restaurantName={currentRestaurant.name}
                 allPhotos={currentRestaurant.photos}
