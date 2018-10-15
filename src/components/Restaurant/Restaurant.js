@@ -1,9 +1,9 @@
-import React from 'react';
-import StaticInfo from './StaticInfo/StaticInfo';
-import DynamicInfo from './DynamicInfo/DynamicInfo';
-import { API_KEY } from '../../store/actions';
-import { updateMapCenter } from '../../store/actions';
-import { connect } from 'react-redux';
+import React from "react";
+import StaticInfo from "./StaticInfo/StaticInfo";
+import DynamicInfo from "./DynamicInfo/DynamicInfo";
+import { API_KEY } from "../../store/actions";
+import { updateMapCenter } from "../../store/actions";
+import { connect } from "react-redux";
 
 class Restaurant extends React.Component {
   constructor(props) {
@@ -26,8 +26,6 @@ class Restaurant extends React.Component {
   };
 
   render() {
-    let dynamicInfo = null;
-
     const { reviews } = this.props;
 
     const {
@@ -40,17 +38,6 @@ class Restaurant extends React.Component {
 
     const { lat, lng } = this.props.info.geometry.location;
 
-    if (this.state.showDynamicInfo) {
-      dynamicInfo = (
-        <DynamicInfo
-          reviews={reviews}
-          place_id={place_id}
-          reviewAddable={reviewAddable}
-          photo={`https://maps.googleapis.com/maps/api/streetview?size=600x600&location=${lat},${lng}&key=${API_KEY}&fov=90&heading=235&pitch=10`}
-        />
-      );
-    }
-
     return (
       <div className="restaurant">
         <StaticInfo
@@ -59,7 +46,13 @@ class Restaurant extends React.Component {
           restaurantRating={rating}
           toggleDynamicInfo={this.toggleDynamicInfoHandler}
         />
-        {dynamicInfo}
+        <DynamicInfo
+          show={this.state.showDynamicInfo}
+          reviews={reviews}
+          place_id={place_id}
+          reviewAddable={reviewAddable}
+          photo={`https://maps.googleapis.com/maps/api/streetview?size=600x600&location=${lat},${lng}&key=${API_KEY}&fov=90&heading=235&pitch=10`}
+        />
       </div>
     );
   }

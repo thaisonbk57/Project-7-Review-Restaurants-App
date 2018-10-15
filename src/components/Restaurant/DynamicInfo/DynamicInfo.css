@@ -1,0 +1,36 @@
+.DynamicInfo {
+  overflow-y: scroll;
+  transition: all 0.4s;
+  height: 400px;
+}
+.DynamicInfoOpen {
+  animation: infoOpen 0.4s ease-out forwards;
+}
+.DynamicInfoClosed {
+  animation: infoClosed 0.4s ease-out forwards;
+}
+
+@keyframes infoOpen {
+  0% {
+    visibility: hidden;
+    opacity: 0;
+    height: 0;
+  }
+  100% {
+    visibility: visible;
+    opacity: 1;
+    height: 400px;
+  }
+}
+@keyframes infoClosed {
+  0% {
+    visibility: visible;
+    opacity: 1;
+    height: 400px;
+  }
+  100% {
+    visibility: hidden;
+    opacity: 0;
+    height: 0;
+  }
+}

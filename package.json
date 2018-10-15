@@ -8,6 +8,7 @@
     "react-google-maps": "^9.4.5",
     "react-redux": "^5.0.7",
     "react-scripts": "1.1.5",
+    "react-transition-group": "^2.5.0",
     "redux": "^4.0.0"
   },
   "scripts": {
