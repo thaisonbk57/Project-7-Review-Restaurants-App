@@ -18,7 +18,8 @@ import {
   filterRestaurants,
   saveRestaurant,
   saveReviews,
-  saveUserPosition
+  saveUserPosition,
+  updateLocalStorage
 } from "../../store/actions";
 
 import { searchNearby } from "../../utils/googleApiHelper";
@@ -155,6 +156,7 @@ class MyMapComponent extends React.Component {
           };
           this.props.saveUserPos(pos);
           this.loadData();
+          this.props.updateLocalStorage(this.props.currentState);
         },
         err,
         option
@@ -234,6 +236,7 @@ class MyMapComponent extends React.Component {
         }}
         onDragEnd={() => {
           this.loadData();
+          this.props.updateLocalStorage(this.props.currentState);
         }}
       >
         <Marker
@@ -291,7 +294,8 @@ const mapState = state => {
     userPos: state.userPos,
     mapCenter: state.mapCenter,
     mapBounds: state.mapBounds,
-    filterObject: state.filterObject
+    filterObject: state.filterObject,
+    currentState: state
   };
 };
 
@@ -320,6 +324,9 @@ const mapDispatch = dispatch => {
     },
     saveUserPos: pos => {
       dispatch(saveUserPosition(pos));
+    },
+    updateLocalStorage: currentState => {
+      dispatch(updateLocalStorage(currentState));
     }
   };
 };

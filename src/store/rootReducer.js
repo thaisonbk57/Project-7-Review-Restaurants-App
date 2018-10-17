@@ -12,32 +12,41 @@ import {
   TURN_OFF_ADD_COMMENT_BUTTON,
   TOGGLE_ADD_RESTAURANT_FORM,
   GET_NEW_RESTAURANT_LOCATION,
-  INITIALIZE_REVIEWS_FOR_NEW_RESTAURANT
+  INITIALIZE_REVIEWS_FOR_NEW_RESTAURANT,
+  UPDATE_LOCAL_STORAGE
 } from "./actions";
 
-const initState = {
-  allRestaurants: [],
-  allReviews: {},
-  mapBounds: null,
-  restaurantsInRange: [],
-  restaurantsInBounds: [],
-  allRestaurantIDs: [],
-  userPos: {},
-  filterObject: {
-    // use to filter the  restaurant in range from X stars to Y stars
-    from: 1,
-    to: 5
-  },
-  activeCommentForm: false, // if true, then the comment from will pop up.
-  activeAddRestaurantForm: false,
-  activeRestaurant: "", // here will be the PLACE_ID of the active restaurant that is goona receive new comment,
-  mapCenter: {
-    coords: {},
-    place_id: "" // if user clicked on a restaurant, we compare the the clicked restaurant and the place_id to add BOUNCE animation effect to the markers.
-  },
-  mapCenterForFetchingRestaurants: {},
-  newRestaurantLocation: null
-};
+let initState;
+
+let localStorage = window.localStorage.getItem("res-review-app");
+
+if (localStorage === null) {
+  initState = {
+    allRestaurants: [],
+    allReviews: {},
+    mapBounds: null,
+    restaurantsInRange: [],
+    restaurantsInBounds: [],
+    allRestaurantIDs: [],
+    userPos: {},
+    filterObject: {
+      // use to filter the  restaurant in range from X stars to Y stars
+      from: 1,
+      to: 5
+    },
+    activeCommentForm: false, // if true, then the comment from will pop up.
+    activeAddRestaurantForm: false,
+    activeRestaurant: "", // here will be the PLACE_ID of the active restaurant that is goona receive new comment,
+    mapCenter: {
+      coords: {},
+      place_id: "" // if user clicked on a restaurant, we compare the the clicked restaurant and the place_id to add BOUNCE animation effect to the markers.
+    },
+    mapCenterForFetchingRestaurants: {},
+    newRestaurantLocation: null
+  };
+} else {
+  initState = JSON.parse(localStorage);
+}
 
 export default function rootReducer(state = initState, action) {
   switch (action.type) {
@@ -184,6 +193,13 @@ export default function rootReducer(state = initState, action) {
           [action.payload.place_id]: []
         }
       };
+    case UPDATE_LOCAL_STORAGE:
+      window.localStorage.setItem(
+        "res-review-app",
+        JSON.stringify(action.payload.currentState)
+      );
+
+      return state;
     default:
       return state;
   }

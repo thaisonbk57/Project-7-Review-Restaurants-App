@@ -1,22 +1,23 @@
-export const API_KEY = 'AIzaSyAhqGGanA-hH9UQ1O96Y95h_kx-xfwkaU4';
-export const BASE_URL = 'https://maps.googleapis.com/maps/api/';
+export const API_KEY = "AIzaSyAhqGGanA-hH9UQ1O96Y95h_kx-xfwkaU4";
+export const BASE_URL = "https://maps.googleapis.com/maps/api/";
 
-export const SAVE_USER_POSITION = 'SAVE_USER_POSITION';
-export const SAVE_RESTAURANT = 'SAVE_RESTAURANT';
-export const SAVE_REVIEWS = 'SAVE_REVIEWS';
-export const SAVE_RESTAURANT_IDs = 'SAVE_RESTAURANT_ID';
-export const FILTER_RESTAURANTS = 'FILTER_RESTAURANT';
-export const UPDATE_FILTER_OBJECT = 'UPDATE_FILTER_OBJECT';
-export const TOGGLE_COMMENT_FORM = 'TOGGLE_COMMENT_FORM';
-export const TOGGLE_ADD_RESTAURANT_FORM = 'TOGGLE_ADD_RESTAURANT_FORM';
-export const ADD_COMMENT = 'ADD_COMMENT';
-export const UPDATE_MAP_CENTER = 'UPDATE_MAP_CENTER';
-export const UPDATE_MAP_BOUNDS = 'UPDATE_MAP_BOUNDS';
-export const UPDATE_RESTAURANTS_IN_BOUNDS = 'UPDATE_RESTAURANTS_IN_BOUNDS';
-export const TURN_OFF_ADD_COMMENT_BUTTON = 'TURN_OFF_ADD_COMMENT_BUTTON';
-export const GET_NEW_RESTAURANT_LOCATION = 'GET_NEW_RESTAURANT_LOCATION';
+export const SAVE_USER_POSITION = "SAVE_USER_POSITION";
+export const SAVE_RESTAURANT = "SAVE_RESTAURANT";
+export const SAVE_REVIEWS = "SAVE_REVIEWS";
+export const SAVE_RESTAURANT_IDs = "SAVE_RESTAURANT_ID";
+export const FILTER_RESTAURANTS = "FILTER_RESTAURANT";
+export const UPDATE_FILTER_OBJECT = "UPDATE_FILTER_OBJECT";
+export const TOGGLE_COMMENT_FORM = "TOGGLE_COMMENT_FORM";
+export const TOGGLE_ADD_RESTAURANT_FORM = "TOGGLE_ADD_RESTAURANT_FORM";
+export const ADD_COMMENT = "ADD_COMMENT";
+export const UPDATE_MAP_CENTER = "UPDATE_MAP_CENTER";
+export const UPDATE_MAP_BOUNDS = "UPDATE_MAP_BOUNDS";
+export const UPDATE_RESTAURANTS_IN_BOUNDS = "UPDATE_RESTAURANTS_IN_BOUNDS";
+export const TURN_OFF_ADD_COMMENT_BUTTON = "TURN_OFF_ADD_COMMENT_BUTTON";
+export const GET_NEW_RESTAURANT_LOCATION = "GET_NEW_RESTAURANT_LOCATION";
 export const INITIALIZE_REVIEWS_FOR_NEW_RESTAURANT =
-  'INITIALIZE_REVIEWS_FOR_NEW_RESTAURANT';
+  "INITIALIZE_REVIEWS_FOR_NEW_RESTAURANT";
+export const UPDATE_LOCAL_STORAGE = "UPDATE_LOCAL_STORAGE";
 
 // SAVE user' position.
 export const saveUserPosition = position => {
@@ -154,6 +155,15 @@ export const initializeReviewsForNewRestaurant = place_id => {
     type: INITIALIZE_REVIEWS_FOR_NEW_RESTAURANT,
     payload: {
       place_id
+    }
+  };
+};
+
+export const updateLocalStorage = currentState => {
+  return {
+    type: UPDATE_LOCAL_STORAGE,
+    payload: {
+      currentState
     }
   };
 };
