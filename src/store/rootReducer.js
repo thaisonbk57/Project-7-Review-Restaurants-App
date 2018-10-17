@@ -13,7 +13,7 @@ import {
   TOGGLE_ADD_RESTAURANT_FORM,
   GET_NEW_RESTAURANT_LOCATION,
   INITIALIZE_REVIEWS_FOR_NEW_RESTAURANT
-} from './actions';
+} from "./actions";
 
 const initState = {
   allRestaurants: [],
@@ -30,10 +30,10 @@ const initState = {
   },
   activeCommentForm: false, // if true, then the comment from will pop up.
   activeAddRestaurantForm: false,
-  activeRestaurant: '', // here will be the PLACE_ID of the active restaurant that is goona receive new comment,
+  activeRestaurant: "", // here will be the PLACE_ID of the active restaurant that is goona receive new comment,
   mapCenter: {
     coords: {},
-    place_id: '' // if user clicked on a restaurant, we compare the the clicked restaurant and the place_id to add BOUNCE animation effect to the markers.
+    place_id: "" // if user clicked on a restaurant, we compare the the clicked restaurant and the place_id to add BOUNCE animation effect to the markers.
   },
   mapCenterForFetchingRestaurants: {},
   newRestaurantLocation: null
