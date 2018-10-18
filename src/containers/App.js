@@ -13,7 +13,7 @@ import AddCommentForm from "./AddCommentForm/AddCommentForm";
 import AddRestaurantForm from "./AddRestaurantForm/AddRestaurantForm";
 import Map from "./Map/MapContainer";
 
-export const TEMP_API_KEY = "AIzaSyCuMV8HTZCAxl1GN1VNKOYMUn2_DUttqcs";
+export const API_KEY = "AIzaSyAhqGGanA-hH9UQ1O96Y95h_kx-xfwkaU4";
 
 class App extends Component {
   render() {

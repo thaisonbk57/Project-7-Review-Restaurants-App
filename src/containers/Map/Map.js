@@ -24,6 +24,7 @@ import {
 
 import { searchNearby } from "../../utils/googleApiHelper";
 import { mapStyles } from "./MapStyles";
+import { API_KEY } from "./../App";
 const userMarker = require("./../../img/user.png");
 
 class MyMapComponent extends React.Component {
@@ -86,7 +87,7 @@ class MyMapComponent extends React.Component {
 
         restaurantIDs.forEach(ID => {
           fetch(
-            `https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/details/json?placeid=${ID}&fields=name,rating,formatted_phone_number,formatted_address,photos,geometry,place_id,reviews,opening_hours,website&key=AIzaSyCuMV8HTZCAxl1GN1VNKOYMUn2_DUttqcs`
+            `https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/details/json?placeid=${ID}&fields=name,rating,formatted_phone_number,formatted_address,photos,geometry,place_id,reviews,opening_hours,website&key=${API_KEY}`
           )
             .then(response => response.json())
             .then(data => data.result)

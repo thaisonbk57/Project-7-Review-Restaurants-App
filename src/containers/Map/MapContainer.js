@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 import MyMap from "./Map";
+import { API_KEY } from "./../App";
 class Map extends Component {
   render() {
+    const mapURL = `https://maps.googleapis.com/maps/api/js?key=${API_KEY}&v=3.exp&libraries=geometry,drawing,places`;
     return (
       <div>
         <MyMap
-          googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyCuMV8HTZCAxl1GN1VNKOYMUn2_DUttqcs&v=3.exp&libraries=geometry,drawing,places"
+          googleMapURL={mapURL}
           loadingElement={
             <div
               style={{
