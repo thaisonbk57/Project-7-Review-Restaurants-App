@@ -22,10 +22,12 @@ import {
   updateLocalStorage
 } from "../../store/actions";
 
-import { searchNearby } from "../../utils/googleApiHelper";
+import { searchNearby, getPlaceDetails } from "../../utils/googleApiHelper";
 import { mapStyles } from "./MapStyles";
 import { API_KEY } from "./../App";
 const userMarker = require("./../../img/user.png");
+
+const PROXY = "https://cors-anywhere.herokuapp.com/";
 
 class MyMapComponent extends React.Component {
   constructor(props) {
@@ -86,12 +88,29 @@ class MyMapComponent extends React.Component {
         this.props.saveRestaurantIDs(restaurantIDs);
 
         restaurantIDs.forEach(ID => {
-          fetch(
-            `https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/details/json?placeid=${ID}&fields=name,rating,formatted_phone_number,formatted_address,photos,geometry,place_id,reviews,opening_hours,website&key=${API_KEY}`
-          )
-            .then(response => response.json())
-            .then(data => data.result)
+          // fetch(
+          //   `https://maps.googleapis.com/maps/api/place/details/json?placeid=${ID}&fields=name,rating,formatted_phone_number,formatted_address,photos,geometry,place_id,reviews,opening_hours,website&key=${API_KEY}`
+          // )
+          getPlaceDetails(google, mapObj, {
+            placeId: ID,
+            fields: [
+              "name",
+              "rating",
+              "formatted_phone_number",
+              "formatted_address",
+              "photos",
+              "geometry",
+              "place_id",
+              "reviews",
+              "opening_hours",
+              "website"
+            ]
+          })
+            // .then(response => response.json())
+            // .then(data => data.result)
             .then(result => {
+              debugger;
+              console.log(result);
               const {
                 formatted_address,
                 formatted_phone_number,
@@ -130,6 +149,9 @@ class MyMapComponent extends React.Component {
                 this.props.filterObject,
                 map.getBounds()
               );
+            })
+            .catch(err => {
+              console.log(err);
             });
         });
       });

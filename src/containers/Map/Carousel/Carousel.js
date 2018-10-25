@@ -15,19 +15,19 @@ class carousel extends React.Component {
     this.carousel = ref;
   };
 
-  componentDidMount() {
-    // styling the carousel
-    try {
-      setTimeout(() => {
-        document.getElementById(
-          "carousel"
-        ).parentElement.parentElement.parentElement.parentElement.style.textAlign =
-          "center";
-      }, 100);
-    } catch (err) {
-      console.log("Error: ", err);
-    }
-  }
+  // componentDidMount() {
+  //   // styling the carousel
+  //   try {
+  //     setTimeout(() => {
+  //       document.getElementById(
+  //         "carousel"
+  //       ).parentElement.parentElement.parentElement.parentElement.style.textAlign =
+  //         "center";
+  //     }, 100);
+  //   } catch (err) {
+  //     console.log("Error: ", err);
+  //   }
+  // }
 
   render() {
     let photosCarousel = null;
