@@ -109,8 +109,8 @@ class MyMapComponent extends React.Component {
             // .then(response => response.json())
             // .then(data => data.result)
             .then(result => {
-              debugger;
-              console.log(result);
+              // debugger;
+              // console.log(result);
               const {
                 formatted_address,
                 formatted_phone_number,
