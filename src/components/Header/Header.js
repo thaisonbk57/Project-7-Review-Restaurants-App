@@ -5,7 +5,7 @@ import Filter from "./../../containers/Filter/Filter";
 function Header(props) {
   return (
     <div className="Header clearfix py-3">
-      <div className="col-md-9 float-left">
+      <div className="col-md-12 col-sm-12 float-left">
         <h1 className="heading heading-primary display-3 text-center text-light">
           Restaurant Review
         </h1>
@@ -14,7 +14,7 @@ function Header(props) {
           <b className="text-danger">RIGHT CLICK</b> to add a new one.
         </p>
       </div>
-      <div className="col-md-3 float-left h-100">
+      <div className="col-md-12 col-sm-12 float-left h-100">
         <Filter />
       </div>
     </div>
