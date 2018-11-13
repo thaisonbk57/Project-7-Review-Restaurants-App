@@ -7,6 +7,8 @@ by [Thaison Dang](https://github.com/thaisonbk57)
 
 ![screenshot of the App](./screenshot.png)
 
+try the [DEMO](https://review-restaurant-app-bk57.herokuapp.com/)
+
 # Inspiration
 
 You want to visit a restaurant nearby but don't know which one to choose.
