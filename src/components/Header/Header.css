@@ -1,9 +1,21 @@
 .Header {
-  height: 150px;
-  background-color: #130f40;
+  min-height: 150px;
+  background: #130f40;
 }
 .heading-primary {
-  font-family: 'Abril Fatface', cursive;
+  font-family: "Abril Fatface", cursive;
   font-size: 70px;
   letter-spacing: 4px;
+}
+
+@media only screen and (max-width: 1025px) and (orientation: landscape) {
+  .heading-primary {
+    font-size: 40px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .heading-primary {
+    font-size: 40px;
+  }
 }

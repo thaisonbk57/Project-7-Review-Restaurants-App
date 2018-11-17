@@ -20,15 +20,18 @@ class App extends Component {
     return (
       <div className="App container-fluid mx-auto border rounded border-primary">
         <div className="row">
-          <div className="col-12 px-0">
+          <div className="col-md-12 px-0">
             <Header />
           </div>
         </div>
         <div className="row">
-          <div className="col-9 px-0" style={{ position: "relative" }}>
+          <div
+            className="col-md-9 col-sm-12 px-0"
+            style={{ position: "relative" }}
+          >
             <Map />
           </div>
-          <div className="col-3 px-0">
+          <div className="col-md-3 col-sm-12 px-0">
             <RestaurantList />
           </div>
         </div>

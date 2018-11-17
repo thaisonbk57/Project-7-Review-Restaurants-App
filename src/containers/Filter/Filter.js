@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { updateFilterObject, filterRestaurants } from '../../store/actions';
-import FilterStar from './StarInput/StarInput';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { updateFilterObject, filterRestaurants } from "../../store/actions";
+import FilterStar from "./StarInput/StarInput";
 
 class Filter extends Component {
   constructor(props) {
@@ -35,7 +35,7 @@ class Filter extends Component {
   render() {
     return (
       <div className="h-100">
-        <div className="text-center p-5 h-100">
+        <div className="text-center p-1">
           <FilterStar onchange={this.onChangeHandler} />
         </div>
       </div>

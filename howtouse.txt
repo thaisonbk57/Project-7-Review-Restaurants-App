@@ -1,7 +1,0 @@
-1. Run npm install -g live-server  to install live-server on your machine.
-2. Move to folder: build and then run  live-server to host the app on your local machine.
-
-
-OR
-
-go to   https://review-res.herokuapp.com/    to use the app.
