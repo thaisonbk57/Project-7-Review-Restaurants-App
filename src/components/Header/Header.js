@@ -7,7 +7,7 @@ function Header(props) {
     <div className="Header clearfix py-3">
       <div className="col-md-12 col-sm-12 float-left">
         <h1 className="heading heading-primary display-3 text-center text-light">
-          Restaurant Review
+          Where2eat
         </h1>
         <p className="text-light text-center my-0">
           <b className="text-danger">DRAG</b> to load new restaurants OR{" "}
